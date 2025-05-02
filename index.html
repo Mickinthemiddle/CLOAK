@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLOAK</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      padding-top: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      color: #3e4e5e;
+      margin-bottom: 30px;
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo-container img {
+      max-width: 250px;
+      height: auto;
+    }
+
+    .filter-bar {
+      width: 100%;
+      max-width: 400px;
+      margin: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 1.1em;
+      color: #333;
+    }
+
+    select {
+      width: 150px;
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      cursor: pointer;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 1200px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .description {
+      font-style: italic;
+      font-size: 0.95em;
+      color: #555;
+      margin: 5px 0 15px;
+    }
+
+    .tactic, .technique, .subtechnique {
+      margin-bottom: 20px;
+      border-radius: 8px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+    }
+
+    details {
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    summary {
+      font-size: 1.1em;
+      cursor: pointer;
+      padding: 10px;
+      font-weight: bold;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    summary:hover {
+      background-color: #eef0f4;
+    }
+
+    .indent {
+      margin-left: 20px;
+    }
+
+    .technical {
+      color: #fff;
+      background-color: red;
+      font-weight: normal;
+    }
+
+    .behavioral {
+      color: #fff;
+      background-color: orange;
+      font-weight: normal;
+    }
+
+    .physical {
+      color: #fff;
+      background-color: blue;
+      font-weight: normal;
+    }
+
+    .type-badge {
+      display: inline-block;
+      padding: 5px 10px;
+      font-size: 0.8em;
+      border-radius: 12px;
+      margin-left: 15px;
+    }
+
+    .technical-badge {
+      background-color: red;
+      color: white;
+    }
+
+    .behavioral-badge {
+      background-color: orange;
+      color: white;
+    }
+
+    .physical-badge {
+      background-color: blue;
+      color: white;
+    }
+
+    .no-result {
+      color: #888;
+      font-style: italic;
+      text-align: center;
+    }
+
+    .tactic, .technique, .subtechnique {
+      margin-top: 15px;
+      border-left: 5px solid #ccc;
+    }
+
+    .technical, .behavioral, .physical {
+      margin-left: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .filter-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      select {
+        width: 100%;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <img id="logo" src="" alt="Logo" />
+  </div>
+
+  <h1>Concealment Layers for Online Anonymity</h1>
+
+  <div class="filter-bar">
+    <label for="filter">Filter by Type:</label>
+    <select id="filter" onchange="filterTacticsByType(event)">
+      <option value="all">All</option>
+      <option value="technical">Technical</option>
+      <option value="behavioral">Behavioral</option>
+      <option value="physical">Physical</option>
+    </select>
+  </div>
+
+  <div class="container" id="app">Loading...</div>
+
+  <script>
+    const filterSelect = document.getElementById('filter');
+    const container = document.getElementById('app');
+    let allTactics = [];
+    const logoImageUrl = "https://github.com/Mickinthemiddle/CLOAK/blob/main/CLOAK.png?raw=true"; 
+
+    document.getElementById("logo").src = logoImageUrl;
+
+    fetch('https://raw.githubusercontent.com/Mickinthemiddle/CLOAK/refs/heads/main/concealment-data.json')
+      .then(res => res.json())
+      .then(data => {
+        allTactics = data.tactics;
+        renderTactics(allTactics);
+      });
+
+    function renderTactics(tactics) {
+      container.innerHTML = '';
+      if (tactics.length === 0) {
+        container.innerHTML = '<div class="no-result">No results found.</div>';
+        return;
+      }
+
+      tactics.forEach(tactic => {
+        const tacticEl = document.createElement('details');
+        tacticEl.classList.add('tactic');
+        tacticEl.innerHTML = `<summary>${tactic.name} <span class="type-badge">TA-${tactic.id}</span></summary>`;
+        const tacticDesc = document.createElement('div');
+        tacticDesc.className = 'description';
+        tacticDesc.textContent = tactic.description || 'No description available.';
+        tacticEl.appendChild(tacticDesc);
+
+        tactic.techniques.forEach(tech => {
+          if (filterTTP(tech)) {
+            const techClass = getTypeClass(tech.type);
+            const techEl = document.createElement('details');
+            techEl.classList.add('technique');
+            techEl.innerHTML = `<summary class="${techClass}">${tech.name} <span class="type-badge ${techClass}-badge">TE-${tech.id}</span></summary>`;
+            const techDesc = document.createElement('div');
+            techDesc.className = 'description indent';
+            techDesc.textContent = tech.description || 'No description available.';
+            techEl.appendChild(techDesc);
+
+            tech.subtechniques.forEach(sub => {
+              if (filterTTP(sub)) {
+                const subClass = getTypeClass(sub.type);
+                const subEl = document.createElement('details');
+                subEl.classList.add('subtechnique');
+                subEl.innerHTML = `<summary class="${subClass}">${sub.name} <span class="type-badge ${subClass}-badge">ST-${sub.id}</span></summary>`;
+                const subDesc = document.createElement('div');
+                subDesc.className = 'description indent';
+                subDesc.textContent = sub.description || 'No description available.';
+                subEl.appendChild(subDesc);
+
+                sub.procedures.forEach(proc => {
+                  const sp = document.createElement('div');
+                  sp.className = 'indent';
+                  sp.innerHTML = `<strong>• ${proc.name}</strong><div class="description">${proc.description || 'No description available.'}</div>`;
+                  subEl.appendChild(sp);
+                });
+
+                techEl.appendChild(subEl);
+              }
+            });
+
+            tacticEl.appendChild(techEl);
+          }
+        });
+
+        container.appendChild(tacticEl);
+      });
+    }
+
+    function filterTTP(ttp) {
+      const filterValue = filterSelect.value.toLowerCase();
+      if (filterValue === 'all') return true;
+      return ttp.type.toLowerCase() === filterValue;
+    }
+
+    function getTypeClass(type) {
+      switch (type.toLowerCase()) {
+        case 'technical':
+          return 'technical';
+        case 'behavioral':
+          return 'behavioral';
+        case 'physical':
+          return 'physical';
+        default:
+          return '';
+      }
+    }
+
+    function filterTacticsByType(event) {
+      const type = event.target.value;
+      let filteredTactics = [];
+
+      if (type === 'all') {
+        filteredTactics = allTactics;
+      } else {
+        filteredTactics = allTactics.filter(tactic => {
+          return tactic.techniques.some(tech => tech.type.toLowerCase() === type) || 
+                 tactic.techniques.some(tech => 
+                   tech.subtechniques.some(sub => sub.type.toLowerCase() === type));
+        });
+      }
+
+      renderTactics(filteredTactics);
+    }
+  </script>
+</body>
+</html>
