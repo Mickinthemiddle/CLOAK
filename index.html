@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CLOAK</title>
   <style>
     body {
@@ -23,12 +23,31 @@
       text-align: center;
       font-size: 2.5em;
       color: #3e4e5e;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      width: 80%;
+      max-width: 1200px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      padding: 18px 20px;
+      margin: 0 0 16px;
+      line-height: 1.5;
+    }
+
+    .intro p { margin: 0 0 10px; }
+
+    .intro h2 {
+      margin: 14px 0 8px;
+      font-size: 1.15em;
+      color: #3e4e5e;
     }
 
     .logo-container {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 8px;
     }
 
     .logo-container img {
@@ -36,10 +55,17 @@
       height: auto;
     }
 
-    .filter-bar {
-      width: 100%;
-      max-width: 400px;
-      margin: 20px 0;
+    .controls {
+      width: 80%;
+      max-width: 1200px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 10px 0 10px;
+    }
+
+    .filter-bar, .search-bar {
+      flex: 1 1 360px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -47,22 +73,35 @@
       background-color: #fff;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      gap: 10px;
     }
 
     label {
       font-weight: bold;
-      font-size: 1.1em;
+      font-size: 1.05em;
       color: #333;
+      white-space: nowrap;
     }
 
-    select {
-      width: 150px;
+    select, input[type="search"] {
+      width: 100%;
+      max-width: 360px;
       padding: 10px;
       font-size: 1em;
       border-radius: 5px;
       border: 1px solid #ccc;
       background-color: #fff;
-      cursor: pointer;
+    }
+
+    input[type="search"] { cursor: text; }
+
+    .meta {
+      width: 80%;
+      max-width: 1200px;
+      margin: 0 0 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      opacity: 0.9;
     }
 
     .container {
@@ -80,6 +119,7 @@
       font-size: 0.95em;
       color: #555;
       margin: 5px 0 15px;
+      white-space: pre-wrap;
     }
 
     .tactic, .technique, .subtechnique {
@@ -105,31 +145,13 @@
       transition: background-color 0.3s ease;
     }
 
-    summary:hover {
-      background-color: #eef0f4;
-    }
+    summary:hover { background-color: #eef0f4; }
 
-    .indent {
-      margin-left: 20px;
-    }
+    .indent { margin-left: 20px; }
 
-    .technical {
-      color: #fff;
-      background-color: red;
-      font-weight: normal;
-    }
-
-    .behavioral {
-      color: #fff;
-      background-color: orange;
-      font-weight: normal;
-    }
-
-    .physical {
-      color: #fff;
-      background-color: blue;
-      font-weight: normal;
-    }
+    .technical { color: #fff; background-color: red; font-weight: normal; }
+    .behavioral { color: #fff; background-color: orange; font-weight: normal; }
+    .physical { color: #fff; background-color: blue; font-weight: normal; }
 
     .type-badge {
       display: inline-block;
@@ -139,46 +161,83 @@
       margin-left: 15px;
     }
 
-    .technical-badge {
-      background-color: red;
-      color: white;
+    .technical-badge { background-color: red; color: white; }
+    .behavioral-badge { background-color: orange; color: white; }
+    .physical-badge { background-color: blue; color: white; }
+
+    .no-result { color: #888; font-style: italic; text-align: center; }
+
+    .tactic, .technique, .subtechnique { margin-top: 15px; border-left: 5px solid #ccc; }
+    .technical, .behavioral, .physical { margin-left: 10px; }
+
+    .proc-item {
+      margin: 8px 0;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px dashed #ccc;
+      background: #fff;
     }
 
-    .behavioral-badge {
-      background-color: orange;
-      color: white;
+    .proc-title {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      flex-wrap: wrap;
     }
 
-    .physical-badge {
-      background-color: blue;
-      color: white;
+    .proc-pill {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      opacity: 0.9;
+      white-space: nowrap;
     }
 
-    .no-result {
-      color: #888;
-      font-style: italic;
-      text-align: center;
+    /* Scroll-to-top button */
+    #scrollTopBtn {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 999;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 14px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      background: #3e4e5e;
+      color: #fff;
+      font-weight: bold;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      transform: translateY(6px);
     }
 
-    .tactic, .technique, .subtechnique {
-      margin-top: 15px;
-      border-left: 5px solid #ccc;
+    #scrollTopBtn.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
     }
 
-    .technical, .behavioral, .physical {
-      margin-left: 10px;
+    #scrollTopBtn:focus {
+      outline: 3px solid rgba(62,78,94,0.35);
+      outline-offset: 2px;
     }
 
     @media (max-width: 768px) {
-      .filter-bar {
+      .controls { width: 92%; }
+      .intro { width: 92%; }
+      .meta { width: 92%; }
+      .container { width: 92%; }
+
+      .filter-bar, .search-bar {
         flex-direction: column;
         align-items: flex-start;
       }
 
-      select {
-        width: 100%;
-        margin-top: 10px;
-      }
+      select, input[type="search"] { max-width: none; }
     }
   </style>
 </head>
@@ -187,133 +246,359 @@
     <img id="logo" src="" alt="Logo" />
   </div>
 
-  <h1>Concealment Layers for Online Anonymity and Knowledge</h1>
 
-  <div class="filter-bar">
-    <label for="filter">Filter by Type:</label>
-    <select id="filter" onchange="filterTacticsByType(event)">
-      <option value="all">All</option>
-      <option value="technical">Technical</option>
-      <option value="behavioral">Behavioral</option>
-      <option value="physical">Physical</option>
-    </select>
+  <div class="intro">
+    <p>
+      Concealment Layers for Online Anonymity and Knowledge (CLOAK) is the first publicly available knowledge base on cybercriminal concealment measures.
+      CLOAK has been developed by analyzing many Operational Security (OpSec) guides from both the clear- and darkweb.
+      Its main objective is to combat cybercrime better and support the CTI community.
+      For more information see <a href="https://github.com/Mickinthemiddle/CLOAK" target="_blank" rel="noopener noreferrer">Github</a>.
+    </p>
+
+    <h2>About the author</h2>
+    <p>
+      <a href="https://www.linkedin.com/in/mick-deben/" target="_blank" rel="noopener noreferrer">Mick Deben</a>
+      holds a Master of Science (MSc) in cybersecurity and has over a decade of experience in cybersecurity.
+      CLOAK was originally developed for his master’s thesis at Leiden University titled:
+      “Hiding through and in cyberspace: Modeling cybercriminal concealment techniques” (under embargo).
+      Questions, remarks or contributions are welcome, please reach out to
+      <a href="mailto:cloak@opsectechniques.com">cloak@opsectechniques.com</a>.
+    </p>
   </div>
 
-  <div class="container" id="app">Loading...</div>
+  <div class="controls">
+    <div class="filter-bar">
+      <label for="filter">Filter by Type:</label>
+      <select id="filter">
+        <option value="all">All</option>
+        <option value="technical">Technical</option>
+        <option value="behavioral">Behavioral</option>
+        <option value="physical">Physical</option>
+      </select>
+    </div>
+
+    <div class="search-bar">
+      <label for="search">Search TTPs:</label>
+      <input id="search" type="search" placeholder="Search tactics/techniques/subtechniques/procedures…" />
+    </div>
+  </div>
+
+  <div class="meta" id="meta">Loading dataset…</div>
+  <div class="container" id="app">Loading…</div>
+
+  <button id="scrollTopBtn" type="button" aria-label="Scroll to top" title="Scroll to top">↑ Top</button>
 
   <script>
     const filterSelect = document.getElementById('filter');
+    const searchInput = document.getElementById('search');
     const container = document.getElementById('app');
-    let allTactics = [];
-    const logoImageUrl = "https://github.com/Mickinthemiddle/CLOAK/blob/main/CLOAK.png?raw=true"; 
+    const metaEl = document.getElementById('meta');
 
+    // Scroll-to-top
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    function toggleScrollTopBtn() {
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      if (y > 500) scrollTopBtn.classList.add('show');
+      else scrollTopBtn.classList.remove('show');
+    }
+    window.addEventListener('scroll', toggleScrollTopBtn, { passive: true });
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    let allTactics = [];
+
+    const logoImageUrl = "https://github.com/Mickinthemiddle/CLOAK/blob/main/CLOAK.png?raw=true";
     document.getElementById("logo").src = logoImageUrl;
 
-    fetch('https://raw.githubusercontent.com/Mickinthemiddle/CLOAK/refs/heads/main/concealment-data.json')
-      .then(res => res.json())
-      .then(data => {
-        allTactics = data.tactics;
-        renderTactics(allTactics);
-      });
+    // Use local file by default
+    const DATA_URL = './concealment-data.json';
+
+    filterSelect.addEventListener('change', applyFilters);
+    searchInput.addEventListener('input', applyFilters);
+
+    function escapeHtml(s) {
+      return String(s ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function getTypeClass(type) {
+      switch ((type || '').toLowerCase()) {
+        case 'technical': return 'technical';
+        case 'behavioral': return 'behavioral';
+        case 'physical': return 'physical';
+        default: return '';
+      }
+    }
+
+    function normalizeText(s) { return (s || '').toString().toLowerCase(); }
+
+    function filterTTPByType(ttp) {
+      const filterValue = (filterSelect.value || 'all').toLowerCase();
+      if (filterValue === 'all') return true;
+      return ((ttp?.type || '').toLowerCase() === filterValue);
+    }
+
+    function matchesSearch(text, q) {
+      if (!q) return true;
+      return normalizeText(text).includes(q);
+    }
+
+    // Search across everything in the chain
+    function ttpMatchesQuery(tactic, tech, sub, proc, q) {
+      if (!q) return true;
+
+      const parts = [];
+      if (tactic) parts.push(`TA-${tactic.id}`, tactic.name, tactic.description);
+      if (tech) parts.push(`TE-${tech.id}`, tech.name, tech.description, tech.type);
+      if (sub) parts.push(`ST-${sub.id}`, sub.name, sub.description, sub.type);
+      if (proc) parts.push(`PR-${proc.id}`, proc.name, proc.description, proc.type);
+
+      return matchesSearch(parts.filter(Boolean).join(' '), q);
+    }
+
+    function openDetails(el) {
+      if (el && el.tagName === 'DETAILS') el.open = true;
+    }
+
+    function renderProcedureList(parentEl, procedures, contextLabel, queryLower, tactic, tech, sub) {
+      if (!Array.isArray(procedures) || procedures.length === 0) return 0;
+
+      let count = 0;
+      for (const proc of procedures) {
+        if (queryLower && !ttpMatchesQuery(tactic, tech, sub, proc, queryLower)) continue;
+
+        const procId = (proc?.id !== undefined && proc?.id !== null) ? String(proc.id) : 'NO-ID';
+        const name = proc?.name || '(no name)';
+        const desc = proc?.description || 'No description available.';
+
+        const procEl = document.createElement('div');
+        procEl.className = 'proc-item indent';
+        procEl.innerHTML = `
+          <div class="proc-title">
+            <strong>• ${escapeHtml(name)}</strong>
+            <span class="proc-pill">${escapeHtml(contextLabel)} · PR-${escapeHtml(procId)}</span>
+          </div>
+          <div class="description">${escapeHtml(desc)}</div>
+        `;
+        parentEl.appendChild(procEl);
+        count += 1;
+      }
+      return count;
+    }
 
     function renderTactics(tactics) {
       container.innerHTML = '';
-      if (tactics.length === 0) {
-        container.innerHTML = '<div class="no-result">No results found.</div>';
-        return;
+
+      const queryLower = normalizeText(searchInput.value).trim();
+      const filterValue = (filterSelect.value || 'all').toLowerCase();
+
+      let tacticsRendered = 0;
+      let techniquesRendered = 0;
+      let subtechniquesRendered = 0;
+      let proceduresRendered = 0;
+
+      // Only show tactics that have visible content after filters/search
+      function tacticHasVisibleContent(tactic) {
+        for (const tech of (tactic.techniques || [])) {
+          if (!filterTTPByType(tech)) continue;
+
+          const techSelfMatches = ttpMatchesQuery(tactic, tech, null, null, queryLower);
+
+          // Technique-level procedures match?
+          for (const p of (tech.procedures || [])) {
+            if (!queryLower || ttpMatchesQuery(tactic, tech, null, p, queryLower)) return true;
+          }
+
+          // Subtechniques match?
+          for (const sub of (tech.subtechniques || [])) {
+            if (!filterTTPByType(sub)) continue;
+
+            const subSelfMatches = ttpMatchesQuery(tactic, tech, sub, null, queryLower);
+            if (!queryLower ? true : subSelfMatches) {
+              // if no query, any sub counts as content
+              // if query, self-match counts
+              if (!queryLower) return true;
+              if (subSelfMatches) return true;
+            }
+
+            for (const p of (sub.procedures || [])) {
+              if (!queryLower || ttpMatchesQuery(tactic, tech, sub, p, queryLower)) return true;
+            }
+          }
+
+          // Technique itself matched by query
+          if (queryLower && techSelfMatches) return true;
+
+          // No query: any technique counts as content
+          if (!queryLower) return true;
+        }
+        return false;
       }
 
-      tactics.forEach(tactic => {
+      for (const tactic of (tactics || [])) {
+        if (!tacticHasVisibleContent(tactic)) continue;
+
+        const tacticMatches = ttpMatchesQuery(tactic, null, null, null, queryLower);
+
         const tacticEl = document.createElement('details');
         tacticEl.classList.add('tactic');
-        tacticEl.innerHTML = `<summary>${tactic.name} <span class="type-badge">TA-${tactic.id}</span></summary>`;
+        tacticEl.innerHTML = `<summary>${escapeHtml(tactic.name)} <span class="type-badge">TA-${escapeHtml(tactic.id)}</span></summary>`;
+
         const tacticDesc = document.createElement('div');
         tacticDesc.className = 'description';
         tacticDesc.textContent = tactic.description || 'No description available.';
         tacticEl.appendChild(tacticDesc);
 
-        tactic.techniques.forEach(tech => {
-          if (filterTTP(tech)) {
-            const techClass = getTypeClass(tech.type);
-            const techEl = document.createElement('details');
-            techEl.classList.add('technique');
-            techEl.innerHTML = `<summary class="${techClass}">${tech.name} <span class="type-badge ${techClass}-badge">TE-${tech.id}</span></summary>`;
-            const techDesc = document.createElement('div');
-            techDesc.className = 'description indent';
-            techDesc.textContent = tech.description || 'No description available.';
-            techEl.appendChild(techDesc);
+        let tacticHasAnyRendered = false;
 
-            tech.subtechniques.forEach(sub => {
-              if (filterTTP(sub)) {
-                const subClass = getTypeClass(sub.type);
-                const subEl = document.createElement('details');
-                subEl.classList.add('subtechnique');
-                subEl.innerHTML = `<summary class="${subClass}">${sub.name} <span class="type-badge ${subClass}-badge">ST-${sub.id}</span></summary>`;
-                const subDesc = document.createElement('div');
-                subDesc.className = 'description indent';
-                subDesc.textContent = sub.description || 'No description available.';
-                subEl.appendChild(subDesc);
+        for (const tech of (tactic.techniques || [])) {
+          if (!filterTTPByType(tech)) continue;
 
-                sub.procedures.forEach(proc => {
-                  const sp = document.createElement('div');
-                  sp.className = 'indent';
-                  sp.innerHTML = `<strong>• ${proc.name}</strong><div class="description">${proc.description || 'No description available.'}</div>`;
-                  subEl.appendChild(sp);
-                });
+          const techSelfMatches = ttpMatchesQuery(tactic, tech, null, null, queryLower);
 
-                techEl.appendChild(subEl);
-              }
-            });
+          const techEl = document.createElement('details');
+          techEl.classList.add('technique');
 
-            tacticEl.appendChild(techEl);
+          const techClass = getTypeClass(tech.type);
+          techEl.innerHTML = `<summary class="${techClass}">${escapeHtml(tech.name)} <span class="type-badge ${techClass}-badge">TE-${escapeHtml(tech.id)}</span></summary>`;
+
+          const techDesc = document.createElement('div');
+          techDesc.className = 'description indent';
+          techDesc.textContent = tech.description || 'No description available.';
+          techEl.appendChild(techDesc);
+
+          let techHasAnyRendered = false;
+
+          // Technique-level procedures
+          const addedTechProcs = renderProcedureList(
+            techEl,
+            tech.procedures || [],
+            `Technique TE-${tech.id}`,
+            queryLower,
+            tactic,
+            tech,
+            null
+          );
+
+          if (addedTechProcs > 0) {
+            techHasAnyRendered = true;
+            proceduresRendered += addedTechProcs;
           }
-        });
+
+          // Subtechniques
+          for (const sub of (tech.subtechniques || [])) {
+            if (!filterTTPByType(sub)) continue;
+
+            const subSelfMatches = ttpMatchesQuery(tactic, tech, sub, null, queryLower);
+
+            const subEl = document.createElement('details');
+            subEl.classList.add('subtechnique');
+
+            const subClass = getTypeClass(sub.type);
+            subEl.innerHTML = `<summary class="${subClass}">${escapeHtml(sub.name)} <span class="type-badge ${subClass}-badge">ST-${escapeHtml(sub.id)}</span></summary>`;
+
+            const subDesc = document.createElement('div');
+            subDesc.className = 'description indent';
+            subDesc.textContent = sub.description || 'No description available.';
+            subEl.appendChild(subDesc);
+
+            const addedSubProcs = renderProcedureList(
+              subEl,
+              sub.procedures || [],
+              `Subtechnique ST-${sub.id}`,
+              queryLower,
+              tactic,
+              tech,
+              sub
+            );
+
+            const subHasAnyRendered = addedSubProcs > 0;
+            if (subHasAnyRendered) proceduresRendered += addedSubProcs;
+
+            // keep sub only if: no query OR self matches OR has matching procedures
+            if (!queryLower || subSelfMatches || subHasAnyRendered) {
+              if (queryLower) openDetails(subEl);
+              techEl.appendChild(subEl);
+              techHasAnyRendered = true;
+              subtechniquesRendered += 1;
+            }
+          }
+
+          // keep tech only if: no query OR self matches OR descendants rendered
+          if (!queryLower || techSelfMatches || techHasAnyRendered) {
+            if (queryLower) openDetails(techEl);
+            tacticEl.appendChild(techEl);
+            tacticHasAnyRendered = true;
+            techniquesRendered += 1;
+          }
+        }
+
+        if (queryLower && (tacticMatches || tacticHasAnyRendered)) openDetails(tacticEl);
 
         container.appendChild(tacticEl);
-      });
-    }
-
-    function filterTTP(ttp) {
-      const filterValue = filterSelect.value.toLowerCase();
-      if (filterValue === 'all') return true;
-      return ttp.type.toLowerCase() === filterValue;
-    }
-
-    function getTypeClass(type) {
-      switch (type.toLowerCase()) {
-        case 'technical':
-          return 'technical';
-        case 'behavioral':
-          return 'behavioral';
-        case 'physical':
-          return 'physical';
-        default:
-          return '';
+        tacticsRendered += 1;
       }
+
+      if (tacticsRendered === 0) {
+        container.innerHTML = '<div class="no-result">No results found.</div>';
+      }
+
+      const q = (searchInput.value || '').trim();
+      metaEl.textContent =
+        `Tactics shown: ${tacticsRendered} | Techniques shown: ${techniquesRendered} | Subtechniques shown: ${subtechniquesRendered} | Procedures shown: ${proceduresRendered}` +
+        (filterValue !== 'all' ? ` | Filter: ${filterValue}` : '') +
+        (q ? ` | Search: "${q}"` : '');
     }
 
-    function filterTacticsByType(event) {
-      const type = event.target.value;
+    function applyFilters() {
+      const type = (filterSelect.value || 'all').toLowerCase();
       let filteredTactics = [];
 
       if (type === 'all') {
         filteredTactics = allTactics;
       } else {
         filteredTactics = allTactics.filter(tactic => {
-          return tactic.techniques.some(tech => tech.type.toLowerCase() === type) || 
-                 tactic.techniques.some(tech => 
-                   tech.subtechniques.some(sub => sub.type.toLowerCase() === type));
+          const techs = tactic?.techniques || [];
+          return techs.some(tech => (tech?.type || '').toLowerCase() === type) ||
+                 techs.some(tech => (tech?.subtechniques || []).some(sub => (sub?.type || '').toLowerCase() === type));
         });
       }
 
       renderTactics(filteredTactics);
     }
+
+    async function init() {
+      try {
+        const res = await fetch(DATA_URL, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`Failed to load dataset (${res.status})`);
+
+        const data = await res.json();
+        allTactics = Array.isArray(data?.tactics) ? data.tactics : [];
+
+        // Strip any accidental "Unknown" tactic if present (by name or id=0)
+        allTactics = allTactics.filter(t => {
+          const n = (t?.name || '').toString().trim().toLowerCase();
+          if (t?.id === 0) return false;
+          if (n === 'unknown') return false;
+          return true;
+        });
+
+        metaEl.textContent = `Dataset loaded. Tactics: ${allTactics.length}`;
+        renderTactics(allTactics);
+        toggleScrollTopBtn();
+      } catch (err) {
+        console.error(err);
+        metaEl.textContent = 'Failed to load dataset.';
+        container.innerHTML = '<div class="no-result">Loading failed.</div>';
+      }
+    }
+
+    init();
   </script>
-  <!-- Footer with GitHub Repo link -->
-  <footer>
-    <p>More information and the source code on <a href="https://github.com/Mickinthemiddle/CLOAK" target="_blank">GitHub</a></p>
-  </footer>
-</body>
-</html>
 </body>
 </html>
