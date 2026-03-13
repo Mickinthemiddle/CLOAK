@@ -1,604 +1,1152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CLOAK</title>
-  <style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://raw.githubusercontent.com data:; style-src 'self' 'nonce-cloak2026'; script-src 'self' 'nonce-cloak2026'; connect-src https://raw.githubusercontent.com; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <title>CLOAK Matrix</title>
+  <style nonce="cloak2026">
+    :root {
+      --nav-bg: #12233a;
+      --nav-border: #0b1728;
+      --page-bg: #f4f6f8;
+      --panel-bg: #ffffff;
+      --text: #172433;
+      --muted: #5c6d7e;
+      --border: #d8e0e8;
+      --shadow: 0 8px 24px rgba(12, 25, 42, 0.08);
+      --tech-hdr: #c0392b;
+      --tech-cell: #fdecea;
+      --tech-hover: #f9d2cc;
+      --beh-hdr: #b7770d;
+      --beh-cell: #fef6dd;
+      --beh-hover: #faecb6;
+      --phys-hdr: #1a5276;
+      --phys-cell: #eaf3fb;
+      --phys-hover: #d0e7f7;
+      --all-hdr: #243447;
+      --focus: #2f80ed;
+      --white: #ffffff;
+      --success: #0f7b44;
+    }
+
+    * { box-sizing: border-box; }
+    html { font-size: 14px; scroll-behavior: smooth; }
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f4f6f9;
-      color: #333;
       margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      min-height: 100vh;
-      padding-top: 30px;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 2.5em;
-      color: #3e4e5e;
-      margin-bottom: 10px;
-    }
-
-    .intro {
-      width: 80%;
-      max-width: 1200px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-      padding: 18px 20px;
-      margin: 0 0 16px;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
       line-height: 1.5;
     }
 
-    .intro p { margin: 0 0 10px; }
-
-    .intro h2 {
-      margin: 14px 0 8px;
-      font-size: 1.15em;
-      color: #3e4e5e;
+    a { color: inherit; }
+    button, input { font: inherit; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
-    .logo-container {
-      text-align: center;
-      margin-bottom: 8px;
+    /* ── Navigation ── */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 18px 14px;
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--nav-border);
+      color: var(--white);
     }
 
-    .logo-container img {
-      max-width: 250px;
+    /* Top row inside nav: links pushed to the right via absolute positioning */
+    .nav-links {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .brand img {
+      display: block;
+      width: 180px;
+      max-width: 50vw;
       height: auto;
     }
 
-    .controls {
-      width: 80%;
-      max-width: 1200px;
+    .brand-copy {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin: 10px 0 10px;
-    }
-
-    .filter-bar, .search-bar {
-      flex: 1 1 360px;
-      display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      padding: 10px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      gap: 10px;
-    }
-
-    label {
-      font-weight: bold;
-      font-size: 1.05em;
-      color: #333;
-      white-space: nowrap;
-    }
-
-    select, input[type="search"] {
+      gap: 4px;
       width: 100%;
-      max-width: 360px;
-      padding: 10px;
-      font-size: 1em;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      background-color: #fff;
     }
 
-    input[type="search"] { cursor: text; }
-
-    .meta {
-      width: 80%;
-      max-width: 1200px;
-      margin: 0 0 10px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 12px;
-      opacity: 0.9;
+    .brand-copy p {
+      margin: 0;
+      font-size: 0.78rem;
+      color: #ffffff;
+      opacity: 0.92;
+      line-height: 1.5;
+      text-align: center;
     }
 
-    .container {
-      width: 80%;
-      max-width: 1200px;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
+    .brand-copy .brand-author {
+      margin-top: 4px;
+      font-size: 0.75rem;
+      color: #ffffff;
+      opacity: 0.80;
+      text-align: center;
     }
 
-    .description {
-      font-style: italic;
-      font-size: 0.95em;
-      color: #555;
-      margin: 5px 0 15px;
-      white-space: pre-wrap;
+    .brand-copy .brand-author a {
+      color: #ffffff;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+      opacity: 1;
     }
 
-    .tactic, .technique, .subtechnique {
-      margin-bottom: 20px;
+    .brand-copy .brand-author a:hover {
+      opacity: 0.85;
+    }
+
+    .nav-link {
+      color: var(--white);
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 8px 12px;
       border-radius: 8px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      background-color: #f9f9f9;
+      transition: background-color .15s ease, border-color .15s ease;
     }
 
-    details {
-      padding: 10px;
-      border-radius: 5px;
-      background-color: #f9f9f9;
+    .nav-link:hover,
+    .nav-link:focus-visible {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.32);
+      outline: none;
     }
 
-    summary {
-      font-size: 1.1em;
-      cursor: pointer;
-      padding: 10px;
-      font-weight: bold;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
+    /* ── Controls bar ── */
+    .controls-wrap {
+      position: sticky;
+      top: var(--nav-height, 0px);
+      z-index: 250;
+      background: rgba(244, 246, 248, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
 
-    summary:hover { background-color: #eef0f4; }
-
-    .indent { margin-left: 20px; }
-
-    .technical { color: #fff; background-color: red; font-weight: normal; }
-    .behavioral { color: #fff; background-color: orange; font-weight: normal; }
-    .physical { color: #fff; background-color: blue; font-weight: normal; }
-
-    .type-badge {
-      display: inline-block;
-      padding: 5px 10px;
-      font-size: 0.8em;
-      border-radius: 12px;
-      margin-left: 15px;
-    }
-
-    .technical-badge { background-color: red; color: white; }
-    .behavioral-badge { background-color: orange; color: white; }
-    .physical-badge { background-color: blue; color: white; }
-
-    .no-result { color: #888; font-style: italic; text-align: center; }
-
-    .tactic, .technique, .subtechnique { margin-top: 15px; border-left: 5px solid #ccc; }
-    .technical, .behavioral, .physical { margin-left: 10px; }
-
-    .proc-item {
-      margin: 8px 0;
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: 1px dashed #ccc;
-      background: #fff;
-    }
-
-    .proc-title {
+    .controls-bar {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 12px 20px;
       display: flex;
-      gap: 10px;
-      align-items: baseline;
+      align-items: center;
+      gap: 14px;
       flex-wrap: wrap;
     }
 
-    .proc-pill {
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid #ddd;
+    .controls-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn,
+    .search-input {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--panel-bg);
+    }
+
+    .filter-btn {
+      padding: 8px 13px;
+      cursor: pointer;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform .12s ease, border-color .15s ease, background-color .15s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn:focus-visible {
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    /* Type filter active states */
+    .filter-btn.active-all        { background: var(--all-hdr);  color: var(--white); border-color: var(--all-hdr);  }
+    .filter-btn.active-Technical  { background: var(--tech-hdr); color: var(--white); border-color: var(--tech-hdr); }
+    .filter-btn.active-Behavioral { background: var(--beh-hdr);  color: var(--white); border-color: var(--beh-hdr);  }
+    .filter-btn.active-Physical   { background: var(--phys-hdr); color: var(--white); border-color: var(--phys-hdr); }
+
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      flex: 0 0 auto;
+    }
+
+    .dot-tech { background: #e74c3c; }
+    .dot-beh  { background: #e67e22; }
+    .dot-phys { background: #2980b9; }
+
+    .search-wrap {
+      margin-left: auto;
+      position: relative;
+      min-width: 260px;
+      flex: 1 1 320px;
+      max-width: 420px;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 12px 10px 38px;
+      color: var(--text);
+      outline: none;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.18);
+    }
+
+    .results-bar {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 0 20px 10px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    /* ── Scroll hint ── */
+    .scroll-hint {
+      max-width: 1500px;
+      margin: 10px auto 0;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      user-select: none;
+    }
+
+    .scroll-hint svg {
+      width: 14px;
+      height: 14px;
+      flex: 0 0 auto;
+    }
+
+    /* ── Matrix wrapper ── */
+    .matrix-wrap {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 10px 16px 56px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      /* Show scrollbar so users know it is scrollable */
+      scrollbar-width: thin;
+      scrollbar-color: var(--muted) var(--border);
+    }
+
+    .matrix-wrap::-webkit-scrollbar       { height: 6px; }
+    .matrix-wrap::-webkit-scrollbar-track  { background: var(--border); border-radius: 4px; }
+    .matrix-wrap::-webkit-scrollbar-thumb  { background: var(--muted);  border-radius: 4px; }
+
+    .matrix {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      min-width: max-content;
+    }
+
+    /* ── Tactic column – narrower than original ── */
+    .ta-col {
+      width: 230px;
+      background: transparent;
+      flex: 0 0 auto;
+    }
+
+    .ta-col.hidden { display: none; }
+
+    .ta-header {
+      padding: 10px 11px 9px;
+      border-radius: 14px 14px 10px 10px;
+      color: var(--white);
+      height: 130px;          /* fixed — all tactic headers identical height */
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .ta-header.hdr-Technical { background: var(--tech-hdr); }
+    .ta-header.hdr-Behavioral { background: var(--beh-hdr); }
+    .ta-header.hdr-Physical { background: var(--phys-hdr); }
+    .ta-header.hdr-Mixed { background: var(--all-hdr); }
+
+    .ta-id {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      opacity: 0.95;
+      color: var(--white);
+    }
+
+    .ta-name {
+      margin-top: 4px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--white);
+    }
+
+    .ta-desc {
+      margin-top: 5px;
+      font-size: 0.76rem;
+      color: var(--white);
+      opacity: 0.95;
+    }
+
+    .ta-meta {
+      margin-top: 6px;
+      font-size: 0.7rem;
+      color: var(--white);
       opacity: 0.9;
+    }
+
+    .te-list {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* ── Tree cards ── */
+    .tree-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--panel-bg);
+      box-shadow: var(--shadow);
+    }
+
+    .tree-card.type-Technical { background: var(--tech-cell); }
+    .tree-card.type-Behavioral { background: var(--beh-cell); }
+    .tree-card.type-Physical { background: var(--phys-cell); }
+
+    .tree-trigger {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: start;
+      text-align: left;
+      padding: 8px 10px;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .tree-trigger:hover,
+    .tree-trigger:focus-visible {
+      outline: none;
+      filter: brightness(0.98);
+    }
+
+    .tree-card.type-Technical .tree-trigger:hover,
+    .tree-card.type-Technical .tree-trigger:focus-visible { background: var(--tech-hover); }
+    .tree-card.type-Behavioral .tree-trigger:hover,
+    .tree-card.type-Behavioral .tree-trigger:focus-visible { background: var(--beh-hover); }
+    .tree-card.type-Physical .tree-trigger:hover,
+    .tree-card.type-Physical .tree-trigger:focus-visible { background: var(--phys-hover); }
+
+    .tree-main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .tree-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .tree-desc {
+      font-size: 0.74rem;
+      color: #223247;
+    }
+
+    .tree-badges {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 3px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 999px;
+      padding: 1px 6px;
+      font-size: 0.66rem;
+      font-weight: 700;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.65);
+      color: var(--text);
       white-space: nowrap;
     }
 
-    /* Scroll-to-top button */
-    #scrollTopBtn {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 999;
-      border: 0;
+    .expander {
+      width: 22px;
+      height: 22px;
       border-radius: 999px;
-      padding: 12px 14px;
+      border: 1px solid rgba(0,0,0,0.12);
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255,255,255,0.7);
+      flex: 0 0 auto;
+      margin-top: 2px;
+    }
+
+    .expander svg {
+      width: 13px;
+      height: 13px;
+      transition: transform .16s ease;
+    }
+
+    /* Uniform collapsed height for technique cards */
+    .tree-card[data-kind="technique"] > .tree-trigger {
+      min-height: 62px;
+    }
+
+    .tree-card[data-expanded="true"] .expander svg { transform: rotate(180deg); }
+
+    .tree-content {
+      display: none;
+      padding: 0 10px 10px;
+    }
+
+    .tree-id-expanded {
+      display: block;
+      margin: 8px 0 2px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    .tree-desc--expanded {
+      margin: 4px 0 4px;
+      font-size: 0.74rem;
+      color: #223247;
+      line-height: 1.45;
+    }
+
+    .tree-card[data-expanded="true"] > .tree-content { display: block; }
+
+    .tree-section-title {
+      margin: 8px 0 6px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .nested-list,
+    .procedure-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .nested-list {
+      padding-left: 10px;
+      border-left: 2px solid rgba(0,0,0,0.08);
+    }
+
+    .procedure-item {
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.62);
+      padding: 8px;
+    }
+
+    .procedure-item .tree-name,
+    .procedure-item .tree-desc {
+      display: block;
+    }
+
+    .match-highlight {
+      box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.95) inset;
+    }
+
+    .hidden-item { display: none !important; }
+
+    /* ── Shared info-panel base ── */
+    .no-results,
+    .error-box {
+      max-width: 1500px;
+      margin: 16px auto 0;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel-bg);
+      box-shadow: var(--shadow);
+    }
+
+    .error-box {
+      display: none;
+      border-color: #edb3b3;
+      background: #fff4f4;
+      color: #7a1f1f;
+    }
+
+    .no-results {
+      display: none;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .no-results.visible,
+    .error-box.visible { display: block; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--nav-bg);
+      color: var(--white);
+      border-top: 1px solid var(--nav-border);
+      padding: 18px 20px 28px;
+      text-align: center;
+    }
+
+    footer a {
+      color: #ffffff;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+
+    /* ── Back-to-top button ──
+       Inline styles removed from HTML to comply with CSP (no 'unsafe-inline').
+       All styling is applied here with the nonce-bearing <style> block. */
+    #back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 500;
+      display: none;          /* toggled to flex via .visible */
+      align-items: center;
+      gap: 6px;
+      padding: 9px 15px;
+      border-radius: 10px;
+      border: none;
+      background: var(--nav-bg);
+      color: var(--white);
+      font-size: 0.83rem;
+      font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-      background: #3e4e5e;
-      color: #fff;
-      font-weight: bold;
-      font-size: 14px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      transform: translateY(6px);
+      box-shadow: 0 4px 16px rgba(12, 25, 42, 0.3);
+      transition: background-color .15s ease, transform .15s ease;
     }
 
-    #scrollTopBtn.show {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
+    #back-to-top.visible {
+      display: flex;
     }
 
-    #scrollTopBtn:focus {
-      outline: 3px solid rgba(62,78,94,0.35);
+    #back-to-top:hover,
+    #back-to-top:focus-visible {
+      background: #1c3654;
+      transform: translateY(-2px);
+      outline: 2px solid var(--focus);
       outline-offset: 2px;
     }
 
-    @media (max-width: 768px) {
-      .controls { width: 92%; }
-      .intro { width: 92%; }
-      .meta { width: 92%; }
-      .container { width: 92%; }
+    #back-to-top svg {
+      width: 13px;
+      height: 13px;
+      flex: 0 0 auto;
+    }
 
-      .filter-bar, .search-bar {
-        flex-direction: column;
-        align-items: flex-start;
+    /* ── Responsive ── */
+    @media (max-width: 980px) {
+      .search-wrap {
+        margin-left: 0;
+        width: 100%;
+        max-width: none;
       }
+    }
 
-      select, input[type="search"] { max-width: none; }
+    @media (max-width: 640px) {
+      .top-nav { padding: 14px 10px 12px; }
+      .nav-links { position: static; justify-content: center; }
+      .brand img { width: 140px; }
+      .ta-col { width: min(85vw, 230px); }
     }
   </style>
 </head>
 <body>
-  <div class="logo-container">
-    <img id="logo" src="" alt="Logo" />
-  </div>
 
-
-  <div class="intro">
-    <p>
-      Concealment Layers for Online Anonymity and Knowledge (CLOAK) is the first publicly available knowledge base on cybercriminal concealment measures.
-      CLOAK has been developed by analyzing many Operational Security (OpSec) guides from both the clear- and darkweb.
-      Its main objective is to combat cybercrime better and support the CTI community.
-      For more information see <a href="https://github.com/Mickinthemiddle/CLOAK" target="_blank" rel="noopener noreferrer">Github</a>.
-    </p>
-
-    <h2>About the author</h2>
-    <p>
-      <a href="https://www.linkedin.com/in/mick-deben/" target="_blank" rel="noopener noreferrer">Mick Deben</a>
-      holds a Master of Science (MSc) in cybersecurity and has over a decade of experience in cybersecurity.
-      CLOAK was originally developed for his master’s thesis at Leiden University titled:
-      “Hiding through and in cyberspace: Modeling cybercriminal concealment techniques” (under embargo).
-      Questions, remarks or contributions are welcome, please reach out to
-      <a href="mailto:cloak@opsectechniques.com">cloak@opsectechniques.com</a>.
-    </p>
-  </div>
-
-  <div class="controls">
-    <div class="filter-bar">
-      <label for="filter">Filter by Type:</label>
-      <select id="filter">
-        <option value="all">All</option>
-        <option value="technical">Technical</option>
-        <option value="behavioral">Behavioral</option>
-        <option value="physical">Physical</option>
-      </select>
+  <nav class="top-nav" aria-label="Main navigation">
+    <div class="brand">
+      <img src="https://raw.githubusercontent.com/Mickinthemiddle/CLOAK/main/CLOAK.png"
+           alt="CLOAK logo"
+           loading="eager"
+           decoding="async"
+           referrerpolicy="no-referrer"
+           crossorigin="anonymous">
+      <div class="brand-copy">
+        <p>Concealment Layers for Online Anonymity and Knowledge (CLOAK) is the first publicly available knowledge base on cybercriminal concealment measures. CLOAK has been developed by analyzing many Operational Security (OpSec) guides from both the clear- and darkweb. Its main objective is to combat cybercrime better and support the CTI community.</p>
+        <p class="brand-author">Developed by <a href="https://www.linkedin.com/in/mick-deben/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Mick Deben</a></p>
+      </div>
     </div>
-
-    <div class="search-bar">
-      <label for="search">Search TTPs:</label>
-      <input id="search" type="search" placeholder="Search tactics/techniques/subtechniques/procedures…" />
+    <div class="nav-links">
+      <a class="nav-link" href="https://github.com/Mickinthemiddle/CLOAK" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub</a>
+      <a class="nav-link" href="https://github.com/Mickinthemiddle/CLOAK/issues/new/choose" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Create Issue</a>
+      <a class="nav-link" href="mailto:cloak@opsectechniques.com">Contact</a>
     </div>
+  </nav>
+
+  <div class="controls-wrap">
+    <div class="controls-bar">
+      <div class="controls-label">Category</div>
+      <div class="filter-group" role="group" aria-label="Filter by category">
+        <button type="button" class="filter-btn active-all" data-filter="all">All</button>
+        <button type="button" class="filter-btn" data-filter="Technical"><span class="dot dot-tech" aria-hidden="true"></span>Technical</button>
+        <button type="button" class="filter-btn" data-filter="Behavioral"><span class="dot dot-beh" aria-hidden="true"></span>Behavioral</button>
+        <button type="button" class="filter-btn" data-filter="Physical"><span class="dot dot-phys" aria-hidden="true"></span>Physical</button>
+      </div>
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <label class="sr-only" for="search-input">Search by ID, name, or description</label>
+        <input id="search-input" class="search-input" type="search" placeholder="Search by ID, name, or description…" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+    <div class="results-bar" id="results-bar" aria-live="polite">Loading dataset…</div>
   </div>
 
-  <div class="meta" id="meta">Loading dataset…</div>
-  <div class="container" id="app">Loading…</div>
+  <div class="error-box" id="error-box" role="alert"></div>
 
-  <button id="scrollTopBtn" type="button" aria-label="Scroll to top" title="Scroll to top">↑ Top</button>
+  <main aria-label="CLOAK matrix">
+    <div class="scroll-hint" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      Scroll left and right to view all tactics
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </div>
+    <div class="matrix-wrap">
+      <div class="matrix" id="matrix"></div>
+    </div>
+    <div class="no-results" id="no-results">No results found for the current filter and search term.</div>
+  </main>
 
-  <script>
-    const filterSelect = document.getElementById('filter');
-    const searchInput = document.getElementById('search');
-    const container = document.getElementById('app');
-    const metaEl = document.getElementById('meta');
+  <footer>
+    CLOAK Matrix &middot; contact: <a href="mailto:cloak@opsectechniques.com">cloak@opsectechniques.com</a> &middot; support via <a href="https://github.com/Mickinthemiddle/CLOAK/issues/new/choose" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub Issues</a>
+  </footer>
 
-    // Scroll-to-top
-    const scrollTopBtn = document.getElementById('scrollTopBtn');
-    function toggleScrollTopBtn() {
-      const y = window.scrollY || document.documentElement.scrollTop || 0;
-      if (y > 500) scrollTopBtn.classList.add('show');
-      else scrollTopBtn.classList.remove('show');
-    }
-    window.addEventListener('scroll', toggleScrollTopBtn, { passive: true });
-    scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+  <!-- Back-to-top: no inline style attribute (would violate CSP style-src without 'unsafe-inline') -->
+  <button id="back-to-top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    Back to top
+  </button>
 
-    let allTactics = [];
+  <script nonce="cloak2026">
+    (() => {
+      'use strict';
 
-    const logoImageUrl = "https://github.com/Mickinthemiddle/CLOAK/blob/main/CLOAK.png?raw=true";
-    document.getElementById("logo").src = logoImageUrl;
+      const DATA_URL = 'https://raw.githubusercontent.com/Mickinthemiddle/CLOAK/main/concealment-data.json';
 
-    // Use local file by default
-    const DATA_URL = './concealment-data.json';
+      const state = {
+        filter: 'all',   // type filter: all | Technical | Behavioral | Physical
+        query:  '',
+        data:   [],
+      };
 
-    filterSelect.addEventListener('change', applyFilters);
-    searchInput.addEventListener('input', applyFilters);
+      const els = {
+        matrix:        document.getElementById('matrix'),
+        errorBox:      document.getElementById('error-box'),
+        noResults:     document.getElementById('no-results'),
+        resultsBar:    document.getElementById('results-bar'),
+        searchInput:   document.getElementById('search-input'),
+        filterButtons: Array.from(document.querySelectorAll('.filter-btn')),
+      };
 
-    function escapeHtml(s) {
-      return String(s ?? '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
-    }
+      /* ── Helpers ── */
 
-    function getTypeClass(type) {
-      switch ((type || '').toLowerCase()) {
-        case 'technical': return 'technical';
-        case 'behavioral': return 'behavioral';
-        case 'physical': return 'physical';
-        default: return '';
-      }
-    }
-
-    function normalizeText(s) { return (s || '').toString().toLowerCase(); }
-
-    function filterTTPByType(ttp) {
-      const filterValue = (filterSelect.value || 'all').toLowerCase();
-      if (filterValue === 'all') return true;
-      return ((ttp?.type || '').toLowerCase() === filterValue);
-    }
-
-    function matchesSearch(text, q) {
-      if (!q) return true;
-      return normalizeText(text).includes(q);
-    }
-
-    // Search across everything in the chain
-    function ttpMatchesQuery(tactic, tech, sub, proc, q) {
-      if (!q) return true;
-
-      const parts = [];
-      if (tactic) parts.push(`TA-${tactic.id}`, tactic.name, tactic.description);
-      if (tech) parts.push(`TE-${tech.id}`, tech.name, tech.description, tech.type);
-      if (sub) parts.push(`ST-${sub.id}`, sub.name, sub.description, sub.type);
-      if (proc) parts.push(`PR-${proc.id}`, proc.name, proc.description, proc.type);
-
-      return matchesSearch(parts.filter(Boolean).join(' '), q);
-    }
-
-    function openDetails(el) {
-      if (el && el.tagName === 'DETAILS') el.open = true;
-    }
-
-    function renderProcedureList(parentEl, procedures, contextLabel, queryLower, tactic, tech, sub) {
-      if (!Array.isArray(procedures) || procedures.length === 0) return 0;
-
-      let count = 0;
-      for (const proc of procedures) {
-        if (queryLower && !ttpMatchesQuery(tactic, tech, sub, proc, queryLower)) continue;
-
-        const procId = (proc?.id !== undefined && proc?.id !== null) ? String(proc.id) : 'NO-ID';
-        const name = proc?.name || '(no name)';
-        const desc = proc?.description || 'No description available.';
-
-        const procEl = document.createElement('div');
-        procEl.className = 'proc-item indent';
-        procEl.innerHTML = `
-          <div class="proc-title">
-            <strong>• ${escapeHtml(name)}</strong>
-            <span class="proc-pill">${escapeHtml(contextLabel)} · PR-${escapeHtml(procId)}</span>
-          </div>
-          <div class="description">${escapeHtml(desc)}</div>
-        `;
-        parentEl.appendChild(procEl);
-        count += 1;
-      }
-      return count;
-    }
-
-    function renderTactics(tactics) {
-      container.innerHTML = '';
-
-      const queryLower = normalizeText(searchInput.value).trim();
-      const filterValue = (filterSelect.value || 'all').toLowerCase();
-
-      let tacticsRendered = 0;
-      let techniquesRendered = 0;
-      let subtechniquesRendered = 0;
-      let proceduresRendered = 0;
-
-      // Only show tactics that have visible content after filters/search
-      function tacticHasVisibleContent(tactic) {
-        for (const tech of (tactic.techniques || [])) {
-          if (!filterTTPByType(tech)) continue;
-
-          const techSelfMatches = ttpMatchesQuery(tactic, tech, null, null, queryLower);
-
-          // Technique-level procedures match?
-          for (const p of (tech.procedures || [])) {
-            if (!queryLower || ttpMatchesQuery(tactic, tech, null, p, queryLower)) return true;
-          }
-
-          // Subtechniques match?
-          for (const sub of (tech.subtechniques || [])) {
-            if (!filterTTPByType(sub)) continue;
-
-            const subSelfMatches = ttpMatchesQuery(tactic, tech, sub, null, queryLower);
-            if (!queryLower ? true : subSelfMatches) {
-              // if no query, any sub counts as content
-              // if query, self-match counts
-              if (!queryLower) return true;
-              if (subSelfMatches) return true;
-            }
-
-            for (const p of (sub.procedures || [])) {
-              if (!queryLower || ttpMatchesQuery(tactic, tech, sub, p, queryLower)) return true;
-            }
-          }
-
-          // Technique itself matched by query
-          if (queryLower && techSelfMatches) return true;
-
-          // No query: any technique counts as content
-          if (!queryLower) return true;
-        }
-        return false;
+      function normalizeType(value) {
+        const cleaned = String(value || '').trim();
+        if (!cleaned) return '';
+        const lower = cleaned.toLowerCase();
+        if (lower === 'technical')  return 'Technical';
+        if (lower === 'behavioral') return 'Behavioral';
+        if (lower === 'physical')   return 'Physical';
+        return cleaned;
       }
 
-      for (const tactic of (tactics || [])) {
-        if (!tacticHasVisibleContent(tactic)) continue;
+      function normalizeText(value) {
+        return String(value || '').replace(/\s+/g, ' ').trim();
+      }
 
-        const tacticMatches = ttpMatchesQuery(tactic, null, null, null, queryLower);
+      function isUnknownName(value) {
+        return normalizeText(value).toLowerCase() === 'unknown';
+      }
 
-        const tacticEl = document.createElement('details');
-        tacticEl.classList.add('tactic');
-        tacticEl.innerHTML = `<summary>${escapeHtml(tactic.name)} <span class="type-badge">TA-${escapeHtml(tactic.id)}</span></summary>`;
+      function safeId(prefix, value) {
+        return `${prefix}-${String(value).replace(/[^a-zA-Z0-9_-]/g, '-')}`;
+      }
 
-        const tacticDesc = document.createElement('div');
-        tacticDesc.className = 'description';
-        tacticDesc.textContent = tactic.description || 'No description available.';
-        tacticEl.appendChild(tacticDesc);
+      function makeTextNode(tagName, className, text) {
+        const node = document.createElement(tagName);
+        if (className) node.className = className;
+        node.textContent = text;
+        return node;
+      }
 
-        let tacticHasAnyRendered = false;
+      function getDominantType(items) {
+        const counts = { Technical: 0, Behavioral: 0, Physical: 0 };
+        items.forEach((item) => {
+          const type = normalizeType(item.type);
+          if (counts[type] !== undefined) counts[type] += 1;
+        });
+        const total = counts.Technical + counts.Behavioral + counts.Physical;
+        if (!total) return 'Mixed';
+        const ordered = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+        if (ordered[0][1] === 0) return 'Mixed';
+        return ordered[0][0];
+      }
 
-        for (const tech of (tactic.techniques || [])) {
-          if (!filterTTPByType(tech)) continue;
+      function createBadge(text) {
+        const badge = document.createElement('span');
+        badge.className = 'badge';
+        badge.textContent = text;
+        return badge;
+      }
 
-          const techSelfMatches = ttpMatchesQuery(tactic, tech, null, null, queryLower);
+      /* ── Procedure card (leaf node, not expandable) ── */
 
-          const techEl = document.createElement('details');
-          techEl.classList.add('technique');
+      function createProcedureCard(procedure, parentChain) {
+        const card = document.createElement('div');
+        card.className = 'procedure-item';
+        card.dataset.kind   = 'procedure';
+        card.dataset.type   = normalizeType(procedure.type);
 
-          const techClass = getTypeClass(tech.type);
-          techEl.innerHTML = `<summary class="${techClass}">${escapeHtml(tech.name)} <span class="type-badge ${techClass}-badge">TE-${escapeHtml(tech.id)}</span></summary>`;
+        const idText   = String(procedure.id || '').trim();
+        const nameText = normalizeText(procedure.name);
+        const descText = normalizeText(procedure.description);
+        card.dataset.search = [idText, nameText, descText, ...parentChain].join(' ').toLowerCase();
 
-          const techDesc = document.createElement('div');
-          techDesc.className = 'description indent';
-          techDesc.textContent = tech.description || 'No description available.';
-          techEl.appendChild(techDesc);
+        // ID shown only as tooltip on the card
+        if (idText) card.title = idText;
+        if (nameText) card.appendChild(makeTextNode('span', 'tree-name', nameText));
+        if (descText) card.appendChild(makeTextNode('span', 'tree-desc', descText));
+        return card;
+      }
 
-          let techHasAnyRendered = false;
+      /* ── Technique / sub-technique expandable card ──
+         Requirement: techniques start EXPANDED, sub-techniques start COLLAPSED.  */
 
-          // Technique-level procedures
-          const addedTechProcs = renderProcedureList(
-            techEl,
-            tech.procedures || [],
-            `Technique TE-${tech.id}`,
-            queryLower,
-            tactic,
-            tech,
-            null
-          );
+      function createNodeCard(item, level, parentChain) {
+        const card  = document.createElement('section');
+        const type  = normalizeType(item.type);
+        card.className          = `tree-card type-${type || 'Mixed'}`;
+        card.dataset.kind        = level;
+        card.dataset.type        = type;
+        card.dataset.id          = String(item.id || '');
+        card.dataset.name        = normalizeText(item.name);
+        card.dataset.description = normalizeText(item.description);
 
-          if (addedTechProcs > 0) {
-            techHasAnyRendered = true;
-            proceduresRendered += addedTechProcs;
-          }
+        // All tree-cards (techniques and sub-techniques) start collapsed.
+        // Tactic columns and technique card headers remain visible; their content is hidden until clicked.
+        card.dataset.expanded = 'false';
 
-          // Subtechniques
-          for (const sub of (tech.subtechniques || [])) {
-            if (!filterTTPByType(sub)) continue;
+        const subtechniques = Array.isArray(item.subtechniques) ? item.subtechniques : [];
+        const procedures    = Array.isArray(item.procedures)    ? item.procedures    : [];
 
-            const subSelfMatches = ttpMatchesQuery(tactic, tech, sub, null, queryLower);
+        const searchParts = [
+          String(item.id || ''),
+          normalizeText(item.name),
+          normalizeText(item.description),
+          ...parentChain,
+        ];
+        procedures.forEach((p) => {
+          searchParts.push(String(p.id || ''), normalizeText(p.name), normalizeText(p.description));
+        });
+        subtechniques.forEach((st) => {
+          searchParts.push(String(st.id || ''), normalizeText(st.name), normalizeText(st.description));
+          (Array.isArray(st.procedures) ? st.procedures : []).forEach((p) => {
+            searchParts.push(String(p.id || ''), normalizeText(p.name), normalizeText(p.description));
+          });
+        });
+        card.dataset.search = searchParts.join(' ').toLowerCase();
 
-            const subEl = document.createElement('details');
-            subEl.classList.add('subtechnique');
+        /* Trigger button */
+        const trigger    = document.createElement('button');
+        trigger.type     = 'button';
+        trigger.className = 'tree-trigger';
+        const contentId  = safeId('content', `${level}-${item.id}-${Math.random().toString(36).slice(2, 7)}`);
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.setAttribute('aria-controls',  contentId);
 
-            const subClass = getTypeClass(sub.type);
-            subEl.innerHTML = `<summary class="${subClass}">${escapeHtml(sub.name)} <span class="type-badge ${subClass}-badge">ST-${escapeHtml(sub.id)}</span></summary>`;
+        // ID shown only as a tooltip on hover — keeps the card compact
+        const idLabel = `${level === 'technique' ? 'TE' : 'ST'}:${String(item.id || '').trim()}`;
+        trigger.title = idLabel;
 
-            const subDesc = document.createElement('div');
-            subDesc.className = 'description indent';
-            subDesc.textContent = sub.description || 'No description available.';
-            subEl.appendChild(subDesc);
+        const main = document.createElement('div');
+        main.className = 'tree-main';
+        main.appendChild(makeTextNode('span', 'tree-name', normalizeText(item.name) || '(no name)'));
+        // Description is shown only inside the expanded content, not in the collapsed header
 
-            const addedSubProcs = renderProcedureList(
-              subEl,
-              sub.procedures || [],
-              `Subtechnique ST-${sub.id}`,
-              queryLower,
-              tactic,
-              tech,
-              sub
-            );
+        const badges = document.createElement('div');
+        badges.className = 'tree-badges';
+        // type badge omitted – colour already signals Technical / Behavioral / Physical
+        if (subtechniques.length) badges.appendChild(createBadge(`${subtechniques.length} subtechniques`));
+        if (procedures.length)    badges.appendChild(createBadge(`${procedures.length} procedures`));
+        // "nested procedures" badge removed — keeps the header compact
+        if (badges.childNodes.length) main.appendChild(badges);
 
-            const subHasAnyRendered = addedSubProcs > 0;
-            if (subHasAnyRendered) proceduresRendered += addedSubProcs;
+        trigger.appendChild(main);
 
-            // keep sub only if: no query OR self matches OR has matching procedures
-            if (!queryLower || subSelfMatches || subHasAnyRendered) {
-              if (queryLower) openDetails(subEl);
-              techEl.appendChild(subEl);
-              techHasAnyRendered = true;
-              subtechniquesRendered += 1;
-            }
-          }
+        const expander = document.createElement('span');
+        expander.className = 'expander';
+        expander.setAttribute('aria-hidden', 'true');
+        // Hardcoded SVG literal – not user input, safe to assign via innerHTML
+        expander.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+        trigger.appendChild(expander);
+        card.appendChild(trigger);
 
-          // keep tech only if: no query OR self matches OR descendants rendered
-          if (!queryLower || techSelfMatches || techHasAnyRendered) {
-            if (queryLower) openDetails(techEl);
-            tacticEl.appendChild(techEl);
-            tacticHasAnyRendered = true;
-            techniquesRendered += 1;
-          }
+        /* Expandable content */
+        const content   = document.createElement('div');
+        content.className = 'tree-content';
+        content.id       = contentId;
+
+        // Show the ID at the top when the card is expanded
+        content.appendChild(makeTextNode('span', 'tree-id-expanded', idLabel));
+
+        // Show the description below the ID
+        const descText = normalizeText(item.description);
+        if (descText) {
+          const descEl = makeTextNode('p', 'tree-desc tree-desc--expanded', descText);
+          content.appendChild(descEl);
         }
 
-        if (queryLower && (tacticMatches || tacticHasAnyRendered)) openDetails(tacticEl);
+        if (procedures.length) {
+          content.appendChild(makeTextNode('div', 'tree-section-title', 'Procedures'));
+          const procedureList = document.createElement('div');
+          procedureList.className = 'procedure-list';
+          procedures.forEach((p) => {
+            if (isUnknownName(p.name)) return;
+            procedureList.appendChild(createProcedureCard(p, parentChain.concat([normalizeText(item.name)])));
+          });
+          if (procedureList.childNodes.length) content.appendChild(procedureList);
+        }
 
-        container.appendChild(tacticEl);
-        tacticsRendered += 1;
+        if (subtechniques.length) {
+          content.appendChild(makeTextNode('div', 'tree-section-title', 'Subtechniques'));
+          const nestedList = document.createElement('div');
+          nestedList.className = 'nested-list';
+          subtechniques.forEach((st) => {
+            if (isUnknownName(st.name)) return;
+            nestedList.appendChild(createNodeCard(st, 'subtechnique', parentChain.concat([normalizeText(item.name)])));
+          });
+          if (nestedList.childNodes.length) content.appendChild(nestedList);
+        }
+
+        if (!content.childNodes.length) {
+          content.appendChild(makeTextNode('div', 'tree-desc', 'No subtechniques or procedures available.'));
+        }
+
+        card.appendChild(content);
+        trigger.addEventListener('click', () => toggleCard(card));
+        return card;
       }
 
-      if (tacticsRendered === 0) {
-        container.innerHTML = '<div class="no-result">No results found.</div>';
+      function toggleCard(card, forced) {
+        const trigger   = card.querySelector(':scope > .tree-trigger');
+        const nextState = typeof forced === 'boolean' ? forced : card.dataset.expanded !== 'true';
+        card.dataset.expanded = String(nextState);
+        if (trigger) trigger.setAttribute('aria-expanded', String(nextState));
       }
 
-      const q = (searchInput.value || '').trim();
-      metaEl.textContent =
-        `Tactics shown: ${tacticsRendered} | Techniques shown: ${techniquesRendered} | Subtechniques shown: ${subtechniquesRendered} | Procedures shown: ${proceduresRendered}` +
-        (filterValue !== 'all' ? ` | Filter: ${filterValue}` : '') +
-        (q ? ` | Search: "${q}"` : '');
-    }
+      /* ── Data normalisation ── */
 
-    function applyFilters() {
-      const type = (filterSelect.value || 'all').toLowerCase();
-      let filteredTactics = [];
+      function filterDataset(raw) {
+        const tactics = Array.isArray(raw?.tactics) ? raw.tactics : [];
+        return tactics
+          .filter((tactic) => !isUnknownName(tactic.name))
+          .map((tactic) => ({
+            id: tactic.id,
+            name:        normalizeText(tactic.name),
+            description: normalizeText(tactic.description),
+            type:        normalizeType(tactic.type),
+            techniques: (Array.isArray(tactic.techniques) ? tactic.techniques : [])
+              .filter((te) => !isUnknownName(te.name))
+              .map((te) => ({
+                id: te.id,
+                name:        normalizeText(te.name),
+                description: normalizeText(te.description),
+                type:        normalizeType(te.type),
+                procedures: (Array.isArray(te.procedures) ? te.procedures : [])
+                  .filter((p) => !isUnknownName(p.name))
+                  .map((p) => ({
+                    id: p.id,
+                    name:        normalizeText(p.name),
+                    description: normalizeText(p.description),
+                    type:        normalizeType(p.type),
+                  })),
+                subtechniques: (Array.isArray(te.subtechniques) ? te.subtechniques : [])
+                  .filter((st) => !isUnknownName(st.name))
+                  .map((st) => ({
+                    id: st.id,
+                    name:        normalizeText(st.name),
+                    description: normalizeText(st.description),
+                    type:        normalizeType(st.type),
+                    procedures: (Array.isArray(st.procedures) ? st.procedures : [])
+                      .filter((p) => !isUnknownName(p.name))
+                      .map((p) => ({
+                        id: p.id,
+                        name:        normalizeText(p.name),
+                        description: normalizeText(p.description),
+                        type:        normalizeType(p.type),
+                      })),
+                  })),
+              })),
+          }))
+          .filter((tactic) => tactic.techniques.length > 0);
+      }
 
-      if (type === 'all') {
-        filteredTactics = allTactics;
-      } else {
-        filteredTactics = allTactics.filter(tactic => {
-          const techs = tactic?.techniques || [];
-          return techs.some(tech => (tech?.type || '').toLowerCase() === type) ||
-                 techs.some(tech => (tech?.subtechniques || []).some(sub => (sub?.type || '').toLowerCase() === type));
+      /* ── Rendering ── */
+
+      function renderMatrix(data) {
+        els.matrix.replaceChildren();
+        data.forEach((tactic) => {
+          const col = document.createElement('section');
+          col.className = 'ta-col';
+          col.dataset.tacticId = String(tactic.id);
+          col.dataset.search   = [tactic.id, tactic.name, tactic.description].join(' ').toLowerCase();
+
+          const header = document.createElement('div');
+          header.className = `ta-header hdr-${getDominantType(tactic.techniques)}`;
+          header.appendChild(makeTextNode('div', 'ta-id',   `TA:${String(tactic.id)}`));
+          header.appendChild(makeTextNode('div', 'ta-name', tactic.name));
+          if (tactic.description) header.appendChild(makeTextNode('div', 'ta-desc', tactic.description));
+
+          const tc = {
+            techniques:    tactic.techniques.length,
+            subtechniques: tactic.techniques.reduce((s, te) => s + te.subtechniques.length, 0),
+            procedures:    tactic.techniques.reduce(
+              (s, te) => s + te.procedures.length + te.subtechniques.reduce((i, st) => i + st.procedures.length, 0), 0
+            ),
+          };
+          header.appendChild(makeTextNode('div', 'ta-meta',
+            `${tc.techniques} techniques · ${tc.subtechniques} subtechniques · ${tc.procedures} procedures`
+          ));
+          col.appendChild(header);
+
+          const list = document.createElement('div');
+          list.className = 'te-list';
+          tactic.techniques.forEach((te) => {
+            list.appendChild(createNodeCard(te, 'technique', [tactic.name]));
+          });
+          col.appendChild(list);
+          els.matrix.appendChild(col);
         });
       }
 
-      renderTactics(filteredTactics);
-    }
+      /* ── Filtering ── */
 
-    async function init() {
-      try {
-        const res = await fetch(DATA_URL, { cache: 'no-store' });
-        if (!res.ok) throw new Error(`Failed to load dataset (${res.status})`);
+      function setFilter(filter) {
+        state.filter = filter;
+        els.filterButtons.forEach((btn) => {
+          btn.className = 'filter-btn';
+          if (btn.dataset.filter === filter) {
+            btn.classList.add(filter === 'all' ? 'active-all' : `active-${filter}`);
+          }
+        });
+        applyFilters();
+      }
 
-        const data = await res.json();
-        allTactics = Array.isArray(data?.tactics) ? data.tactics : [];
+      function matchesFilter(type) {
+        return state.filter === 'all' || normalizeType(type) === state.filter;
+      }
 
-        // Strip any accidental "Unknown" tactic if present (by name or id=0)
-        allTactics = allTactics.filter(t => {
-          const n = (t?.name || '').toString().trim().toLowerCase();
-          if (t?.id === 0) return false;
-          if (n === 'unknown') return false;
-          return true;
+      function matchesQuery(searchText) {
+        return !state.query || searchText.includes(state.query);
+      }
+
+      function applyFilters() {
+        const cards      = Array.from(els.matrix.querySelectorAll('.tree-card'));
+        const procedures = Array.from(els.matrix.querySelectorAll('.procedure-item'));
+        const tacticCols = Array.from(els.matrix.querySelectorAll('.ta-col'));
+
+        cards.forEach((c)      => c.classList.remove('hidden-item', 'match-highlight'));
+        procedures.forEach((p) => p.classList.remove('hidden-item', 'match-highlight'));
+        tacticCols.forEach((col) => col.classList.remove('hidden'));
+
+        let visibleTechniques = 0, visibleSubtechniques = 0, visibleProcedures = 0;
+
+        procedures.forEach((item) => {
+          const show = matchesFilter(item.dataset.type) && matchesQuery(item.dataset.search || '');
+          item.classList.toggle('hidden-item',     !show);
+          item.classList.toggle('match-highlight', !!state.query && show);
+          if (show) visibleProcedures++;
         });
 
-        metaEl.textContent = `Dataset loaded. Tactics: ${allTactics.length}`;
-        renderTactics(allTactics);
-        toggleScrollTopBtn();
-      } catch (err) {
-        console.error(err);
-        metaEl.textContent = 'Failed to load dataset.';
-        container.innerHTML = '<div class="no-result">Loading failed.</div>';
-      }
-    }
+        [...cards].reverse().forEach((card) => {
+          const childCards  = Array.from(card.querySelectorAll(':scope > .tree-content > .nested-list > .tree-card'));
+          const childProcs  = Array.from(card.querySelectorAll(':scope > .tree-content > .procedure-list > .procedure-item'));
+          const selfMatches = matchesFilter(card.dataset.type) && matchesQuery(card.dataset.search || '');
+          const hasVisibleChildren =
+            childCards.some((c) => !c.classList.contains('hidden-item')) ||
+            childProcs.some((c)  => !c.classList.contains('hidden-item'));
+          const show = selfMatches || hasVisibleChildren;
 
-    init();
+          card.classList.toggle('hidden-item',     !show);
+          card.classList.toggle('match-highlight', !!state.query && selfMatches);
+          if (show && card.dataset.kind === 'technique')    visibleTechniques++;
+          if (show && card.dataset.kind === 'subtechnique') visibleSubtechniques++;
+
+          if (state.query) toggleCard(card, show && (selfMatches || hasVisibleChildren));
+          else             toggleCard(card, false);
+        });
+
+        tacticCols.forEach((col) => {
+          const hasVisible = Array.from(col.querySelectorAll(':scope .te-list > .tree-card'))
+            .some((c) => !c.classList.contains('hidden-item'));
+          col.classList.toggle('hidden', !hasVisible);
+        });
+
+        const visibleTactics = tacticCols.filter((col) => !col.classList.contains('hidden')).length;
+        const total          = visibleTechniques + visibleSubtechniques + visibleProcedures;
+        els.noResults.classList.toggle('visible', total === 0);
+        els.resultsBar.textContent =
+          `Visible: ${visibleTactics} TA (tactics) · ${visibleTechniques} TE (techniques) · ${visibleSubtechniques} ST (subtechniques) · ${visibleProcedures} PR (procedures)`;
+      }
+
+      /* ── Data loading ── */
+
+      async function loadData() {
+        try {
+          const response = await fetch(DATA_URL, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'omit',
+            cache: 'no-store',
+            referrerPolicy: 'no-referrer',
+            headers: { 'Accept': 'application/json' },
+          });
+
+          if (!response.ok) {
+            throw new Error(`GitHub returned status ${response.status}.`);
+          }
+
+          const rawData   = await response.json();
+          state.data      = filterDataset(rawData);
+          renderMatrix(state.data);
+          applyFilters();
+        } catch (error) {
+          console.error(error);
+          els.errorBox.textContent = `Failed to load data from GitHub. ${error instanceof Error ? error.message : 'Unknown error.'}`;
+          els.errorBox.classList.add('visible');
+          els.resultsBar.textContent = 'No data available.';
+        }
+      }
+
+      /* ── Event listeners ── */
+
+      els.filterButtons.forEach((btn) => {
+        btn.addEventListener('click', () => setFilter(btn.dataset.filter || 'all'));
+      });
+
+      els.searchInput.addEventListener('input', (event) => {
+        state.query = String(event.target.value || '').trim().toLowerCase();
+        applyFilters();
+      });
+
+      loadData();
+    })();
   </script>
+
+  <script nonce="cloak2026">
+    /* Back-to-top button — passive scroll listener for performance */
+    (() => {
+      'use strict';
+      const btn = document.getElementById('back-to-top');
+      window.addEventListener('scroll', () => {
+        btn.classList.toggle('visible', window.scrollY > 400);
+      }, { passive: true });
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    })();
+  </script>
+
+  <script nonce="cloak2026">
+    /* Keep --nav-height CSS variable in sync so controls-wrap sticks below the nav
+       regardless of how tall the intro text makes the nav bar. */
+    (() => {
+      'use strict';
+      const nav = document.querySelector('.top-nav');
+      function syncNavHeight() {
+        document.documentElement.style.setProperty('--nav-height', nav.offsetHeight + 'px');
+      }
+      syncNavHeight();
+      const ro = new ResizeObserver(syncNavHeight);
+      ro.observe(nav);
+    })();
+  </script>
+
 </body>
 </html>
