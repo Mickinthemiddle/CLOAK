@@ -170,7 +170,7 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
     }
 
     .controls-label {
@@ -184,7 +184,8 @@
     .filter-group {
       display: flex;
       gap: 8px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      flex-shrink: 0;
     }
 
     .filter-btn,
@@ -232,8 +233,8 @@
     .search-wrap {
       margin-left: auto;
       position: relative;
-      min-width: 260px;
-      flex: 1 1 320px;
+      min-width: 200px;
+      flex: 0 1 320px;
       max-width: 420px;
     }
 
@@ -294,6 +295,7 @@
       padding: 10px 16px 56px;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      background: var(--page-bg);
       /* Show scrollbar so users know it is scrollable */
       scrollbar-width: thin;
       scrollbar-color: var(--muted) var(--border);
@@ -624,7 +626,7 @@
     }
 
     /* ── Responsive ── */
-    @media (max-width: 980px) {
+    @media (max-width: 640px) {
       .search-wrap {
         margin-left: 0;
         width: 100%;
@@ -658,11 +660,8 @@
     <div class="nav-links">
       <a class="nav-link" href="https://github.com/Mickinthemiddle/CLOAK" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub</a>
       <a class="nav-link" href="https://github.com/Mickinthemiddle/CLOAK/issues/new/choose" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Create Issue</a>
-      <a class="nav-link" href="/cdn-cgi/l/email-protection#f596999a949eb59a858690968190969d9b9c84809086db969a98">Contact</a>
+      <a class="nav-link" href="mailto:cloak@opsectechniques.com">Contact</a>
     </div>
-  </nav>
-
-  <div class="controls-wrap">
     <div class="controls-bar">
       <div class="controls-label">Category</div>
       <div class="filter-group" role="group" aria-label="Filter by category">
@@ -691,7 +690,7 @@
   </main>
 
   <footer>
-    CLOAK Matrix &middot; contact: <a href="/cdn-cgi/l/email-protection#67040b08060c2708171402041302040f090e161202144904080a"><span class="__cf_email__" data-cfemail="d6b5bab9b7bd96b9a6a5b3b5a2b3b5beb8bfa7a3b3a5f8b5b9bb">[email&#160;protected]</span></a> &middot; support via <a href="https://github.com/Mickinthemiddle/CLOAK/issues/new/choose" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub Issues</a>
+    CLOAK Matrix &middot; contact: <a href="mailto:cloak@opsectechniques.com">cloak@opsectechniques.com</a> &middot; support via <a href="https://github.com/Mickinthemiddle/CLOAK/issues/new/choose" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub Issues</a>
   </footer>
 
   <!-- Back-to-top: no inline style attribute (would violate CSP style-src without 'unsafe-inline') -->
@@ -700,7 +699,7 @@
     Back to top
   </button>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script nonce="cloak2026">
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script nonce="cloak2026">
     (() => {
       'use strict';
 
@@ -1120,17 +1119,4 @@
     /* Back-to-top button — passive scroll listener for performance */
     (() => {
       'use strict';
-      const btn = document.getElementById('back-to-top');
-      window.addEventListener('scroll', () => {
-        btn.classList.toggle('visible', window.scrollY > 400);
-      }, { passive: true });
-      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    })();
-  </script>
-
-  <script nonce="cloak2026">
-    /* Keep --nav-height CSS variable in sync so controls-wrap sticks below the nav
-       regardless of how tall the intro text makes the nav bar. */
-    (() => {
-      'use strict';
-      const nav = docu
+      const btn = document.getElementById
