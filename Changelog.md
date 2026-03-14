@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Changelog.md 
 
 ### Updated
+- Updated index.html
 - Removed changelog from README.md
 
 ## [February 2026]

@@ -290,7 +290,6 @@
 
     /* ── Matrix wrapper ── */
     .matrix-wrap {
-      max-width: 1500px;
       margin: 0 auto;
       padding: 10px 16px 56px;
       overflow-x: auto;
@@ -308,14 +307,14 @@
       display: flex;
       gap: 10px;
       align-items: flex-start;
-      min-width: max-content;
+      width: 100%;
     }
 
     /* ── Tactic column – narrower than original ── */
     .ta-col {
-      width: 230px;
+      flex: 1 1 0;
+      min-width: 140px;
       background: transparent;
-      flex: 0 0 auto;
     }
 
     .ta-col.hidden { display: none; }
@@ -659,7 +658,7 @@
     <div class="nav-links">
       <a class="nav-link" href="https://github.com/Mickinthemiddle/CLOAK" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub</a>
       <a class="nav-link" href="https://github.com/Mickinthemiddle/CLOAK/issues/new/choose" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Create Issue</a>
-      <a class="nav-link" href="mailto:cloak@opsectechniques.com">Contact</a>
+      <a class="nav-link" href="/cdn-cgi/l/email-protection#f596999a949eb59a858690968190969d9b9c84809086db969a98">Contact</a>
     </div>
   </nav>
 
@@ -684,11 +683,7 @@
   <div class="error-box" id="error-box" role="alert"></div>
 
   <main aria-label="CLOAK matrix">
-    <div class="scroll-hint" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-      Scroll left and right to view all tactics
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-    </div>
+
     <div class="matrix-wrap">
       <div class="matrix" id="matrix"></div>
     </div>
@@ -696,7 +691,7 @@
   </main>
 
   <footer>
-    CLOAK Matrix &middot; contact: <a href="mailto:cloak@opsectechniques.com">cloak@opsectechniques.com</a> &middot; support via <a href="https://github.com/Mickinthemiddle/CLOAK/issues/new/choose" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub Issues</a>
+    CLOAK Matrix &middot; contact: <a href="/cdn-cgi/l/email-protection#67040b08060c2708171402041302040f090e161202144904080a"><span class="__cf_email__" data-cfemail="d6b5bab9b7bd96b9a6a5b3b5a2b3b5beb8bfa7a3b3a5f8b5b9bb">[email&#160;protected]</span></a> &middot; support via <a href="https://github.com/Mickinthemiddle/CLOAK/issues/new/choose" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub Issues</a>
   </footer>
 
   <!-- Back-to-top: no inline style attribute (would violate CSP style-src without 'unsafe-inline') -->
@@ -705,7 +700,7 @@
     Back to top
   </button>
 
-  <script nonce="cloak2026">
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script nonce="cloak2026">
     (() => {
       'use strict';
 
@@ -1138,15 +1133,4 @@
        regardless of how tall the intro text makes the nav bar. */
     (() => {
       'use strict';
-      const nav = document.querySelector('.top-nav');
-      function syncNavHeight() {
-        document.documentElement.style.setProperty('--nav-height', nav.offsetHeight + 'px');
-      }
-      syncNavHeight();
-      const ro = new ResizeObserver(syncNavHeight);
-      ro.observe(nav);
-    })();
-  </script>
-
-</body>
-</html>
+      const nav = docu
