@@ -41,6 +41,7 @@
       background: var(--page-bg);
       color: var(--text);
       line-height: 1.5;
+      overflow-x: hidden;
     }
 
     a { color: inherit; }
@@ -312,6 +313,11 @@
       width: 100%;
     }
 
+
+    .matrix > * {
+      min-width: 0;
+    }
+
     /* ── Tactic column – narrower than original ── */
     .ta-col {
       flex: 1 1 0;
@@ -535,6 +541,10 @@
       display: block;
     }
 
+    .procedure-item .tree-name {
+      color: #000000;
+    }
+
     .match-highlight {
       box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.95) inset;
     }
@@ -626,19 +636,138 @@
     }
 
     /* ── Responsive ── */
-    @media (max-width: 640px) {
+    @media (max-width: 1100px) {
+      .top-nav {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .nav-links {
+        position: static;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .controls-bar {
+        flex-wrap: wrap;
+        align-items: stretch;
+      }
+
+      .filter-group {
+        flex-wrap: wrap;
+      }
+
       .search-wrap {
         margin-left: 0;
-        width: 100%;
+        flex: 1 1 100%;
         max-width: none;
       }
     }
 
-    @media (max-width: 640px) {
-      .top-nav { padding: 14px 10px 12px; }
-      .nav-links { position: static; justify-content: center; }
-      .brand img { width: 140px; }
-      .ta-col { width: min(85vw, 230px); }
+    @media (max-width: 768px) {
+      html {
+        font-size: 13px;
+      }
+
+      .top-nav {
+        gap: 12px;
+        padding: 12px 10px;
+      }
+
+      .brand {
+        max-width: 100%;
+      }
+
+      .brand img {
+        width: 150px;
+        max-width: 60vw;
+      }
+
+      .brand-copy p,
+      .brand-copy .brand-author {
+        max-width: 100%;
+        word-break: break-word;
+      }
+
+      .controls-bar,
+      .results-bar,
+      .matrix-wrap,
+      footer {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .filter-btn {
+        flex: 1 1 calc(50% - 8px);
+        justify-content: center;
+        min-width: 0;
+      }
+
+      .matrix {
+        width: max-content;
+        min-width: 100%;
+      }
+
+      .ta-col {
+        flex: 0 0 260px;
+        min-width: 260px;
+      }
+
+      .ta-header {
+        height: auto;
+        min-height: 130px;
+      }
+
+      #back-to-top {
+        right: 16px;
+        bottom: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand img {
+        width: 132px;
+      }
+
+      .nav-links {
+        gap: 8px;
+      }
+
+      .nav-link {
+        width: 100%;
+        text-align: center;
+      }
+
+      .controls-bar {
+        gap: 10px;
+      }
+
+      .controls-label,
+      .filter-group,
+      .search-wrap {
+        width: 100%;
+      }
+
+      .filter-group {
+        gap: 6px;
+      }
+
+      .filter-btn {
+        flex: 1 1 100%;
+      }
+
+      .matrix-wrap {
+        padding-bottom: 40px;
+      }
+
+      .ta-col {
+        flex-basis: min(82vw, 280px);
+        min-width: min(82vw, 280px);
+      }
+
+      .tree-trigger {
+        padding: 8px;
+      }
     }
   </style>
 </head>
@@ -677,7 +806,7 @@
       </div>
     </div>
     <div class="results-bar" id="results-bar" aria-live="polite">Loading dataset…</div>
-  </div>
+  </nav>
 
   <div class="error-box" id="error-box" role="alert"></div>
 
