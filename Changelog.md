@@ -7,6 +7,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ---
 
 
+## May 2026
+
+### Added
+- Added 10 sub-techniques
+
+Technical sub-techniques (5):
+
+| ID | Name | Parent technique | Tactic |
+|---|---|---|---|
+| ST-2800 | Keystroke biometric obfuscation | Unlinked Subtechniques | Reduce attack surface |
+| ST-2801 | Protocol mimicry via camouflage web server | Anonymous internet connection | Anonymous browsing |
+| ST-2802 | Probabilistic log anonymization (Bloom filter) | Anti-forensics | Plausible deniability |
+| ST-2803 | Sensor-triggered automated kill switch | Selfdestruction | Plausible deniability |
+| ST-2804 | SSD cryptographic key erasure | Anti-forensics | Plausible deniability |
+
+Behavioral sub-techniques (2):
+
+| ID | Name | Parent technique | Tactic |
+|---|---|---|---|
+| ST-2805 | Automated stylometric spoofing | Avoid stylometry | Secure behavior |
+| ST-2806 | Dark persona compartmentalization | Avoid cross-contamination | Secure behavior |
+
+Physical sub-techniques (3):
+
+| ID | Name | Parent technique | Tactic |
+|---|---|---|---|
+| ST-2807 | Thermal label printing for forensically safe dispatch | Avoid cross-contamination | Secure behavior |
+| ST-2808 | RF/Wi-Fi motion detection countermeasure | Wired-only | Reduce attack surface |
+| ST-2809 | Tactical physical entry delay | Situational awareness | Secure behavior |
+
+### Updated
+- Changelog
+
+
 ## March 2026
 
 ### Added

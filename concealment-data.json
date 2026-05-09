@@ -9102,6 +9102,32 @@
                   "type": ""
                 }
               ]
+            },
+            {
+              "id": "ST-2801",
+              "name": "Protocol mimicry via camouflage web server",
+              "type": "Technical",
+              "description": "The adversary places a fully functional decoy web server (e.g. Nginx on port 443) in front of a proxy back-end (Cloak, Trojan-GFW, NaiveProxy) so that all traffic is statistically indistinguishable from legitimate HTTPS. Only clients presenting a valid pre-shared secret are forwarded to the proxy; all others receive a genuine web-server response. Unlike obfs4 (which generates pseudo-random noise), protocol mimicry reuses the full TLS 1.3 handshake, certificate chain, and HTTP framing of a real site, rendering active-probing attacks ineffective.",
+              "procedures": [
+                {
+                  "id": "PR-2801-1",
+                  "name": "Cloak",
+                  "description": "Cloak disguises a proxy or VPN server as a web server to evade DPI. https://github.com/cbeuw/Cloak",
+                  "type": ""
+                },
+                {
+                  "id": "PR-2801-2",
+                  "name": "Trojan-GFW",
+                  "description": "Trojan proxies traffic over TLS to be indistinguishable from HTTPS. https://github.com/trojan-gfw/trojan",
+                  "type": ""
+                },
+                {
+                  "id": "PR-2801-3",
+                  "name": "NaiveProxy",
+                  "description": "NaiveProxy uses Chromium's network stack to mimic browser TLS traffic. https://github.com/klzgrad/naiveproxy",
+                  "type": ""
+                }
+              ]
             }
           ]
         },
@@ -13708,6 +13734,27 @@
               "description": "Nuke passwords might be used to destroy the encryption keys which are required to unlock encrypted partitions.",
               "type": "Technical",
               "procedures": []
+            },
+            {
+              "id": "ST-2802",
+              "name": "Probabilistic log anonymization (Bloom filter)",
+              "type": "Technical",
+              "description": "The operator of a hidden service irreversibly pseudonymizes IP addresses in web-server access logs by mapping them through a SHA-256-keyed Bloom filter before writing to disk. Unlike simple log deletion this preserves within-session correlation (same IP hash) for statistical analysis while making reversal computationally infeasible. Compliant with GDPR Article 89 (pseudonymization for statistical purposes). False-positive rate and filter size are tunable to balance anonymization strength against analytical utility.",
+              "procedures": [
+                {
+                  "id": "PR-2802-1",
+                  "name": "web-server-log-anonymizer",
+                  "description": "Python Bloom-filter IP anonymizer for Nginx/Apache logs. https://www.jamieweb.net/blog/bloom-filter-log-anonymization/",
+                  "type": ""
+                }
+              ]
+            },
+            {
+              "id": "ST-2804",
+              "name": "SSD cryptographic key erasure",
+              "type": "Technical",
+              "description": "The adversary destroys data on solid-state storage by invalidating or replacing the Data Encryption Key (DEK) rather than overwriting sectors. NAND wear-leveling and overprovisioning zones make physical sector overwrite unreliable on SSDs, so key erasure is the only method that guarantees unrecoverability. Implemented via ATA Secure Erase / SANITIZE (hdparm --security-erase), NVMe Format with Secure Erase bit set, or cryptsetup-reencrypt on LUKS volumes. Also called crypto scrabble for self-encrypting drives.",
+              "procedures": []
             }
           ]
         },
@@ -14470,9 +14517,29 @@
             {
               "id": 543,
               "name": "Selfdestruct messages",
-              "description": "Selfdestruct messages might be used to wipe all traces of those messages, which contributes to plausible deniability. \n\n24/11/2024, 14:40, merged with\nSecret chat function",
+              "description": "Selfdestruct messages might be used to wipe all traces of those messages, which contributes to plausible deniability.",
               "type": "Technical",
               "procedures": []
+            },
+            {
+              "id": "ST-2803",
+              "name": "Sensor-triggered automated kill switch",
+              "type": "Technical",
+              "description": "The adversary binds an automated shutdown-and-wipe routine to one or more hardware sensor events as triggers: accelerometer movement, Bluetooth-proximity loss, USB state change, laptop-lid open, luminosity sensor, GPS coordinates, network-interface state, or battery level. On trigger the system wipes RAM, revokes LUKS encryption keys, and powers off. Differs from the existing Emergency shutdown (USB removal only) and Killer tool (tamper detection only) by supporting arbitrary scriptable sensor combinations via tools such as swatd, and by performing cryptographic key erasure rather than relying solely on shutdown.",
+              "procedures": [
+                {
+                  "id": "PR-2803-1",
+                  "name": "swatd",
+                  "description": "swatd monitors configurable system conditions and executes a command when a trigger fires. https://github.com/lfit/swatd",
+                  "type": ""
+                },
+                {
+                  "id": "PR-2803-2",
+                  "name": "BusKill cable",
+                  "description": "BusKill is an open-source dead-man switch triggered when a magnetic breakaway severs the USB connection. https://www.buskill.in/",
+                  "type": ""
+                }
+              ]
             }
           ]
         },
@@ -16248,7 +16315,15 @@
           "description": "The adversary is avoiding wireless devices to reduce the opportunities for compromising them.",
           "type": "Technical",
           "procedures": [],
-          "subtechniques": []
+          "subtechniques": [
+            {
+              "id": "ST-2808",
+              "name": "RF/Wi-Fi motion detection countermeasure",
+              "type": "Physical",
+              "description": "The adversary mitigates RF-based pose estimation, a technique demonstrated by MIT CSAIL (rfpose.csail.mit.edu) in which machine learning applied to ambient Wi-Fi signal perturbations reconstructs human poses and movement through walls without access to the target network. Countermeasures: disable all Wi-Fi and Bluetooth transmitters in the workspace, use wired Ethernet exclusively, apply RF shielding to the workspace (Faraday enclosure), and eliminate nearby access points whose beacon frames could be exploited as signal sources.",
+              "procedures": []
+            }
+          ]
         },
         {
           "id": 119,
@@ -16551,6 +16626,20 @@
               "description": "Webrings are an algorithm-free way of discovering new websites. Webmasters with similar interests voluntarily agree to share mutual links with (at least some of) the other sites in the webring, whether through banner exchanges where one hosts an image with a simple link to said website or through a fancy server-side program that one of the webmaster hosts which provides a \"previous\" and \"next\" button to cycle through all the members of the webring (which is where the \"ring\" part comes from).",
               "type": "Technical",
               "procedures": []
+            },
+            {
+              "id": "ST-2800",
+              "name": "Keystroke biometric obfuscation",
+              "type": "Technical",
+              "description": "The adversary uses kernel-level input anonymization tools (e.g. kloak) that intercept keyboard events at /dev/input/ and randomize inter-key timing intervals (seek time, hold time, flight time) before they reach the OS. This defeats keystroke-dynamics biometric classifiers that can re-identify users with >90% accuracy even when the IP address is masked via Tor. The same tooling also randomizes mouse-movement timestamps, defeating peripheral biometric fingerprinting and autocomplete-based traffic analysis on encrypted search queries.",
+              "procedures": [
+                {
+                  "id": "PR-2800-1",
+                  "name": "kloak",
+                  "description": "kloak is a kernel-level input anonymization tool that randomizes inter-event timing for keyboard and mouse devices. https://github.com/vmonaco/kloak",
+                  "type": ""
+                }
+              ]
             }
           ]
         }
@@ -16853,6 +16942,20 @@
               "description": "In Qubes OS qubes might receive a colored border to keep track of the domain in which it runs. This helps the individual of keeping track of their corresponding security level and preventing making mistakes.",
               "type": "Behavioral",
               "procedures": []
+            },
+            {
+              "id": "ST-2806",
+              "name": "Dark persona compartmentalization",
+              "type": "Behavioral",
+              "description": "The adversary constructs a fully elaborated operational identity (a dark persona) with its own biography, writing style, cultural references, activity schedule, language register, and emotional response patterns, maintained in strict cognitive dissociation from the physical identity. Every data point exposed under the persona (interests, time-zone patterns, slang, idioms) is calibrated to the persona's fictional backstory. Differs from a simple alias or legend in that it requires trained psychological separation so that no cross-contamination leaks the real identity through involuntary behavioral consistency.",
+              "procedures": []
+            },
+            {
+              "id": "ST-2807",
+              "name": "Thermal label printing for forensically safe dispatch",
+              "type": "Physical",
+              "description": "The adversary prints shipping labels with a thermal printer rather than a color laser or inkjet device. Thermal printers produce images by heat-activating a chemically coated substrate and contain no ink or toner, meaning they do not embed Machine Identification Codes (MIC, yellow dots, printer steganography). MIC patterns present on virtually all color laser printers encode the printer serial number and timestamp in microscopic yellow dots visible only under blue light at high magnification, and are used by law enforcement to trace documents to a specific device. Thermal printing eliminates this forensic vector entirely.",
+              "procedures": []
             }
           ]
         },
@@ -17003,6 +17106,20 @@
               "description": "Texts are written offline and then copied to their destination. This prevents identifying tracing your typing speed.",
               "type": "Behavioral",
               "procedures": []
+            },
+            {
+              "id": "ST-2805",
+              "name": "Automated stylometric spoofing",
+              "type": "Behavioral",
+              "description": "The adversary uses software that automatically transforms written text in real time via synonym substitution, randomized punctuation, capitalization variation, and sentence reordering. This goes beyond manual style disguise by systematically attacking the features used by stylometric classifiers: n-gram frequency distributions, Flesch-Kincaid readability scores, Gunning Fog Index, hapax legomenon rate, and punctuation-use patterns. Detection indicator: unnaturally uniform syntactic variation and statistically improbable n-gram distributions inconsistent with organic human writing.",
+              "procedures": [
+                {
+                  "id": "PR-2805-1",
+                  "name": "Stylometry-Spoofer",
+                  "description": "Real-time writing-style transformation tool that randomizes vocabulary and punctuation to defeat stylometric analysis. https://codeberg.org/Light-Project/Stylometry-Spoofer",
+                  "type": ""
+                }
+              ]
             }
           ]
         },
@@ -18023,6 +18140,13 @@
               "name": "Show punycode",
               "description": "Enabling punycode in webbrowsers might contribute in detection of  phishing sites. ",
               "type": "Technical\n",
+              "procedures": []
+            },
+            {
+              "id": "ST-2809",
+              "name": "Tactical physical entry delay",
+              "type": "Physical",
+              "description": "The adversary designs physical access to their workspace so that an unexpected forced entry (e.g. law enforcement raid) introduces a delay of 30-60 seconds, creating the time window required for automated anti-forensic routines (sensor-triggered kill switches, RAM wipe, cryptographic key erasure) to complete. The goal is not to prevent entry but to ensure evidence is destroyed before investigators reach the workspace. Only relevant when the adversary's physical location has already been identified. Most effective when combined with ST-2803 (Sensor-triggered automated kill switch).",
               "procedures": []
             }
           ]
