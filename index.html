@@ -1,1251 +1,1208 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--
+  CLOAK Matrix — Concealment Layers for Online Anonymity and Knowledge
+  Developed by Mick Deben (https://www.linkedin.com/in/mick-deben/)
+
+  Visual design and layout adapted from the MITRE ATT&CK® Website
+  (https://github.com/mitre-attack/attack-website)
+  Copyright 2024 The MITRE Corporation. Licensed under Apache License 2.0.
+  ATT&CK® is a registered trademark of The MITRE Corporation. Not affiliated with MITRE.
+-->
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://raw.githubusercontent.com data:; style-src 'self' 'nonce-cloak2026'; script-src 'self' 'nonce-cloak2026'; connect-src https://raw.githubusercontent.com; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="no-referrer">
-  <meta name="color-scheme" content="light dark">
   <title>CLOAK Matrix</title>
-  <style nonce="cloak2026">
-    :root {
-      --nav-bg: #12233a;
-      --nav-border: #0b1728;
-      --page-bg: #f4f6f8;
-      --panel-bg: #ffffff;
-      --text: #172433;
-      --muted: #5c6d7e;
-      --border: #d8e0e8;
-      --shadow: 0 8px 24px rgba(12, 25, 42, 0.08);
-      --tech-hdr: #c0392b;
-      --tech-cell: #fdecea;
-      --tech-hover: #f9d2cc;
-      --beh-hdr: #b7770d;
-      --beh-cell: #fef6dd;
-      --beh-hover: #faecb6;
-      --phys-hdr: #1a5276;
-      --phys-cell: #eaf3fb;
-      --phys-hover: #d0e7f7;
-      --all-hdr: #243447;
-      --focus: #2f80ed;
-      --white: #ffffff;
-      --success: #0f7b44;
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* Visual style adapted from MITRE ATT&CK® website — Apache License 2.0 */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ═══════════════════════════════════════
+       LIGHT THEME (default)
+    ═══════════════════════════════════════ */
+    :root, [data-theme="light"] {
+      --nav-bg:        #1b2a3b;
+      --nav-hover:     #263e58;
+      --nav-border:    #0f1d2c;
+      --page-bg:       #eef1f5;
+      --panel-bg:      #ffffff;
+      --text:          #1a2332;
+      --text-muted:    #5a6a7a;
+      --text-light:    #8898aa;
+      --border:        #d0d8e4;
+      --border-strong: #b0bcc8;
+      --link:          #0055bb;
+      --white:         #ffffff;
+      --crumb-bg:      #e4e9f0;
+      --table-hover:   #e8edf4;
+      --input-bg:      #f5f7fa;
+      --dd-item-hover: #eef2f8;
+      --dd-group-bg:   #f8fafc;
+      --related-bg:    #f5f7fb;
+      --proc-bg:       #f6f8fb;
+
+      /* TL / UL-ST special entries */
+      --special-hdr:   #5a6a7a;
+      --special-bg:    #f0f2f5;
+      --special-border:#b0bcc8;
+      --special-text:  #3a4a5a;
+
+      /* TTP colours */
+      --tech-hdr:      #b03020;
+      --tech-cell:     #fad5d0;
+      --tech-cell-sub: #f5bdb5;
+      --tech-border:   #d4786a;
+      --tech-accent:   #b03020;
+      --tech-proc-bg:  #fdf0ee;
+
+      --beh-hdr:       #b84a00;
+      --beh-cell:      #fdddb8;
+      --beh-cell-sub:  #fcc98a;
+      --beh-border:    #d99050;
+      --beh-accent:    #b84a00;
+      --beh-proc-bg:   #fef6ea;
+
+      --phys-hdr:      #1260a0;
+      --phys-cell:     #c8dff5;
+      --phys-cell-sub: #a4c8ee;
+      --phys-border:   #6098cc;
+      --phys-accent:   #1260a0;
+      --phys-proc-bg:  #eaf3fb;
+
+      --mixed-hdr:     #1b2a3b;
+
+      --nav-h:     38px;
+      --hdr-h:     76px;
+      --sidebar-w: 252px;
+      --col-count: 13;
     }
 
-    * { box-sizing: border-box; }
-    html { font-size: 14px; scroll-behavior: smooth; }
+    /* ═══════════════════════════════════════
+       DARK THEME
+    ═══════════════════════════════════════ */
+    [data-theme="dark"] {
+      --nav-bg:        #0d1520;
+      --nav-hover:     #1a2a3e;
+      --nav-border:    #060e18;
+      --page-bg:       #0f1419;
+      --panel-bg:      #18222e;
+      --text:          #dce8f4;
+      --text-muted:    #7a90a8;
+      --text-light:    #4e6070;
+      --border:        #263444;
+      --border-strong: #385060;
+      --link:          #5aaaf0;
+      --white:         #dce8f4;
+      --crumb-bg:      #131c28;
+      --table-hover:   #1e2e3e;
+      --input-bg:      #131c28;
+      --dd-item-hover: #1c2c3e;
+      --dd-group-bg:   #131c28;
+      --related-bg:    #131c28;
+      --proc-bg:       #131c28;
+
+      --special-hdr:   #6a8090;
+      --special-bg:    #1a2530;
+      --special-border:#384858;
+      --special-text:  #98b8c8;
+
+      /* Technical — red: vivid crimson cell, bright accent */
+      --tech-hdr:      #d04030;   /* header: rich red                  */
+      --tech-cell:     #3d1a18;   /* technique cell: warm dark red     */
+      --tech-cell-sub: #4e2020;   /* subtechnique: slightly brighter   */
+      --tech-border:   #904030;   /* border: medium red                */
+      --tech-accent:   #e05040;   /* left-accent: bright coral-red     */
+      --tech-proc-bg:  #2e1410;   /* procedure bg: deep red-brown      */
+
+      /* Behavioral — orange: vivid amber cell, distinct from red */
+      --beh-hdr:       #c86000;   /* header: rich amber-orange         */
+      --beh-cell:      #3a2408;   /* technique cell: warm amber-brown  */
+      --beh-cell-sub:  #4a3010;   /* subtechnique: brighter amber      */
+      --beh-border:    #906020;   /* border: medium amber              */
+      --beh-accent:    #e07820;   /* left-accent: bright orange        */
+      --beh-proc-bg:   #2a1a06;   /* procedure bg: deep amber-brown    */
+
+      /* Physical — blue: vivid steel cell, clearly distinct */
+      --phys-hdr:      #1878c8;   /* header: rich steel-blue           */
+      --phys-cell:     #0e2040;   /* technique cell: deep navy-blue    */
+      --phys-cell-sub: #163050;   /* subtechnique: brighter navy       */
+      --phys-border:   #2860a8;   /* border: medium blue               */
+      --phys-accent:   #3090e0;   /* left-accent: bright sky-blue      */
+      --phys-proc-bg:  #0a1830;   /* procedure bg: deep navy           */
+
+      --mixed-hdr:     #263e58;
+    }
+
+    html { font-size: 13px; scroll-behavior: smooth; }
     body {
-      margin: 0;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      background: var(--page-bg);
-      color: var(--text);
-      line-height: 1.5;
-      overflow-x: hidden;
+      font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      background: var(--page-bg); color: var(--text);
+      min-height: 100vh; -webkit-font-smoothing: antialiased;
+      transition: background .20s, color .20s;
     }
-
-    a { color: inherit; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
     button, input { font: inherit; }
     .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
+      position: absolute; width: 1px; height: 1px; padding: 0;
+      margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
     }
 
-    /* ── Navigation ── */
+    /* ── NAV ── */
     .top-nav {
-      position: sticky;
-      top: 0;
-      z-index: 300;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      padding: 16px 18px 14px;
-      background: var(--nav-bg);
-      border-bottom: 1px solid var(--nav-border);
-      color: var(--white);
+      position: sticky; top: 0; z-index: 500;
+      height: var(--nav-h);
+      background: var(--nav-bg); border-bottom: 1px solid var(--nav-border);
+      display: flex; align-items: center;
     }
-
-    /* Top row inside nav: links pushed to the right via absolute positioning */
-    .nav-links {
-      position: absolute;
-      top: 14px;
-      right: 18px;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
+    .nav-inner {
+      width: 100%; max-width: 1900px;
+      margin: 0 auto; padding: 0 16px;
+      display: flex; align-items: center;
     }
-
-    .brand {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-      max-width: 680px;
+    .nav-brand {
+      display: flex; align-items: center; gap: 7px;
+      flex-shrink: 0; color: var(--white);
+      text-decoration: none; margin-right: 14px;
     }
-
-    .brand img {
-      display: block;
-      width: 180px;
-      max-width: 50vw;
-      height: auto;
+    .nav-brand:hover { text-decoration: none; opacity: .85; }
+    .nav-brand img { height: 22px; width: auto; }
+    .nav-brand-name { font-size: 0.88rem; font-weight: 700; letter-spacing: .10em; }
+    .nav-pill {
+      font-size: 0.71rem; font-weight: 600; color: rgba(255,255,255,.60);
+      padding: 3px 9px; border-radius: 3px;
+      cursor: pointer; transition: background .12s, color .12s; text-decoration: none;
     }
-
-    .brand-copy {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      width: 100%;
-    }
-
-    .brand-copy p {
-      margin: 0;
-      font-size: 0.78rem;
-      color: #ffffff;
-      opacity: 0.92;
-      line-height: 1.5;
-      text-align: center;
-    }
-
-    .brand-copy .brand-author {
-      margin-top: 4px;
-      font-size: 0.75rem;
-      color: #ffffff;
-      opacity: 0.80;
-      text-align: center;
-    }
-
-    .brand-copy .brand-author a {
-      color: #ffffff;
-      text-decoration: underline;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 2px;
-      opacity: 1;
-    }
-
-    .brand-copy .brand-author a:hover {
-      opacity: 0.85;
-    }
-
+    .nav-pill:hover, .nav-pill.active { background: var(--nav-hover); color: var(--white); text-decoration: none; }
+    .nav-spacer { flex: 1; }
+    .nav-links { display: flex; align-items: center; }
     .nav-link {
-      color: var(--white);
-      text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.18);
-      padding: 8px 12px;
-      border-radius: 8px;
-      transition: background-color .15s ease, border-color .15s ease;
+      color: rgba(255,255,255,.50); font-size: 0.69rem;
+      padding: 3px 8px; border-radius: 3px; text-decoration: none; white-space: nowrap;
+      transition: color .12s, background .12s;
     }
+    .nav-link:hover { color: var(--white); background: var(--nav-hover); text-decoration: none; }
+    .nav-link + .nav-link { border-left: 1px solid rgba(255,255,255,.12); }
 
-    .nav-link:hover,
-    .nav-link:focus-visible {
-      background: rgba(255,255,255,0.12);
-      border-color: rgba(255,255,255,0.32);
-      outline: none;
+    /* Dark mode toggle button */
+    .theme-toggle {
+      background: none; border: 1px solid rgba(255,255,255,.20);
+      border-radius: 3px; color: rgba(255,255,255,.60);
+      padding: 3px 8px; cursor: pointer; font-size: 0.69rem;
+      display: flex; align-items: center; gap: 4px;
+      transition: background .12s, color .12s, border-color .12s;
+      white-space: nowrap; margin-left: 8px;
     }
+    .theme-toggle:hover { background: var(--nav-hover); color: var(--white); border-color: rgba(255,255,255,.35); }
+    .theme-toggle svg { width: 11px; height: 11px; flex-shrink: 0; }
 
-    /* ── Controls bar ── */
-    .controls-wrap {
-      position: sticky;
-      top: var(--nav-height, 0px);
-      z-index: 250;
-      background: rgba(244, 246, 248, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    /* ── BREADCRUMB ── */
+    .breadcrumb-bar {
+      background: var(--crumb-bg); border-bottom: 1px solid var(--border);
+      padding: 5px 16px; display: none; align-items: center; gap: 5px;
+      font-size: 0.71rem; color: var(--text-muted);
     }
+    .breadcrumb-bar.visible { display: flex; }
+    .breadcrumb-item { color: var(--link); cursor: pointer; }
+    .breadcrumb-item:hover { text-decoration: underline; }
+    .breadcrumb-sep { color: var(--border-strong); }
+    .breadcrumb-current { color: var(--text); font-weight: 600; }
 
-    .controls-bar {
-      max-width: 1500px;
-      margin: 0 auto;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: nowrap;
+    /* ── CONTROLS ── */
+    .controls-strip {
+      position: sticky; top: var(--nav-h); z-index: 400;
+      background: var(--panel-bg); border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,.08);
     }
-
-    .controls-label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--muted);
+    .controls-inner {
+      max-width: 1900px; margin: 0 auto;
+      padding: 6px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
     }
-
-    .filter-group {
-      display: flex;
-      gap: 8px;
-      flex-wrap: nowrap;
-      flex-shrink: 0;
+    .ctrl-label {
+      font-size: 0.64rem; font-weight: 700; letter-spacing: .09em;
+      text-transform: uppercase; color: var(--text-muted); flex-shrink: 0;
     }
+    .filter-group { display: flex; gap: 2px; }
+    .filter-btn {
+      padding: 3px 10px; border-radius: 3px; border: 1px solid var(--border);
+      background: var(--panel-bg); color: var(--text); cursor: pointer;
+      font-size: 0.71rem; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 4px; line-height: 1.6;
+      transition: background .10s, color .10s, border-color .10s;
+    }
+    .filter-btn:hover { background: var(--crumb-bg); border-color: var(--border-strong); }
+    .filter-btn.active-all        { background: var(--nav-bg);  color: #fff; border-color: var(--nav-bg); }
+    .filter-btn.active-Technical  { background: var(--tech-hdr); color: #fff; border-color: var(--tech-hdr); }
+    .filter-btn.active-Behavioral { background: var(--beh-hdr);  color: #fff; border-color: var(--beh-hdr); }
+    .filter-btn.active-Physical   { background: var(--phys-hdr); color: #fff; border-color: var(--phys-hdr); }
+    .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .dot-tech { background: var(--tech-hdr); }
+    .dot-beh  { background: var(--beh-hdr); }
+    .dot-phys { background: var(--phys-hdr); }
 
-    .filter-btn,
+    /* ── SEARCH ── */
+    .search-wrap { margin-left: auto; position: relative; width: 260px; flex-shrink: 0; }
+    .search-wrap svg {
+      position: absolute; top: 50%; left: 8px; transform: translateY(-50%);
+      width: 12px; height: 12px; color: var(--text-muted); pointer-events: none; z-index: 2;
+    }
     .search-input {
-      border-radius: 10px;
-      border: 1px solid var(--border);
+      width: 100%; padding: 4px 28px 4px 26px;
+      border: 1px solid var(--border); border-radius: 3px;
+      background: var(--input-bg); font-size: 0.74rem; color: var(--text); outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .search-input:focus {
+      border-color: var(--tech-hdr);
+      box-shadow: 0 0 0 2px rgba(192,57,43,.15);
       background: var(--panel-bg);
     }
-
-    .filter-btn {
-      padding: 8px 13px;
-      cursor: pointer;
-      color: var(--text);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: transform .12s ease, border-color .15s ease, background-color .15s ease;
+    .search-clear {
+      position: absolute; top: 50%; right: 7px; transform: translateY(-50%);
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--border-strong); color: var(--panel-bg); border: none;
+      cursor: pointer; font-size: 0.65rem; font-weight: 700;
+      display: none; align-items: center; justify-content: center;
+      z-index: 3; line-height: 1; padding: 0; transition: background .10s;
     }
+    .search-clear.visible { display: flex; }
+    .search-clear:hover { background: var(--text-muted); }
 
-    .filter-btn:hover,
-    .filter-btn:focus-visible {
-      transform: translateY(-1px);
-      outline: none;
+    .search-dropdown {
+      position: absolute; top: calc(100% + 3px); left: 0; right: 0;
+      background: var(--panel-bg); border: 1px solid var(--border);
+      border-radius: 4px; box-shadow: 0 6px 20px rgba(0,0,0,.18);
+      z-index: 600; max-height: 320px; overflow-y: auto; display: none;
+      scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent;
     }
+    .search-dropdown.open { display: block; }
+    .search-dropdown::-webkit-scrollbar { width: 4px; }
+    .search-dropdown::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
 
-    /* Type filter active states */
-    .filter-btn.active-all        { background: var(--all-hdr);  color: var(--white); border-color: var(--all-hdr);  }
-    .filter-btn.active-Technical  { background: var(--tech-hdr); color: var(--white); border-color: var(--tech-hdr); }
-    .filter-btn.active-Behavioral { background: var(--beh-hdr);  color: var(--white); border-color: var(--beh-hdr);  }
-    .filter-btn.active-Physical   { background: var(--phys-hdr); color: var(--white); border-color: var(--phys-hdr); }
-
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      display: inline-block;
-      flex: 0 0 auto;
+    .dd-group-hdr {
+      padding: 5px 10px 3px; font-size: 0.60rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--text-light);
+      border-top: 1px solid var(--border); background: var(--dd-group-bg);
+      position: sticky; top: 0;
     }
-
-    .dot-tech { background: #e74c3c; }
-    .dot-beh  { background: #e67e22; }
-    .dot-phys { background: #2980b9; }
-
-    .search-wrap {
-      margin-left: auto;
-      position: relative;
-      min-width: 200px;
-      flex: 0 1 320px;
-      max-width: 420px;
+    .dd-group-hdr:first-child { border-top: none; }
+    .dd-item {
+      padding: 6px 10px; cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.75rem; transition: background .08s;
+      border-bottom: 1px solid var(--border);
     }
+    .dd-item:last-child { border-bottom: none; }
+    .dd-item:hover, .dd-item.focused { background: var(--dd-item-hover); }
+    .dd-item-id { font-family: "IBM Plex Mono", monospace; font-size: 0.60rem; color: var(--text-light); flex-shrink: 0; min-width: 52px; }
+    .dd-item-name { font-weight: 600; flex: 1; min-width: 0; }
+    .dd-item-tactic { font-size: 0.62rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 90px; flex-shrink: 0; }
+    .dd-chip { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dd-chip-Technical  { background: var(--tech-hdr); }
+    .dd-chip-Behavioral { background: var(--beh-hdr); }
+    .dd-chip-Physical   { background: var(--phys-hdr); }
+    .dd-match { background: #fff3cd; border-radius: 1px; }
+    [data-theme="dark"] .dd-match { background: #4a3800; color: #ffd060; }
+    .dd-empty { padding: 14px 10px; text-align: center; font-size: 0.74rem; color: var(--text-muted); }
 
-    .search-wrap svg {
-      position: absolute;
-      top: 50%;
-      left: 12px;
-      transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
-      color: var(--muted);
-      pointer-events: none;
-    }
+    .results-bar { padding: 2px 16px 5px; font-size: 0.67rem; color: var(--text-muted); max-width: 1900px; margin: 0 auto; }
 
-    .search-input {
-      width: 100%;
-      padding: 10px 12px 10px 38px;
-      color: var(--text);
-      outline: none;
-      transition: border-color .15s ease, box-shadow .15s ease;
-    }
+    /* ── VIEWS ── */
+    .view { display: none; }
+    .view.active { display: block; }
 
-    .search-input:focus {
-      border-color: var(--focus);
-      box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.18);
-    }
-
-    .results-bar {
-      max-width: 1500px;
-      margin: 0 auto;
-      padding: 0 20px 10px;
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    /* ── Scroll hint ── */
-    .scroll-hint {
-      max-width: 1500px;
-      margin: 10px auto 0;
-      padding: 0 16px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--muted);
-      font-size: 0.8rem;
-      user-select: none;
-    }
-
-    .scroll-hint svg {
-      width: 14px;
-      height: 14px;
-      flex: 0 0 auto;
-    }
-
-    /* ── Matrix wrapper ── */
+    /* ── MATRIX ── */
     .matrix-wrap {
-      margin: 0 auto;
-      padding: 10px 16px 56px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      background: var(--page-bg);
-      /* Show scrollbar so users know it is scrollable */
-      scrollbar-width: thin;
-      scrollbar-color: var(--muted) var(--border);
+      max-width: 100%; margin: 0 auto; padding: 10px 12px 56px;
+      overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent;
     }
-
-    .matrix-wrap::-webkit-scrollbar       { height: 6px; }
-    .matrix-wrap::-webkit-scrollbar-track  { background: var(--border); border-radius: 4px; }
-    .matrix-wrap::-webkit-scrollbar-thumb  { background: var(--muted);  border-radius: 4px; }
-
+    .matrix-wrap::-webkit-scrollbar { height: 5px; }
+    .matrix-wrap::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
     .matrix {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(var(--col-count, 13), minmax(0, 1fr));
+      gap: 3px; align-items: start;
+      min-width: calc(var(--col-count, 13) * 108px);
     }
-
-
-    .matrix > * {
-      min-width: 0;
-    }
-
-    /* ── Tactic column – narrower than original ── */
-    .ta-col {
-      flex: 1 1 0;
-      min-width: 140px;
-      background: transparent;
-    }
-
+    .ta-col { min-width: 0; }
     .ta-col.hidden { display: none; }
 
     .ta-header {
-      padding: 10px 11px 9px;
-      border-radius: 14px 14px 10px 10px;
-      color: var(--white);
-      height: 130px;          /* fixed — all tactic headers identical height */
-      overflow: hidden;
-      box-shadow: var(--shadow);
+      height: var(--hdr-h); padding: 7px 8px 6px;
+      border-radius: 3px 3px 0 0; color: #fff;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      cursor: pointer; position: relative; overflow: hidden;
+      transition: filter .12s; user-select: none;
     }
-
-    .ta-header.hdr-Technical { background: var(--tech-hdr); }
+    .ta-header:hover { filter: brightness(1.10); }
+    .ta-header::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: rgba(0,0,0,.28); }
+    .ta-header.hdr-Technical  { background: var(--tech-hdr); }
     .ta-header.hdr-Behavioral { background: var(--beh-hdr); }
-    .ta-header.hdr-Physical { background: var(--phys-hdr); }
-    .ta-header.hdr-Mixed { background: var(--all-hdr); }
+    .ta-header.hdr-Physical   { background: var(--phys-hdr); }
+    .ta-header.hdr-Mixed      { background: var(--mixed-hdr); }
+    .ta-id { font-family: "IBM Plex Mono", monospace; font-size: 0.57rem; opacity: .70; letter-spacing: .06em; line-height: 1; margin-bottom: 2px; }
+    .ta-name { font-size: 0.73rem; font-weight: 700; line-height: 1.22; margin-bottom: 4px; overflow-wrap: break-word; word-break: break-word; }
+    .ta-count { font-size: 0.57rem; opacity: .65; line-height: 1; }
 
-    .ta-id {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.08em;
-      opacity: 0.95;
-      color: var(--white);
+    /* Technique cells */
+    .te-list { display: flex; flex-direction: column; gap: 2px; padding-top: 2px; }
+    .te-wrap { display: flex; flex-direction: column; }
+    .te-cell {
+      min-height: 26px; height: auto; padding: 3px 6px;
+      border-radius: 2px; display: flex; align-items: flex-start;
+      cursor: pointer; border: 1px solid transparent;
+      transition: filter .10s, border-color .10s; user-select: none; min-width: 0;
     }
+    .te-cell.type-Technical  { background: var(--tech-cell); border-color: var(--tech-border); }
+    .te-cell.type-Behavioral { background: var(--beh-cell);  border-color: var(--beh-border); }
+    .te-cell.type-Physical   { background: var(--phys-cell); border-color: var(--phys-border); }
+    .te-cell:hover { filter: brightness(.90); border-color: rgba(0,0,0,.22); }
+    [data-theme="dark"] .te-cell:hover { filter: brightness(1.20); border-color: rgba(255,255,255,.18); }
+    [data-theme="dark"] .te-cell.type-Technical  { color: #f0c8c0; }
+    [data-theme="dark"] .te-cell.type-Behavioral { color: #f0d8a0; }
+    [data-theme="dark"] .te-cell.type-Physical   { color: #a8d0f8; }
+    [data-theme="dark"] .te-cell .te-name        { color: inherit; }
 
-    .ta-name {
-      margin-top: 4px;
-      font-size: 0.9rem;
-      font-weight: 800;
-      line-height: 1.25;
-      color: var(--white);
-    }
-
-    .ta-desc {
-      margin-top: 5px;
-      font-size: 0.76rem;
-      color: var(--white);
-      opacity: 0.95;
-    }
-
-    .ta-meta {
-      margin-top: 6px;
-      font-size: 0.7rem;
-      color: var(--white);
-      opacity: 0.9;
-    }
-
-    .te-list {
-      margin-top: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    /* ── Tree cards ── */
-    .tree-card {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      background: var(--panel-bg);
-      box-shadow: var(--shadow);
-    }
-
-    .tree-card.type-Technical { background: var(--tech-cell); }
-    .tree-card.type-Behavioral { background: var(--beh-cell); }
-    .tree-card.type-Physical { background: var(--phys-cell); }
-
-    .tree-trigger {
-      width: 100%;
-      background: transparent;
-      border: 0;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-      align-items: start;
-      text-align: left;
-      padding: 8px 10px;
-      cursor: pointer;
+    [data-theme="dark"] .st-cell.type-Technical  { color: #f0b8a8; }
+    [data-theme="dark"] .st-cell.type-Behavioral { color: #f0c880; }
+    [data-theme="dark"] .st-cell.type-Physical   { color: #88c0f0; }
+    [data-theme="dark"] .st-cell .st-name        { color: inherit; }
+    [data-theme="dark"] .st-cell:hover { filter: brightness(1.25); }
+    .te-cell.match-hl { outline: 2px solid #d07800; outline-offset: 1px; }
+    .te-name {
+      font-size: 0.71rem; font-weight: 600; flex: 1; min-width: 0;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; line-height: 1.30; word-break: break-word;
       color: var(--text);
     }
-
-    .tree-trigger:hover,
-    .tree-trigger:focus-visible {
-      outline: none;
-      filter: brightness(0.98);
+    .te-badge-wrap { display: flex; align-items: center; gap: 2px; flex-shrink: 0; margin-left: 3px; padding-top: 2px; }
+    .te-sub-count { font-size: 0.55rem; font-weight: 700; background: rgba(0,0,0,.14); padding: 1px 3px; border-radius: 2px; line-height: 1.5; }
+    [data-theme="dark"] .te-sub-count { background: rgba(255,255,255,.15); }
+    .te-expand-btn {
+      width: 13px; height: 13px; display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 2px; background: rgba(0,0,0,.14); font-size: 0.60rem; font-weight: 700;
+      line-height: 1; transition: background .10s; cursor: pointer;
     }
+    [data-theme="dark"] .te-expand-btn { background: rgba(255,255,255,.15); }
+    .te-expand-btn:hover { background: rgba(0,0,0,.28); }
+    [data-theme="dark"] .te-expand-btn:hover { background: rgba(255,255,255,.28); }
 
-    .tree-card.type-Technical .tree-trigger:hover,
-    .tree-card.type-Technical .tree-trigger:focus-visible { background: var(--tech-hover); }
-    .tree-card.type-Behavioral .tree-trigger:hover,
-    .tree-card.type-Behavioral .tree-trigger:focus-visible { background: var(--beh-hover); }
-    .tree-card.type-Physical .tree-trigger:hover,
-    .tree-card.type-Physical .tree-trigger:focus-visible { background: var(--phys-hover); }
-
-    .tree-main {
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+    /* Subtechniques */
+    .st-list { display: none; flex-direction: column; gap: 2px; padding: 2px 0 0 8px; }
+    .st-list.expanded { display: flex; }
+    .st-cell {
+      min-height: 22px; height: auto; padding: 3px 5px;
+      border-radius: 0 2px 2px 0; display: flex; align-items: flex-start;
+      cursor: pointer; border-left: 3px solid transparent;
+      transition: filter .10s; user-select: none; min-width: 0;
     }
+    .st-cell.type-Technical  { background: var(--tech-cell-sub); border-left-color: var(--tech-accent); }
+    .st-cell.type-Behavioral { background: var(--beh-cell-sub);  border-left-color: var(--beh-accent); }
+    .st-cell.type-Physical   { background: var(--phys-cell-sub); border-left-color: var(--phys-accent); }
+    .st-cell:hover { filter: brightness(.90); }
+    .st-cell.hidden-item { display: none; }
+    .st-cell.match-hl { outline: 2px solid #d07800; outline-offset: 1px; }
+    .st-name { font-size: 0.66rem; flex: 1; min-width: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.30; word-break: break-word; color: var(--text); }
 
-    .tree-name {
-      font-size: 0.82rem;
-      font-weight: 700;
-      line-height: 1.25;
+    /* No results */
+    .no-results { display: none; text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 0.86rem; }
+    .no-results.visible { display: block; }
+
+    /* ── PAGE HEADERS ── */
+    .page-wrap { max-width: 1200px; margin: 0 auto; padding: 24px 20px 60px; }
+    .page-hdr { display: flex; align-items: flex-start; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+    .page-hdr-badge {
+      width: 48px; height: 48px; border-radius: 5px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: "IBM Plex Mono", monospace; font-size: 0.58rem; font-weight: 600; color: #fff;
+      letter-spacing: .04em; text-align: center; line-height: 1.3;
     }
+    .badge-Technical  { background: var(--tech-hdr); }
+    .badge-Behavioral { background: var(--beh-hdr); }
+    .badge-Physical   { background: var(--phys-hdr); }
+    .badge-Mixed      { background: var(--mixed-hdr); }
+    .page-hdr-text h1 { font-size: 1.38rem; font-weight: 700; line-height: 1.2; margin-bottom: 5px; }
+    .page-hdr-text .hdesc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.58; max-width: 740px; }
+    .meta-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .meta-pill { display: inline-flex; align-items: center; gap: 4px; background: var(--crumb-bg); padding: 3px 9px; border-radius: 3px; font-size: 0.68rem; font-weight: 600; color: var(--text-muted); border: 1px solid var(--border); }
+    .meta-pill strong { color: var(--text); }
+    .section-hdr { font-size: 0.61rem; font-weight: 700; letter-spacing: .10em; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); padding-bottom: 4px; margin-bottom: 10px; }
 
-    .tree-desc {
-      font-size: 0.74rem;
-      color: #223247;
+    /* ── TACTIC TABLE ── */
+    .te-table { width: 100%; border-collapse: collapse; font-size: 0.79rem; }
+    .te-table thead th { text-align: left; padding: 7px 11px; background: var(--nav-bg); color: #fff; font-size: 0.64rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+    .te-table thead th:first-child { border-radius: 3px 0 0 3px; width: 100px; }
+    .te-table thead th:last-child  { border-radius: 0 3px 3px 0; }
+    .te-table tbody tr { border-bottom: 1px solid var(--border); transition: background .08s; }
+    .te-table tbody tr:hover { background: var(--table-hover); cursor: pointer; }
+    .te-table td { padding: 8px 11px; vertical-align: top; }
+    .te-table .td-id { font-family: "IBM Plex Mono", monospace; font-size: 0.66rem; color: var(--text-muted); white-space: nowrap; }
+    .te-table .td-name { font-weight: 700; }
+    .te-table .td-name a { color: var(--link); }
+    .te-table .td-desc { color: var(--text-muted); line-height: 1.5; font-size: 0.78rem; }
+    .te-table .td-type { white-space: nowrap; }
+    .te-table .td-count { font-size: 0.69rem; color: var(--text-muted); white-space: nowrap; }
+
+    .type-chip { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 0.60rem; font-weight: 700; color: #fff; letter-spacing: .03em; }
+    .chip-Technical  { background: var(--tech-hdr); }
+    .chip-Behavioral { background: var(--beh-hdr); }
+    .chip-Physical   { background: var(--phys-hdr); }
+
+    /* ── SPECIAL ENTRIES (TL / UL-ST) on detail pages ── */
+    .special-section { margin-top: 28px; }
+    .special-section-hdr {
+      font-size: 0.61rem; font-weight: 700; letter-spacing: .10em; text-transform: uppercase;
+      color: var(--special-hdr); border-bottom: 2px solid var(--special-border);
+      padding-bottom: 4px; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
     }
+    .special-section-hdr svg { width: 11px; height: 11px; flex-shrink: 0; }
 
-    .tree-badges {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 3px;
+    /* Tactic-level procedures: grey pill list */
+    .tl-proc-list { display: flex; flex-direction: column; gap: 5px; }
+    .tl-proc-item {
+      padding: 8px 11px; border-radius: 3px;
+      background: var(--special-bg); border: 1px solid var(--special-border);
+      border-left: 3px solid var(--special-hdr);
+      display: flex; align-items: baseline; gap: 8px;
     }
+    .tl-proc-id { font-family: "IBM Plex Mono", monospace; font-size: 0.58rem; color: var(--text-light); flex-shrink: 0; }
+    .tl-proc-name { font-size: 0.77rem; font-weight: 600; color: var(--special-text); }
+    .tl-proc-desc { font-size: 0.71rem; color: var(--text-muted); line-height: 1.5; margin-top: 2px; }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      border-radius: 999px;
-      padding: 1px 6px;
-      font-size: 0.66rem;
-      font-weight: 700;
-      border: 1px solid rgba(0,0,0,0.08);
-      background: rgba(255,255,255,0.65);
-      color: var(--text);
-      white-space: nowrap;
-    }
+    /* Unlinked subtechniques: grey table */
+    .ul-st-table { width: 100%; border-collapse: collapse; font-size: 0.77rem; }
+    .ul-st-table thead th { text-align: left; padding: 6px 10px; background: var(--special-bg); color: var(--special-text); font-size: 0.62rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border-bottom: 2px solid var(--special-border); }
+    .ul-st-table tbody tr { border-bottom: 1px solid var(--border); transition: background .08s; }
+    .ul-st-table tbody tr:hover { background: var(--table-hover); cursor: pointer; }
+    .ul-st-table td { padding: 7px 10px; vertical-align: top; }
+    .ul-st-table .td-id { font-family: "IBM Plex Mono", monospace; font-size: 0.64rem; color: var(--text-muted); white-space: nowrap; }
+    .ul-st-table .td-name { font-weight: 600; }
+    .ul-st-table .td-name a { color: var(--link); }
+    .ul-st-table .td-desc { color: var(--text-muted); font-size: 0.74rem; line-height: 1.5; }
 
-    .expander {
-      width: 22px;
-      height: 22px;
-      border-radius: 999px;
-      border: 1px solid rgba(0,0,0,0.12);
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(255,255,255,0.7);
-      flex: 0 0 auto;
-      margin-top: 2px;
-    }
+    /* ── TECHNIQUE PAGE ── */
+    .technique-page { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; display: grid; grid-template-columns: 1fr var(--sidebar-w); gap: 24px; }
+    @media (max-width: 820px) { .technique-page { grid-template-columns: 1fr; } .te-sidebar { order: -1; } }
+    .te-description { font-size: 0.83rem; line-height: 1.65; color: var(--text-muted); margin-bottom: 24px; }
 
-    .expander svg {
-      width: 13px;
-      height: 13px;
-      transition: transform .16s ease;
-    }
+    .st-table { width: 100%; border-collapse: collapse; font-size: 0.77rem; margin-bottom: 24px; }
+    .st-table thead th { text-align: left; padding: 6px 10px; background: var(--crumb-bg); color: var(--text); font-size: 0.62rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border-bottom: 2px solid var(--border); }
+    .st-table tbody tr { border-bottom: 1px solid var(--border); transition: background .08s; }
+    .st-table tbody tr:hover { background: var(--table-hover); cursor: pointer; }
+    .st-table td { padding: 7px 10px; vertical-align: top; }
+    .st-table .td-id { font-family: "IBM Plex Mono", monospace; font-size: 0.64rem; color: var(--text-muted); white-space: nowrap; }
+    .st-table .td-name { font-weight: 600; }
+    .st-table .td-name a { color: var(--link); }
+    .st-table .td-desc { color: var(--text-muted); font-size: 0.74rem; line-height: 1.5; }
 
-    /* Uniform collapsed height for technique cards */
-    .tree-card[data-kind="technique"] > .tree-trigger {
-      min-height: 62px;
-    }
+    .proc-list { display: flex; flex-direction: column; gap: 6px; }
+    .proc-item { padding: 9px 11px; border-radius: 3px; background: var(--proc-bg); border: 1px solid var(--border); border-left: 3px solid var(--border-strong); }
+    .proc-item.type-Technical  { background: var(--tech-proc-bg); border-left-color: var(--tech-hdr); }
+    .proc-item.type-Behavioral { background: var(--beh-proc-bg);  border-left-color: var(--beh-hdr); }
+    .proc-item.type-Physical   { background: var(--phys-proc-bg); border-left-color: var(--phys-hdr); }
+    .proc-header { display: flex; align-items: baseline; gap: 7px; margin-bottom: 2px; }
+    .proc-id { font-family: "IBM Plex Mono", monospace; font-size: 0.59rem; color: var(--text-light); flex-shrink: 0; }
+    .proc-name { font-size: 0.77rem; font-weight: 700; }
+    .proc-desc { font-size: 0.72rem; color: var(--text-muted); line-height: 1.5; }
 
-    .tree-card[data-expanded="true"] .expander svg { transform: rotate(180deg); }
+    .info-card { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
+    .info-card-hdr { background: var(--nav-bg); color: #fff; padding: 6px 11px; font-size: 0.63rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+    .info-card-body { padding: 10px 11px; }
+    .info-row { display: flex; gap: 6px; margin-bottom: 7px; }
+    .info-row:last-child { margin-bottom: 0; }
+    .info-key { font-size: 0.64rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; min-width: 72px; flex-shrink: 0; }
+    .info-val { font-size: 0.76rem; }
+    .related-list { display: flex; flex-direction: column; gap: 3px; }
+    .related-item { padding: 5px 8px; background: var(--related-bg); border: 1px solid var(--border); border-radius: 3px; cursor: pointer; font-size: 0.72rem; font-weight: 600; transition: background .08s; display: flex; align-items: center; gap: 6px; }
+    .related-item:hover { background: var(--crumb-bg); }
+    .related-item-id { font-family: "IBM Plex Mono", monospace; font-size: 0.57rem; color: var(--text-muted); flex-shrink: 0; }
 
-    .tree-content {
-      display: none;
-      padding: 0 10px 10px;
-    }
+    /* ── SKELETON ── */
+    .skeleton-wrap { display: grid; grid-template-columns: repeat(var(--col-count, 13), minmax(0, 1fr)); gap: 3px; padding: 10px 12px; max-width: 100%; margin: 0 auto; min-width: calc(var(--col-count, 13) * 108px); }
+    .skel-col { min-width: 0; }
+    @keyframes shimmer { 0% { background-position: -500px 0; } 100% { background-position: 500px 0; } }
+    .skel-block { border-radius: 2px; margin-bottom: 2px; background: linear-gradient(90deg, var(--border) 25%, var(--crumb-bg) 50%, var(--border) 75%); background-size: 500px 100%; animation: shimmer 1.3s infinite linear; }
+    .skel-hdr { height: var(--hdr-h); border-radius: 3px 3px 0 0; margin-bottom: 2px; }
+    .skel-cell { height: 26px; }
 
-    .tree-id-expanded {
-      display: block;
-      margin: 8px 0 2px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-    }
-
-    .tree-desc--expanded {
-      margin: 4px 0 4px;
-      font-size: 0.74rem;
-      color: #223247;
-      line-height: 1.45;
-    }
-
-    .tree-card[data-expanded="true"] > .tree-content { display: block; }
-
-    .tree-section-title {
-      margin: 8px 0 6px;
-      font-size: 0.68rem;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .nested-list,
-    .procedure-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .nested-list {
-      padding-left: 10px;
-      border-left: 2px solid rgba(0,0,0,0.08);
-    }
-
-    .procedure-item {
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 8px;
-      background: rgba(255,255,255,0.62);
-      padding: 8px;
-    }
-
-    .procedure-item .tree-name,
-    .procedure-item .tree-desc {
-      display: block;
-    }
-
-    .procedure-item .tree-name {
-      color: #000000;
-    }
-
-    .match-highlight {
-      box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.95) inset;
-    }
-
-    .hidden-item { display: none !important; }
-
-    /* ── Shared info-panel base ── */
-    .no-results,
-    .error-box {
-      max-width: 1500px;
-      margin: 16px auto 0;
-      padding: 14px 18px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: var(--panel-bg);
-      box-shadow: var(--shadow);
-    }
-
-    .error-box {
-      display: none;
-      border-color: #edb3b3;
-      background: #fff4f4;
-      color: #7a1f1f;
-    }
-
-    .no-results {
-      display: none;
-      text-align: center;
-      color: var(--muted);
-    }
-
-    .no-results.visible,
+    /* ── ERROR ── */
+    .error-box { display: none; max-width: 1900px; margin: 10px auto; padding: 9px 14px; background: #fff0f0; border: 1px solid #f5c0c0; border-radius: 3px; color: #900; font-size: 0.78rem; }
+    [data-theme="dark"] .error-box { background: #2a1010; border-color: #7a2020; color: #f08080; }
     .error-box.visible { display: block; }
 
-    /* ── Footer ── */
-    footer {
-      background: var(--nav-bg);
-      color: var(--white);
-      border-top: 1px solid var(--nav-border);
-      padding: 18px 20px 28px;
-      text-align: center;
-    }
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--border); padding: 14px 16px; font-size: 0.66rem; color: var(--text-muted); text-align: center; line-height: 1.9; }
+    footer a { color: var(--link); }
 
-    footer a {
-      color: #ffffff;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 2px;
-    }
+    /* ── BACK TO TOP ── */
+    #back-to-top { position: fixed; bottom: 20px; right: 20px; z-index: 600; background: var(--nav-bg); color: #fff; border: none; border-radius: 3px; padding: 6px 12px; font-size: 0.69rem; font-weight: 600; cursor: pointer; display: none; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.28); transition: background .12s; }
+    #back-to-top.visible { display: flex; }
+    #back-to-top:hover { background: var(--nav-hover); }
 
-    /* ── Back-to-top button ──
-       Inline styles removed from HTML to comply with CSP (no 'unsafe-inline').
-       All styling is applied here with the nonce-bearing <style> block. */
-    #back-to-top {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 500;
-      display: none;          /* toggled to flex via .visible */
-      align-items: center;
-      gap: 6px;
-      padding: 9px 15px;
-      border-radius: 10px;
-      border: none;
-      background: var(--nav-bg);
-      color: var(--white);
-      font-size: 0.83rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(12, 25, 42, 0.3);
-      transition: background-color .15s ease, transform .15s ease;
-    }
-
-    #back-to-top.visible {
-      display: flex;
-    }
-
-    #back-to-top:hover,
-    #back-to-top:focus-visible {
-      background: #1c3654;
-      transform: translateY(-2px);
-      outline: 2px solid var(--focus);
-      outline-offset: 2px;
-    }
-
-    #back-to-top svg {
-      width: 13px;
-      height: 13px;
-      flex: 0 0 auto;
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 1100px) {
-      .top-nav {
-        padding-left: 14px;
-        padding-right: 14px;
-      }
-
-      .nav-links {
-        position: static;
-        justify-content: center;
-        width: 100%;
-      }
-
-      .controls-bar {
-        flex-wrap: wrap;
-        align-items: stretch;
-      }
-
-      .filter-group {
-        flex-wrap: wrap;
-      }
-
-      .search-wrap {
-        margin-left: 0;
-        flex: 1 1 100%;
-        max-width: none;
-      }
-    }
-
-    @media (max-width: 768px) {
-      html {
-        font-size: 13px;
-      }
-
-      .top-nav {
-        gap: 12px;
-        padding: 12px 10px;
-      }
-
-      .brand {
-        max-width: 100%;
-      }
-
-      .brand img {
-        width: 150px;
-        max-width: 60vw;
-      }
-
-      .brand-copy p,
-      .brand-copy .brand-author {
-        max-width: 100%;
-        word-break: break-word;
-      }
-
-      .controls-bar,
-      .results-bar,
-      .matrix-wrap,
-      footer {
-        padding-left: 12px;
-        padding-right: 12px;
-      }
-
-      .filter-btn {
-        flex: 1 1 calc(50% - 8px);
-        justify-content: center;
-        min-width: 0;
-      }
-
-      .matrix {
-        width: max-content;
-        min-width: 100%;
-      }
-
-      .ta-col {
-        flex: 0 0 260px;
-        min-width: 260px;
-      }
-
-      .ta-header {
-        height: auto;
-        min-height: 130px;
-      }
-
-      #back-to-top {
-        right: 16px;
-        bottom: 16px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .brand img {
-        width: 132px;
-      }
-
-      .nav-links {
-        gap: 8px;
-      }
-
-      .nav-link {
-        width: 100%;
-        text-align: center;
-      }
-
-      .controls-bar {
-        gap: 10px;
-      }
-
-      .controls-label,
-      .filter-group,
-      .search-wrap {
-        width: 100%;
-      }
-
-      .filter-group {
-        gap: 6px;
-      }
-
-      .filter-btn {
-        flex: 1 1 100%;
-      }
-
-      .matrix-wrap {
-        padding-bottom: 40px;
-      }
-
-      .ta-col {
-        flex-basis: min(82vw, 280px);
-        min-width: min(82vw, 280px);
-      }
-
-      .tree-trigger {
-        padding: 8px;
-      }
+    @media (max-width: 600px) {
+      .search-wrap { width: 100%; }
+      .te-table thead th:nth-child(3), .te-table td:nth-child(3) { display: none; }
     }
   </style>
 </head>
 <body>
 
+  <!-- NAV -->
   <nav class="top-nav" aria-label="Main navigation">
-    <div class="brand">
-      <img src="https://raw.githubusercontent.com/Mickinthemiddle/CLOAK/main/CLOAK.png"
-           alt="CLOAK logo"
-           loading="eager"
-           decoding="async"
-           referrerpolicy="no-referrer"
-           crossorigin="anonymous">
-      <div class="brand-copy">
-        <p>Concealment Layers for Online Anonymity and Knowledge (CLOAK) is the first publicly available knowledge base on cybercriminal concealment measures. CLOAK has been developed by analyzing many Operational Security (OpSec) guides from both the clear- and darkweb. Its main objective is to combat cybercrime better and support the CTI community.</p>
-        <p class="brand-author">Developed by <a href="https://www.linkedin.com/in/mick-deben/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Mick Deben</a></p>
+    <div class="nav-inner">
+      <a class="nav-brand" href="#" data-goto="matrix" aria-label="CLOAK home">
+        <img src="https://raw.githubusercontent.com/Mickinthemiddle/CLOAK/main/CLOAK.png"
+             alt="" loading="eager" decoding="async"
+             referrerpolicy="no-referrer" crossorigin="anonymous"
+             onerror="this.style.display='none'">
+        <span class="nav-brand-name">CLOAK</span>
+      </a>
+      <span class="nav-pill active" data-goto="matrix">Matrix</span>
+      <div class="nav-spacer"></div>
+      <div class="nav-links">
+        <a class="nav-link" href="https://github.com/Mickinthemiddle/CLOAK" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub</a>
+        <a class="nav-link" href="https://github.com/Mickinthemiddle/CLOAK/issues/new/choose" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Issues</a>
+        <a class="nav-link" href="mailto:cloak@opsectechniques.com">Contact</a>
       </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+        <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <span id="theme-label">Dark</span>
+      </button>
     </div>
-    <div class="nav-links">
-      <a class="nav-link" href="https://github.com/Mickinthemiddle/CLOAK" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub</a>
-      <a class="nav-link" href="https://github.com/Mickinthemiddle/CLOAK/issues/new/choose" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Create Issue</a>
-      <a class="nav-link" href="mailto:cloak@opsectechniques.com">Contact</a>
-    </div>
-    <div class="controls-bar">
-      <div class="controls-label">Category</div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb-bar" id="breadcrumb" aria-label="Breadcrumb">
+    <span class="breadcrumb-item" data-goto="matrix">Matrix</span>
+    <span class="breadcrumb-sep" aria-hidden="true">›</span>
+    <span id="bc-tactic-wrap" style="display:none;align-items:center;gap:5px;">
+      <span class="breadcrumb-item" id="bc-tactic"></span>
+      <span class="breadcrumb-sep" id="bc-sep2" style="display:none" aria-hidden="true">›</span>
+    </span>
+    <span class="breadcrumb-current" id="bc-current"></span>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls-strip" id="controls-strip">
+    <div class="controls-inner">
+      <span class="ctrl-label">Category</span>
       <div class="filter-group" role="group" aria-label="Filter by category">
         <button type="button" class="filter-btn active-all" data-filter="all">All</button>
         <button type="button" class="filter-btn" data-filter="Technical"><span class="dot dot-tech" aria-hidden="true"></span>Technical</button>
         <button type="button" class="filter-btn" data-filter="Behavioral"><span class="dot dot-beh" aria-hidden="true"></span>Behavioral</button>
         <button type="button" class="filter-btn" data-filter="Physical"><span class="dot dot-phys" aria-hidden="true"></span>Physical</button>
       </div>
-      <div class="search-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <label class="sr-only" for="search-input">Search by ID, name, or description</label>
-        <input id="search-input" class="search-input" type="search" placeholder="Search by ID, name, or description…" autocomplete="off" spellcheck="false">
+      <div class="search-wrap" id="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <label class="sr-only" for="search-input">Search techniques</label>
+        <input id="search-input" class="search-input" type="text" placeholder="Search techniques &amp; subtechniques…" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="search-dropdown">
+        <button class="search-clear" id="search-clear" aria-label="Clear search" tabindex="-1">✕</button>
+        <div class="search-dropdown" id="search-dropdown" role="listbox"></div>
       </div>
     </div>
     <div class="results-bar" id="results-bar" aria-live="polite">Loading dataset…</div>
-  </nav>
+  </div>
 
   <div class="error-box" id="error-box" role="alert"></div>
 
-  <main aria-label="CLOAK matrix">
-
+  <!-- VIEW: MATRIX -->
+  <div id="view-matrix" class="view active">
+    <div class="skeleton-wrap" id="skeleton"></div>
     <div class="matrix-wrap">
-      <div class="matrix" id="matrix"></div>
+      <div class="matrix" id="matrix" role="grid" aria-label="CLOAK concealment matrix"></div>
     </div>
-    <div class="no-results" id="no-results">No results found for the current filter and search term.</div>
-  </main>
+    <div class="no-results" id="no-results" aria-live="polite">No results match the current filter.</div>
+  </div>
+
+  <!-- VIEW: TACTIC -->
+  <div id="view-tactic" class="view">
+    <div class="page-wrap" id="tactic-page"></div>
+  </div>
+
+  <!-- VIEW: TECHNIQUE -->
+  <div id="view-technique" class="view">
+    <div id="technique-page"></div>
+  </div>
 
   <footer>
-    CLOAK Matrix &middot; contact: <a href="mailto:cloak@opsectechniques.com">cloak@opsectechniques.com</a> &middot; support via <a href="https://github.com/Mickinthemiddle/CLOAK/issues/new/choose" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub Issues</a>
+    <strong>CLOAK Matrix</strong> — Concealment Layers for Online Anonymity and Knowledge ·
+    Developed by <a href="https://www.linkedin.com/in/mick-deben/" target="_blank" rel="noopener noreferrer">Mick Deben</a><br>
+    ✉ <a href="mailto:cloak@opsectechniques.com">cloak@opsectechniques.com</a><br>
+    Visual design adapted from the <a href="https://github.com/mitre-attack/attack-website" target="_blank" rel="noopener noreferrer">MITRE ATT&CK® Website</a>
+    (Apache License 2.0, © 2024 The MITRE Corporation). ATT&CK® is a registered trademark of The MITRE Corporation. Not affiliated with or endorsed by MITRE.
   </footer>
 
-  <!-- Back-to-top: no inline style attribute (would violate CSP style-src without 'unsafe-inline') -->
   <button id="back-to-top" aria-label="Back to top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>
-    Back to top
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    Top
   </button>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script nonce="cloak2026">
+  <script>
+  (() => {
+    'use strict';
+    const DATA_URL = 'https://raw.githubusercontent.com/Mickinthemiddle/CLOAK/main/concealment-data.json';
+    const state = { data: [], filter: 'all', view: 'matrix' };
+
+    const $ = id => document.getElementById(id);
+    const el = {
+      matrix: $('matrix'), skeleton: $('skeleton'), errorBox: $('error-box'),
+      noResults: $('no-results'), resultsBar: $('results-bar'),
+      searchInput: $('search-input'), searchClear: $('search-clear'), searchDD: $('search-dropdown'),
+      filterBtns: document.querySelectorAll('.filter-btn'), ctrlStrip: $('controls-strip'),
+      breadcrumb: $('breadcrumb'), bcTacticWrap: $('bc-tactic-wrap'),
+      bcTactic: $('bc-tactic'), bcSep2: $('bc-sep2'), bcCurrent: $('bc-current'),
+      viewMatrix: $('view-matrix'), viewTactic: $('view-tactic'), viewTechnique: $('view-technique'),
+      tacticPage: $('tactic-page'), techniquePage: $('technique-page'),
+    };
+
+    /* ── Dark mode ── */
+    const html = document.documentElement;
+    const themeToggle = $('theme-toggle');
+    const themeLabel  = $('theme-label');
+    const iconSun     = $('theme-icon-sun');
+    const iconMoon    = $('theme-icon-moon');
+
+    function applyTheme(dark) {
+      html.setAttribute('data-theme', dark ? 'dark' : 'light');
+      iconSun.style.display  = dark ? '' : 'none';
+      iconMoon.style.display = dark ? 'none' : '';
+      themeLabel.textContent = dark ? 'Light' : 'Dark';
+      try { localStorage.setItem('cloak-theme', dark ? 'dark' : 'light'); } catch(e) {}
+    }
+
+    // Restore saved preference or detect system preference
     (() => {
-      'use strict';
-
-      const DATA_URL = 'https://raw.githubusercontent.com/Mickinthemiddle/CLOAK/main/concealment-data.json';
-
-      const state = {
-        filter: 'all',   // type filter: all | Technical | Behavioral | Physical
-        query:  '',
-        data:   [],
-      };
-
-      const els = {
-        matrix:        document.getElementById('matrix'),
-        errorBox:      document.getElementById('error-box'),
-        noResults:     document.getElementById('no-results'),
-        resultsBar:    document.getElementById('results-bar'),
-        searchInput:   document.getElementById('search-input'),
-        filterButtons: Array.from(document.querySelectorAll('.filter-btn')),
-      };
-
-      /* ── Helpers ── */
-
-      function normalizeType(value) {
-        const cleaned = String(value || '').trim();
-        if (!cleaned) return '';
-        const lower = cleaned.toLowerCase();
-        if (lower === 'technical')  return 'Technical';
-        if (lower === 'behavioral') return 'Behavioral';
-        if (lower === 'physical')   return 'Physical';
-        return cleaned;
-      }
-
-      function normalizeText(value) {
-        return String(value || '').replace(/\s+/g, ' ').trim();
-      }
-
-      function isUnknownName(value) {
-        return normalizeText(value).toLowerCase() === 'unknown';
-      }
-
-      function safeId(prefix, value) {
-        return `${prefix}-${String(value).replace(/[^a-zA-Z0-9_-]/g, '-')}`;
-      }
-
-      function makeTextNode(tagName, className, text) {
-        const node = document.createElement(tagName);
-        if (className) node.className = className;
-        node.textContent = text;
-        return node;
-      }
-
-      function getDominantType(items) {
-        const counts = { Technical: 0, Behavioral: 0, Physical: 0 };
-        items.forEach((item) => {
-          const type = normalizeType(item.type);
-          if (counts[type] !== undefined) counts[type] += 1;
-        });
-        const total = counts.Technical + counts.Behavioral + counts.Physical;
-        if (!total) return 'Mixed';
-        const ordered = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-        if (ordered[0][1] === 0) return 'Mixed';
-        return ordered[0][0];
-      }
-
-      function createBadge(text) {
-        const badge = document.createElement('span');
-        badge.className = 'badge';
-        badge.textContent = text;
-        return badge;
-      }
-
-      /* ── Procedure card (leaf node, not expandable) ── */
-
-      function createProcedureCard(procedure, parentChain) {
-        const card = document.createElement('div');
-        card.className = 'procedure-item';
-        card.dataset.kind   = 'procedure';
-        card.dataset.type   = normalizeType(procedure.type);
-
-        const idText   = String(procedure.id || '').trim();
-        const nameText = normalizeText(procedure.name);
-        const descText = normalizeText(procedure.description);
-        card.dataset.search = [idText, nameText, descText, ...parentChain].join(' ').toLowerCase();
-
-        // ID shown only as tooltip on the card
-        if (idText) card.title = idText;
-        if (nameText) card.appendChild(makeTextNode('span', 'tree-name', nameText));
-        if (descText) card.appendChild(makeTextNode('span', 'tree-desc', descText));
-        return card;
-      }
-
-      /* ── Technique / sub-technique expandable card ──
-         Requirement: techniques start EXPANDED, sub-techniques start COLLAPSED.  */
-
-      function createNodeCard(item, level, parentChain) {
-        const card  = document.createElement('section');
-        const type  = normalizeType(item.type);
-        card.className          = `tree-card type-${type || 'Mixed'}`;
-        card.dataset.kind        = level;
-        card.dataset.type        = type;
-        card.dataset.id          = String(item.id || '');
-        card.dataset.name        = normalizeText(item.name);
-        card.dataset.description = normalizeText(item.description);
-
-        // All tree-cards (techniques and sub-techniques) start collapsed.
-        // Tactic columns and technique card headers remain visible; their content is hidden until clicked.
-        card.dataset.expanded = 'false';
-
-        const subtechniques = Array.isArray(item.subtechniques) ? item.subtechniques : [];
-        const procedures    = Array.isArray(item.procedures)    ? item.procedures    : [];
-
-        const searchParts = [
-          String(item.id || ''),
-          normalizeText(item.name),
-          normalizeText(item.description),
-          ...parentChain,
-        ];
-        procedures.forEach((p) => {
-          searchParts.push(String(p.id || ''), normalizeText(p.name), normalizeText(p.description));
-        });
-        subtechniques.forEach((st) => {
-          searchParts.push(String(st.id || ''), normalizeText(st.name), normalizeText(st.description));
-          (Array.isArray(st.procedures) ? st.procedures : []).forEach((p) => {
-            searchParts.push(String(p.id || ''), normalizeText(p.name), normalizeText(p.description));
-          });
-        });
-        card.dataset.search = searchParts.join(' ').toLowerCase();
-
-        /* Trigger button */
-        const trigger    = document.createElement('button');
-        trigger.type     = 'button';
-        trigger.className = 'tree-trigger';
-        const contentId  = safeId('content', `${level}-${item.id}-${Math.random().toString(36).slice(2, 7)}`);
-        trigger.setAttribute('aria-expanded', 'false');
-        trigger.setAttribute('aria-controls',  contentId);
-
-        // ID shown only as a tooltip on hover — keeps the card compact
-        const idLabel = `${level === 'technique' ? 'TE' : 'ST'}:${String(item.id || '').trim()}`;
-        trigger.title = idLabel;
-
-        const main = document.createElement('div');
-        main.className = 'tree-main';
-        main.appendChild(makeTextNode('span', 'tree-name', normalizeText(item.name) || '(no name)'));
-        // Description is shown only inside the expanded content, not in the collapsed header
-
-        const badges = document.createElement('div');
-        badges.className = 'tree-badges';
-        // type badge omitted – colour already signals Technical / Behavioral / Physical
-        if (subtechniques.length) badges.appendChild(createBadge(`${subtechniques.length} subtechniques`));
-        if (procedures.length)    badges.appendChild(createBadge(`${procedures.length} procedures`));
-        // "nested procedures" badge removed — keeps the header compact
-        if (badges.childNodes.length) main.appendChild(badges);
-
-        trigger.appendChild(main);
-
-        const expander = document.createElement('span');
-        expander.className = 'expander';
-        expander.setAttribute('aria-hidden', 'true');
-        // Hardcoded SVG literal – not user input, safe to assign via innerHTML
-        expander.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
-        trigger.appendChild(expander);
-        card.appendChild(trigger);
-
-        /* Expandable content */
-        const content   = document.createElement('div');
-        content.className = 'tree-content';
-        content.id       = contentId;
-
-        // Show the ID at the top when the card is expanded
-        content.appendChild(makeTextNode('span', 'tree-id-expanded', idLabel));
-
-        // Show the description below the ID
-        const descText = normalizeText(item.description);
-        if (descText) {
-          const descEl = makeTextNode('p', 'tree-desc tree-desc--expanded', descText);
-          content.appendChild(descEl);
-        }
-
-        if (procedures.length) {
-          content.appendChild(makeTextNode('div', 'tree-section-title', 'Procedures'));
-          const procedureList = document.createElement('div');
-          procedureList.className = 'procedure-list';
-          procedures.forEach((p) => {
-            if (isUnknownName(p.name)) return;
-            procedureList.appendChild(createProcedureCard(p, parentChain.concat([normalizeText(item.name)])));
-          });
-          if (procedureList.childNodes.length) content.appendChild(procedureList);
-        }
-
-        if (subtechniques.length) {
-          content.appendChild(makeTextNode('div', 'tree-section-title', 'Subtechniques'));
-          const nestedList = document.createElement('div');
-          nestedList.className = 'nested-list';
-          subtechniques.forEach((st) => {
-            if (isUnknownName(st.name)) return;
-            nestedList.appendChild(createNodeCard(st, 'subtechnique', parentChain.concat([normalizeText(item.name)])));
-          });
-          if (nestedList.childNodes.length) content.appendChild(nestedList);
-        }
-
-        if (!content.childNodes.length) {
-          content.appendChild(makeTextNode('div', 'tree-desc', 'No subtechniques or procedures available.'));
-        }
-
-        card.appendChild(content);
-        trigger.addEventListener('click', () => toggleCard(card));
-        return card;
-      }
-
-      function toggleCard(card, forced) {
-        const trigger   = card.querySelector(':scope > .tree-trigger');
-        const nextState = typeof forced === 'boolean' ? forced : card.dataset.expanded !== 'true';
-        card.dataset.expanded = String(nextState);
-        if (trigger) trigger.setAttribute('aria-expanded', String(nextState));
-      }
-
-      /* ── Data normalisation ── */
-
-      function filterDataset(raw) {
-        const tactics = Array.isArray(raw?.tactics) ? raw.tactics : [];
-        return tactics
-          .filter((tactic) => !isUnknownName(tactic.name))
-          .map((tactic) => ({
-            id: tactic.id,
-            name:        normalizeText(tactic.name),
-            description: normalizeText(tactic.description),
-            type:        normalizeType(tactic.type),
-            techniques: (Array.isArray(tactic.techniques) ? tactic.techniques : [])
-              .filter((te) => !isUnknownName(te.name))
-              .map((te) => ({
-                id: te.id,
-                name:        normalizeText(te.name),
-                description: normalizeText(te.description),
-                type:        normalizeType(te.type),
-                procedures: (Array.isArray(te.procedures) ? te.procedures : [])
-                  .filter((p) => !isUnknownName(p.name))
-                  .map((p) => ({
-                    id: p.id,
-                    name:        normalizeText(p.name),
-                    description: normalizeText(p.description),
-                    type:        normalizeType(p.type),
-                  })),
-                subtechniques: (Array.isArray(te.subtechniques) ? te.subtechniques : [])
-                  .filter((st) => !isUnknownName(st.name))
-                  .map((st) => ({
-                    id: st.id,
-                    name:        normalizeText(st.name),
-                    description: normalizeText(st.description),
-                    type:        normalizeType(st.type),
-                    procedures: (Array.isArray(st.procedures) ? st.procedures : [])
-                      .filter((p) => !isUnknownName(p.name))
-                      .map((p) => ({
-                        id: p.id,
-                        name:        normalizeText(p.name),
-                        description: normalizeText(p.description),
-                        type:        normalizeType(p.type),
-                      })),
-                  })),
-              })),
-          }))
-          .filter((tactic) => tactic.techniques.length > 0);
-      }
-
-      /* ── Rendering ── */
-
-      function renderMatrix(data) {
-        els.matrix.replaceChildren();
-        data.forEach((tactic) => {
-          const col = document.createElement('section');
-          col.className = 'ta-col';
-          col.dataset.tacticId = String(tactic.id);
-          col.dataset.search   = [tactic.id, tactic.name, tactic.description].join(' ').toLowerCase();
-
-          const header = document.createElement('div');
-          header.className = `ta-header hdr-${getDominantType(tactic.techniques)}`;
-          header.appendChild(makeTextNode('div', 'ta-id',   `TA:${String(tactic.id)}`));
-          header.appendChild(makeTextNode('div', 'ta-name', tactic.name));
-          if (tactic.description) header.appendChild(makeTextNode('div', 'ta-desc', tactic.description));
-
-          const tc = {
-            techniques:    tactic.techniques.length,
-            subtechniques: tactic.techniques.reduce((s, te) => s + te.subtechniques.length, 0),
-            procedures:    tactic.techniques.reduce(
-              (s, te) => s + te.procedures.length + te.subtechniques.reduce((i, st) => i + st.procedures.length, 0), 0
-            ),
-          };
-          header.appendChild(makeTextNode('div', 'ta-meta',
-            `${tc.techniques} techniques · ${tc.subtechniques} subtechniques · ${tc.procedures} procedures`
-          ));
-          col.appendChild(header);
-
-          const list = document.createElement('div');
-          list.className = 'te-list';
-          tactic.techniques.forEach((te) => {
-            list.appendChild(createNodeCard(te, 'technique', [tactic.name]));
-          });
-          col.appendChild(list);
-          els.matrix.appendChild(col);
-        });
-      }
-
-      /* ── Filtering ── */
-
-      function setFilter(filter) {
-        state.filter = filter;
-        els.filterButtons.forEach((btn) => {
-          btn.className = 'filter-btn';
-          if (btn.dataset.filter === filter) {
-            btn.classList.add(filter === 'all' ? 'active-all' : `active-${filter}`);
-          }
-        });
-        applyFilters();
-      }
-
-      function matchesFilter(type) {
-        return state.filter === 'all' || normalizeType(type) === state.filter;
-      }
-
-      function matchesQuery(searchText) {
-        return !state.query || searchText.includes(state.query);
-      }
-
-      function applyFilters() {
-        const cards      = Array.from(els.matrix.querySelectorAll('.tree-card'));
-        const procedures = Array.from(els.matrix.querySelectorAll('.procedure-item'));
-        const tacticCols = Array.from(els.matrix.querySelectorAll('.ta-col'));
-
-        cards.forEach((c)      => c.classList.remove('hidden-item', 'match-highlight'));
-        procedures.forEach((p) => p.classList.remove('hidden-item', 'match-highlight'));
-        tacticCols.forEach((col) => col.classList.remove('hidden'));
-
-        let visibleTechniques = 0, visibleSubtechniques = 0, visibleProcedures = 0;
-
-        procedures.forEach((item) => {
-          const show = matchesFilter(item.dataset.type) && matchesQuery(item.dataset.search || '');
-          item.classList.toggle('hidden-item',     !show);
-          item.classList.toggle('match-highlight', !!state.query && show);
-          if (show) visibleProcedures++;
-        });
-
-        [...cards].reverse().forEach((card) => {
-          const childCards  = Array.from(card.querySelectorAll(':scope > .tree-content > .nested-list > .tree-card'));
-          const childProcs  = Array.from(card.querySelectorAll(':scope > .tree-content > .procedure-list > .procedure-item'));
-          const selfMatches = matchesFilter(card.dataset.type) && matchesQuery(card.dataset.search || '');
-          const hasVisibleChildren =
-            childCards.some((c) => !c.classList.contains('hidden-item')) ||
-            childProcs.some((c)  => !c.classList.contains('hidden-item'));
-          const show = selfMatches || hasVisibleChildren;
-
-          card.classList.toggle('hidden-item',     !show);
-          card.classList.toggle('match-highlight', !!state.query && selfMatches);
-          if (show && card.dataset.kind === 'technique')    visibleTechniques++;
-          if (show && card.dataset.kind === 'subtechnique') visibleSubtechniques++;
-
-          if (state.query) toggleCard(card, show && (selfMatches || hasVisibleChildren));
-          else             toggleCard(card, false);
-        });
-
-        tacticCols.forEach((col) => {
-          const hasVisible = Array.from(col.querySelectorAll(':scope .te-list > .tree-card'))
-            .some((c) => !c.classList.contains('hidden-item'));
-          col.classList.toggle('hidden', !hasVisible);
-        });
-
-        const visibleTactics = tacticCols.filter((col) => !col.classList.contains('hidden')).length;
-        const total          = visibleTechniques + visibleSubtechniques + visibleProcedures;
-        els.noResults.classList.toggle('visible', total === 0);
-        els.resultsBar.textContent =
-          `Visible: ${visibleTactics} TA (tactics) · ${visibleTechniques} TE (techniques) · ${visibleSubtechniques} ST (subtechniques) · ${visibleProcedures} PR (procedures)`;
-      }
-
-      /* ── Data loading ── */
-
-      async function loadData() {
-        try {
-          const response = await fetch(DATA_URL, {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'omit',
-            cache: 'no-store',
-            referrerPolicy: 'no-referrer',
-            headers: { 'Accept': 'application/json' },
-          });
-
-          if (!response.ok) {
-            throw new Error(`GitHub returned status ${response.status}.`);
-          }
-
-          const rawData   = await response.json();
-          state.data      = filterDataset(rawData);
-          renderMatrix(state.data);
-          applyFilters();
-        } catch (error) {
-          console.error(error);
-          els.errorBox.textContent = `Failed to load data from GitHub. ${error instanceof Error ? error.message : 'Unknown error.'}`;
-          els.errorBox.classList.add('visible');
-          els.resultsBar.textContent = 'No data available.';
-        }
-      }
-
-      /* ── Event listeners ── */
-
-      els.filterButtons.forEach((btn) => {
-        btn.addEventListener('click', () => setFilter(btn.dataset.filter || 'all'));
-      });
-
-      els.searchInput.addEventListener('input', (event) => {
-        state.query = String(event.target.value || '').trim().toLowerCase();
-        applyFilters();
-      });
-
-      loadData();
+      let saved;
+      try { saved = localStorage.getItem('cloak-theme'); } catch(e) {}
+      const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+      applyTheme(saved === 'dark' || (!saved && prefersDark));
     })();
-  </script>
 
-  <script nonce="cloak2026">
-    /* Back-to-top button — passive scroll listener for performance */
-    (() => {
-      'use strict';
-      const btn = document.getElementById
+    themeToggle.addEventListener('click', () => {
+      applyTheme(html.getAttribute('data-theme') !== 'dark');
+    });
+
+    /* ── Helpers ── */
+    const txt = v => typeof v === 'string' ? v.trim() : '';
+    const unk = v => !v || v.trim().toLowerCase() === 'unknown';
+    const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    const isTL   = id => String(id).startsWith('TL-');
+    const isULST = id => String(id).startsWith('UL-ST-');
+    const isSpecial = id => isTL(id) || isULST(id);
+
+    function normType(v) {
+      const s = txt(v);
+      return (s==='Technical'||s==='Behavioral'||s==='Physical') ? s : 'Technical';
+    }
+    function dominant(tes) {
+      const c = {};
+      tes.forEach(te => { const t=normType(te.type); c[t]=(c[t]||0)+1; });
+      return Object.entries(c).sort((a,b)=>b[1]-a[1])[0]?.[0]||'Technical';
+    }
+    function highlight(text, q) {
+      if (!q) return esc(text);
+      const idx = text.toLowerCase().indexOf(q.toLowerCase());
+      if (idx < 0) return esc(text);
+      return esc(text.slice(0,idx)) + `<mark class="dd-match">${esc(text.slice(idx,idx+q.length))}</mark>` + esc(text.slice(idx+q.length));
+    }
+
+    /* ── Normalise — keep specials separate ── */
+    function normalise(raw) {
+      return (raw?.tactics||[]).filter(t=>!unk(t.name)).map(t => {
+        const allTe = (t.techniques||[]).filter(te=>!unk(te.name));
+        const regular = allTe.filter(te => !isSpecial(te.id));
+        const tlEntry  = allTe.find(te => isTL(te.id));
+        const ulEntry  = allTe.find(te => isULST(te.id));
+
+        const mapTe = te => ({
+          id: te.id, name: txt(te.name), desc: txt(te.description), type: normType(te.type),
+          search: [te.id,te.name,te.description].join(' ').toLowerCase(),
+          subtechniques: (te.subtechniques||[]).filter(st=>!unk(st.name)).map(st=>({
+            id: st.id, name: txt(st.name), desc: txt(st.description), type: normType(st.type),
+            search: [st.id,st.name,st.description].join(' ').toLowerCase(),
+            procedures: (st.procedures||[]).filter(p=>!unk(p.name)).map(p=>({id:p.id,name:txt(p.name),desc:txt(p.description)})),
+          })),
+          procedures: (te.procedures||[]).filter(p=>!unk(p.name)).map(p=>({id:p.id,name:txt(p.name),desc:txt(p.description)})),
+        });
+
+        return {
+          id: t.id, name: txt(t.name), desc: txt(t.description), type: normType(t.type),
+          techniques: regular.map(mapTe).filter(te=>te.name),
+          // Special entries for detail pages only
+          tlProcs: tlEntry ? (tlEntry.procedures||[]).filter(p=>!unk(p.name)).map(p=>({id:p.id,name:txt(p.name),desc:txt(p.description)})) : [],
+          ulSubs: ulEntry  ? (ulEntry.subtechniques||[]).filter(st=>!unk(st.name)).map(st=>({
+            id: st.id, name: txt(st.name), desc: txt(st.description), type: normType(st.type),
+          })) : [],
+        };
+      }).filter(t => t.techniques.length > 0 || t.tlProcs.length > 0 || t.ulSubs.length > 0);
+    }
+
+    /* ── Lookup ── */
+    const findTactic = id => state.data.find(t=>String(t.id)===String(id));
+    const makeTePath  = (tactic, te)     => `ta${tactic.id}-te${te.id}`;
+    const makeStPath  = (tactic, te, st) => `ta${tactic.id}-te${te.id}-st${st.id}`;
+
+    function findTechnique(path) {
+      const parts = path.split('-');
+      const taId = parts[0]?.replace('ta','');
+      const teId = parts[1]?.replace('te','');
+      const stId = parts[2]?.replace('st','');
+      const tactic = state.data.find(t=>String(t.id)===taId);
+      if (!tactic) return null;
+      const te = tactic.techniques.find(t=>String(t.id)===teId);
+      if (!te) return null;
+      if (stId) {
+        const st = te.subtechniques.find(s=>String(s.id)===stId);
+        if (!st) return null;
+        return {te:st, tactic, parentTe:te};
+      }
+      return {te, tactic};
+    }
+
+    /* ── Routing ── */
+    function navigate(hash) { history.pushState(null,'','#'+hash); route(hash); }
+    function route(hash) {
+      closeDropdown();
+      if (!hash||hash==='matrix') showMatrix();
+      else if (hash.startsWith('tactic/'))    showTacticPage(hash.slice('tactic/'.length));
+      else if (hash.startsWith('technique/')) showTechniquePage(hash.slice('technique/'.length));
+      else showMatrix();
+    }
+    window.addEventListener('popstate', ()=>route(location.hash.slice(1)));
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('[data-goto]');
+      if (btn) { e.preventDefault(); navigate(btn.dataset.goto); }
+    });
+
+    /* ── Show matrix ── */
+    function showMatrix() {
+      state.view='matrix';
+      el.viewMatrix.classList.add('active');
+      el.viewTactic.classList.remove('active');
+      el.viewTechnique.classList.remove('active');
+      el.ctrlStrip.style.display='';
+      el.breadcrumb.classList.remove('visible');
+      document.querySelector('.nav-pill')?.classList.add('active');
+      window.scrollTo(0,0);
+    }
+
+    /* ── Render matrix (only regular techniques) ── */
+    function renderMatrix(data) {
+      el.matrix.replaceChildren();
+      data.forEach(tactic => {
+        if (!tactic.techniques.length) return; // skip tactics with only specials
+        const col = document.createElement('div');
+        col.className='ta-col'; col.dataset.tacticId=tactic.id;
+
+        const dom = dominant(tactic.techniques);
+        const hdr = document.createElement('div');
+        hdr.className=`ta-header hdr-${dom}`;
+        hdr.setAttribute('role','button'); hdr.setAttribute('tabindex','0');
+        hdr.setAttribute('aria-label',`Tactic: ${tactic.name}`);
+        hdr.innerHTML=`
+          <div class="ta-id">TA:${String(tactic.id).padStart(2,'0')}</div>
+          <div class="ta-name">${esc(tactic.name)}</div>
+          <div class="ta-count">${tactic.techniques.length} technique${tactic.techniques.length!==1?'s':''}</div>`;
+        hdr.addEventListener('click',()=>navigate(`tactic/${tactic.id}`));
+        hdr.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hdr.click();}});
+        col.appendChild(hdr);
+
+        const teList = document.createElement('div'); teList.className='te-list';
+        tactic.techniques.forEach(te => {
+          const wrap = document.createElement('div'); wrap.className='te-wrap'; wrap.dataset.teId=te.id;
+          const cell = document.createElement('div');
+          cell.className=`te-cell type-${te.type}`;
+          cell.dataset.type=te.type; cell.dataset.search=te.search;
+          cell.setAttribute('role','gridcell'); cell.setAttribute('tabindex','0'); cell.title=te.name;
+          const nm = document.createElement('span'); nm.className='te-name'; nm.textContent=te.name;
+          cell.appendChild(nm);
+          if (te.subtechniques.length) {
+            const bw = document.createElement('span'); bw.className='te-badge-wrap';
+            const cnt = document.createElement('span'); cnt.className='te-sub-count'; cnt.textContent=te.subtechniques.length; bw.appendChild(cnt);
+            const xb = document.createElement('span'); xb.className='te-expand-btn'; xb.textContent='+'; xb.title='Toggle subtechniques';
+            xb.addEventListener('click',ev=>{ev.stopPropagation();toggleSubs(wrap,xb);}); bw.appendChild(xb); cell.appendChild(bw);
+          }
+          cell.addEventListener('click',()=>navigate(`technique/${makeTePath(tactic,te)}`));
+          cell.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();navigate(`technique/${makeTePath(tactic,te)}`);}});
+          wrap.appendChild(cell);
+          if (te.subtechniques.length) {
+            const stList = document.createElement('div'); stList.className='st-list';
+            te.subtechniques.forEach(st=>{
+              const sc = document.createElement('div');
+              sc.className=`st-cell type-${st.type}`;
+              sc.dataset.type=st.type; sc.dataset.search=st.search;
+              sc.setAttribute('tabindex','0'); sc.title=st.name;
+              const sn = document.createElement('span'); sn.className='st-name'; sn.textContent=st.name;
+              sc.appendChild(sn);
+              sc.addEventListener('click',()=>navigate(`technique/${makeStPath(tactic,te,st)}`));
+              sc.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();navigate(`technique/${makeStPath(tactic,te,st)}`);}});
+              stList.appendChild(sc);
+            });
+            wrap.appendChild(stList);
+          }
+          teList.appendChild(wrap);
+        });
+        col.appendChild(teList);
+        el.matrix.appendChild(col);
+      });
+    }
+
+    function toggleSubs(wrap, btn) {
+      const sl = wrap.querySelector('.st-list'); if(!sl) return;
+      const open = sl.classList.toggle('expanded'); btn.textContent=open?'−':'+';
+    }
+
+    /* ── Filter ── */
+    function applyFilters() {
+      const f = state.filter;
+      const cols = el.matrix.querySelectorAll('.ta-col');
+      let visTE=0, visST=0;
+      cols.forEach(col => {
+        let colVis=false;
+        col.querySelectorAll('[data-te-id]').forEach(wrap => {
+          const tc = wrap.querySelector('.te-cell');
+          const sts = [...wrap.querySelectorAll('.st-cell')];
+          const teOk = f==='all' || normType(tc?.dataset.type)===f;
+          let anyStOk=false;
+          sts.forEach(st => {
+            const ok = f==='all' || normType(st.dataset.type)===f;
+            st.classList.toggle('hidden-item',!ok);
+            if(ok){anyStOk=true;visST++;}
+          });
+          const show = teOk||anyStOk;
+          wrap.style.display=show?'':'none';
+          if(tc) tc.classList.toggle('hidden-item',!show);
+          if(show){colVis=true;visTE++;}
+          const sl=wrap.querySelector('.st-list'), xb=wrap.querySelector('.te-expand-btn');
+          if(sl&&sl.dataset.manualExpand!=='1'){sl.classList.remove('expanded');if(xb)xb.textContent='+';}
+        });
+        col.classList.toggle('hidden',!colVis);
+      });
+      const visTa=[...cols].filter(c=>!c.classList.contains('hidden')).length;
+      el.noResults.classList.toggle('visible',visTE+visST===0);
+      el.resultsBar.textContent=`${visTa} tactic${visTa!==1?'s':''} · ${visTE} technique${visTE!==1?'s':''} · ${visST} subtechnique${visST!==1?'s':''} visible`;
+    }
+
+    function setFilter(f) {
+      state.filter=f;
+      el.filterBtns.forEach(btn=>{
+        btn.className='filter-btn';
+        if(btn.dataset.filter===f) btn.classList.add(f==='all'?'active-all':`active-${f}`);
+      });
+      applyFilters();
+    }
+    el.filterBtns.forEach(btn=>btn.addEventListener('click',()=>setFilter(btn.dataset.filter||'all')));
+    el.matrix.addEventListener('click', e => {
+      const xb = e.target.closest('.te-expand-btn'); if(!xb) return;
+      const sl = xb.closest('.te-wrap')?.querySelector('.st-list'); if(!sl) return;
+      sl.dataset.manualExpand = sl.classList.contains('expanded') ? '1' : '0';
+    });
+
+    /* ── Search dropdown ── */
+    let ddFocusIdx=-1, ddItems=[];
+
+    function buildDropdown(q) {
+      el.searchDD.innerHTML=''; ddFocusIdx=-1; ddItems=[];
+      if (!q||q.length<1) { closeDropdown(); return; }
+      const ql=q.toLowerCase();
+      const results = { technique:[], subtechnique:[] };
+      state.data.forEach(tactic => {
+        tactic.techniques.forEach(te => {
+          if (te.search.includes(ql)) results.technique.push({te, tactic, kind:'technique'});
+          te.subtechniques.forEach(st => {
+            if (st.search.includes(ql)) results.subtechnique.push({te:st, tactic, parentTe:te, kind:'subtechnique'});
+          });
+        });
+      });
+      const total = results.technique.length + results.subtechnique.length;
+      if (total===0) {
+        el.searchDD.innerHTML=`<div class="dd-empty">No results for "<strong>${esc(q)}</strong>"</div>`;
+        openDropdown(); return;
+      }
+      const MAX=20;
+      [['technique','Techniques'], ['subtechnique','Subtechniques']].forEach(([kind,label]) => {
+        const grp = results[kind].slice(0,MAX);
+        if (!grp.length) return;
+        const ghdr = document.createElement('div'); ghdr.className='dd-group-hdr';
+        ghdr.textContent=`${label} (${results[kind].length}${results[kind].length>MAX?`, showing ${MAX}`:''})`;
+        el.searchDD.appendChild(ghdr);
+        grp.forEach(({te,tactic,parentTe,kind:k}) => {
+          const row = document.createElement('div'); row.className='dd-item';
+          row.setAttribute('role','option'); row.setAttribute('tabindex','-1');
+          row.dataset.navigateTo = k==='subtechnique' ? `technique/${makeStPath(tactic,parentTe,te)}` : `technique/${makeTePath(tactic,te)}`;
+          const chip = document.createElement('span'); chip.className=`dd-chip dd-chip-${te.type}`;
+          const idEl = document.createElement('span'); idEl.className='dd-item-id';
+          idEl.textContent = k==='subtechnique' ? `ST:${String(te.id).padStart(3,'0')}` : `TE:${String(te.id).padStart(3,'0')}`;
+          const nameEl = document.createElement('span'); nameEl.className='dd-item-name'; nameEl.innerHTML=highlight(te.name,q);
+          const tacticEl = document.createElement('span'); tacticEl.className='dd-item-tactic';
+          tacticEl.textContent = k==='subtechnique' ? parentTe.name : tactic.name;
+          row.append(chip, idEl, nameEl, tacticEl);
+          row.addEventListener('mousedown', e => { e.preventDefault(); navigate(row.dataset.navigateTo); clearSearch(); });
+          el.searchDD.appendChild(row); ddItems.push(row);
+        });
+      });
+      openDropdown();
+    }
+
+    function openDropdown()  { el.searchDD.classList.add('open'); el.searchInput.setAttribute('aria-expanded','true'); }
+    function closeDropdown() { el.searchDD.classList.remove('open'); el.searchInput.setAttribute('aria-expanded','false'); ddFocusIdx=-1; }
+    function clearSearch()   { el.searchInput.value=''; el.searchClear.classList.remove('visible'); closeDropdown(); }
+
+    el.searchInput.addEventListener('input', e => {
+      const q=e.target.value.trim(); el.searchClear.classList.toggle('visible',q.length>0); buildDropdown(q);
+    });
+    el.searchInput.addEventListener('keydown', e => {
+      if (!el.searchDD.classList.contains('open')) return;
+      if (e.key==='ArrowDown') { e.preventDefault(); ddFocusIdx=Math.min(ddFocusIdx+1,ddItems.length-1); ddItems.forEach((it,i)=>it.classList.toggle('focused',i===ddFocusIdx)); ddItems[ddFocusIdx]?.scrollIntoView({block:'nearest'}); }
+      else if (e.key==='ArrowUp') { e.preventDefault(); ddFocusIdx=Math.max(ddFocusIdx-1,0); ddItems.forEach((it,i)=>it.classList.toggle('focused',i===ddFocusIdx)); ddItems[ddFocusIdx]?.scrollIntoView({block:'nearest'}); }
+      else if (e.key==='Enter'&&ddFocusIdx>=0) { e.preventDefault(); const t=ddItems[ddFocusIdx]?.dataset.navigateTo; if(t){navigate(t);clearSearch();} }
+      else if (e.key==='Escape') closeDropdown();
+    });
+    el.searchInput.addEventListener('blur', ()=>setTimeout(closeDropdown,150));
+    el.searchClear.addEventListener('click', ()=>{ clearSearch(); el.searchInput.focus(); });
+    document.addEventListener('click', e=>{ if(!$('search-wrap').contains(e.target)) closeDropdown(); });
+
+    /* ── Special section HTML helpers ── */
+    function tlProcsHtml(tactic) {
+      if (!tactic.tlProcs.length) return '';
+      return `
+        <div class="special-section">
+          <div class="special-section-hdr">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+            Tactic-level Tools &amp; Procedures (${tactic.tlProcs.length})
+          </div>
+          <div class="tl-proc-list">
+            ${tactic.tlProcs.map(p=>`
+              <div class="tl-proc-item">
+                <span class="tl-proc-id">${esc(p.id)}</span>
+                <div>
+                  <div class="tl-proc-name">${esc(p.name)}</div>
+                  ${p.desc?`<div class="tl-proc-desc">${esc(p.desc)}</div>`:''}
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>`;
+    }
+
+    function ulSubsHtml(tactic) {
+      if (!tactic.ulSubs.length) return '';
+      return `
+        <div class="special-section">
+          <div class="special-section-hdr">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Unlinked Subtechniques (${tactic.ulSubs.length})
+          </div>
+          <table class="ul-st-table">
+            <thead><tr><th>ID</th><th>Name</th><th>Type</th></tr></thead>
+            <tbody>
+              ${tactic.ulSubs.map(st=>`
+                <tr>
+                  <td class="td-id">ST:${esc(st.id)}</td>
+                  <td class="td-name">${esc(st.name)}</td>
+                  <td><span class="type-chip chip-${st.type}">${st.type}</span></td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+    }
+
+    /* ── Tactic page ── */
+    function showTacticPage(id) {
+      const tactic=findTactic(id); if(!tactic){navigate('matrix');return;}
+      state.view='tactic';
+      el.viewMatrix.classList.remove('active'); el.viewTactic.classList.add('active'); el.viewTechnique.classList.remove('active');
+      el.ctrlStrip.style.display='none';
+      document.querySelector('.nav-pill')?.classList.remove('active');
+      el.bcTacticWrap.style.display='none'; el.bcSep2.style.display='none';
+      el.bcCurrent.textContent=tactic.name; el.breadcrumb.classList.add('visible');
+
+      const dom=dominant(tactic.techniques);
+      const totalST=tactic.techniques.reduce((s,t)=>s+t.subtechniques.length,0);
+      const totalPR=tactic.techniques.reduce((s,t)=>s+t.procedures.length+t.subtechniques.reduce((i,st)=>i+st.procedures.length,0),0);
+
+      el.tacticPage.innerHTML=`
+        <div class="page-hdr">
+          <div class="page-hdr-badge badge-${dom}">TA:${String(tactic.id).padStart(2,'00')}</div>
+          <div class="page-hdr-text">
+            <h1>${esc(tactic.name)}</h1>
+            ${tactic.desc?`<p class="hdesc">${esc(tactic.desc)}</p>`:''}
+            <div class="meta-row">
+              <span class="meta-pill">ID <strong>TA:${String(tactic.id).padStart(2,'0')}</strong></span>
+              <span class="meta-pill">Techniques <strong>${tactic.techniques.length}</strong></span>
+              <span class="meta-pill">Subtechniques <strong>${totalST}</strong></span>
+              <span class="meta-pill">Procedures <strong>${totalPR}</strong></span>
+              ${tactic.tlProcs.length?`<span class="meta-pill">Tactic-level tools <strong>${tactic.tlProcs.length}</strong></span>`:''}
+              ${tactic.ulSubs.length?`<span class="meta-pill">Unlinked subtechniques <strong>${tactic.ulSubs.length}</strong></span>`:''}
+            </div>
+          </div>
+        </div>
+        <div class="section-hdr">Techniques</div>
+        <div style="overflow-x:auto">
+          <table class="te-table">
+            <thead><tr><th>ID</th><th>Name</th><th>Description</th><th>Type</th><th>Subtechniques</th></tr></thead>
+            <tbody>
+              ${tactic.techniques.map(te=>`
+                <tr data-navigate="technique/${makeTePath(tactic,te)}">
+                  <td class="td-id">TE:${String(te.id).padStart(2,'0')}</td>
+                  <td class="td-name"><a href="#technique/${makeTePath(tactic,te)}">${esc(te.name)}</a></td>
+                  <td class="td-desc">${te.desc?esc(te.desc.slice(0,120))+(te.desc.length>120?'…':''):'<em style="opacity:.4">—</em>'}</td>
+                  <td class="td-type"><span class="type-chip chip-${te.type}">${te.type}</span></td>
+                  <td class="td-count">${te.subtechniques.length||'—'}</td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+        ${tlProcsHtml(tactic)}
+        ${ulSubsHtml(tactic)}`;
+
+      el.tacticPage.querySelectorAll('tr[data-navigate]').forEach(row=>{
+        row.addEventListener('click',e=>{if(e.target.tagName==='A')return;navigate(row.dataset.navigate);});
+      });
+      window.scrollTo(0,0);
+    }
+
+    /* ── Technique page ── */
+    function showTechniquePage(path) {
+      const found=findTechnique(path); if(!found){navigate('matrix');return;}
+      const {te,tactic,parentTe}=found; const isSub=!!parentTe;
+      state.view='technique';
+      el.viewMatrix.classList.remove('active'); el.viewTactic.classList.remove('active'); el.viewTechnique.classList.add('active');
+      el.ctrlStrip.style.display='none';
+      document.querySelector('.nav-pill')?.classList.remove('active');
+
+      const parentPath = isSub ? makeTePath(tactic,parentTe) : null;
+      el.bcTacticWrap.style.display='inline-flex';
+      el.bcTactic.textContent=tactic.name; el.bcTactic.dataset.goto=`tactic/${tactic.id}`;
+      if(isSub){
+        el.bcSep2.style.display='';
+        $('bc-parent-te')?.remove();
+        el.bcSep2.insertAdjacentHTML('afterend',
+          `<span class="breadcrumb-item" data-goto="technique/${parentPath}" id="bc-parent-te">${esc(parentTe.name)}</span>
+           <span class="breadcrumb-sep" aria-hidden="true">›</span>`);
+      } else {
+        el.bcSep2.style.display='none'; $('bc-parent-te')?.remove();
+      }
+      el.bcCurrent.textContent=te.name; el.breadcrumb.classList.add('visible');
+
+      const sidebar=`
+        <div class="te-sidebar">
+          <div class="info-card">
+            <div class="info-card-hdr">Details</div>
+            <div class="info-card-body">
+              <div class="info-row"><span class="info-key">ID</span><span class="info-val" style="font-family:'IBM Plex Mono',monospace;font-size:.77rem">${isSub?`TE:${parentTe.id} › ST:${te.id}`:`TE:${String(te.id).padStart(2,'0')}`}</span></div>
+              <div class="info-row"><span class="info-key">Type</span><span class="info-val"><span class="type-chip chip-${te.type}">${te.type}</span></span></div>
+              <div class="info-row"><span class="info-key">Tactic</span><span class="info-val"><a href="#tactic/${tactic.id}">${esc(tactic.name)}</a></span></div>
+              ${isSub?`<div class="info-row"><span class="info-key">Parent</span><span class="info-val"><a href="#technique/${parentPath}">${esc(parentTe.name)}</a></span></div>`:''}
+              ${te.subtechniques?.length?`<div class="info-row"><span class="info-key">Subtechs</span><span class="info-val">${te.subtechniques.length}</span></div>`:''}
+              ${te.procedures?.length?`<div class="info-row"><span class="info-key">Procedures</span><span class="info-val">${te.procedures.length}</span></div>`:''}
+            </div>
+          </div>
+          ${!isSub&&tactic.techniques.length>1?`
+          <div class="info-card">
+            <div class="info-card-hdr">More in ${esc(tactic.name)}</div>
+            <div class="info-card-body">
+              <div class="related-list">
+                ${tactic.techniques.filter(t=>String(t.id)!==String(te.id)).slice(0,8).map(t=>`
+                  <div class="related-item" data-goto="technique/${makeTePath(tactic,t)}">
+                    <span class="related-item-id">TE:${String(t.id).padStart(2,'0')}</span>${esc(t.name)}
+                  </div>`).join('')}
+                ${tactic.techniques.length>9?`<div style="font-size:.67rem;color:var(--text-muted);padding:3px 2px">+${tactic.techniques.length-9} more — <a href="#tactic/${tactic.id}">see all</a></div>`:''}
+              </div>
+            </div>
+          </div>`:''}
+        </div>`;
+
+      const main=`
+        <div class="te-main-col">
+          <div class="page-hdr" style="margin-bottom:18px">
+            <div class="page-hdr-badge badge-${te.type}" style="width:44px;height:44px;font-size:.56rem">${isSub?`ST:${te.id}`:`TE:${String(te.id).padStart(2,'0')}`}</div>
+            <div class="page-hdr-text">
+              <h1 style="font-size:1.26rem">${esc(te.name)}</h1>
+              ${isSub?`<div style="font-size:.71rem;color:var(--text-muted);margin-top:3px">Subtechnique of <a href="#technique/${parentPath}">${esc(parentTe.name)}</a></div>`:''}
+            </div>
+          </div>
+          ${te.desc?`<div class="section-hdr">Description</div><p class="te-description">${esc(te.desc)}</p>`:''}
+          ${te.subtechniques?.length?`
+          <div class="section-hdr">Subtechniques (${te.subtechniques.length})</div>
+          <table class="st-table">
+            <thead><tr><th>ID</th><th>Name</th><th>Description</th></tr></thead>
+            <tbody>
+              ${te.subtechniques.map(st=>`
+                <tr data-navigate="technique/${makeStPath(tactic,te,st)}">
+                  <td class="td-id">ST:${st.id}</td>
+                  <td class="td-name"><a href="#technique/${makeStPath(tactic,te,st)}">${esc(st.name)}</a></td>
+                  <td class="td-desc">${st.desc?esc(st.desc.slice(0,100))+(st.desc.length>100?'…':''):'<em style="opacity:.4">—</em>'}</td>
+                </tr>`).join('')}
+            </tbody>
+          </table>`:''}
+          ${te.procedures?.length?`
+          <div class="section-hdr">Procedures / Tools (${te.procedures.length})</div>
+          <div class="proc-list">
+            ${te.procedures.map(p=>`
+              <div class="proc-item type-${te.type}">
+                <div class="proc-header"><span class="proc-id">#${p.id}</span><span class="proc-name">${esc(p.name)}</span></div>
+                ${p.desc?`<div class="proc-desc">${esc(p.desc)}</div>`:''}
+              </div>`).join('')}
+          </div>`:''}
+        </div>`;
+
+      el.techniquePage.className='technique-page';
+      el.techniquePage.innerHTML=main+sidebar;
+      el.techniquePage.querySelectorAll('tr[data-navigate]').forEach(row=>{
+        row.addEventListener('click',e=>{if(e.target.tagName==='A')return;navigate(row.dataset.navigate);});
+      });
+      window.scrollTo(0,0);
+    }
+
+    /* ── Skeleton ── */
+    function buildSkeleton() {
+      [5,3,5,2,7,4,2,5,3,4,2,7,3].forEach(n=>{
+        const col=document.createElement('div'); col.className='skel-col';
+        const hdr=document.createElement('div'); hdr.className='skel-block skel-hdr'; col.appendChild(hdr);
+        for(let i=0;i<n;i++){const c=document.createElement('div');c.className='skel-block skel-cell';col.appendChild(c);}
+        el.skeleton.appendChild(col);
+      });
+    }
+
+    /* ── Load ── */
+    async function loadData() {
+      buildSkeleton();
+      try {
+        const res=await fetch(DATA_URL,{method:'GET',mode:'cors',credentials:'omit',cache:'no-store',referrerPolicy:'no-referrer',headers:{Accept:'application/json'}});
+        if(!res.ok) throw new Error(`HTTP ${res.status}`);
+        const raw=await res.json();
+        state.data=normalise(raw);
+        const colCount=state.data.filter(t=>t.techniques.length>0).length || 13;
+        document.documentElement.style.setProperty('--col-count',colCount);
+        el.skeleton.style.display='none';
+        renderMatrix(state.data);
+        applyFilters();
+        route(location.hash.slice(1));
+      } catch(err) {
+        console.error(err);
+        el.skeleton.style.display='none';
+        el.errorBox.textContent=`Failed to load data. ${err?.message??'Unknown error.'}`;
+        el.errorBox.classList.add('visible');
+        el.resultsBar.textContent='No data available.';
+      }
+    }
+    loadData();
+
+    /* ── Back to top ── */
+    const btt=$('back-to-top');
+    window.addEventListener('scroll',()=>btt.classList.toggle('visible',window.scrollY>300),{passive:true});
+    btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  })();
+  </script>
+</body>
+</html>

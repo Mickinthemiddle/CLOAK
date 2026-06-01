@@ -6,6 +6,101 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## June 2026
+
+### Added
+
+#### Techniques (TE)
+
+| ID | Name | Tactic | Category |
+|----|------|--------|----------|
+| TE-124 | Operational patience | Secure behavior | Behavioral |
+| TE-125 | Physical and social footprint minimisation | Secure behavior | Behavioral |
+| TE-126 | Privacy-preserving cryptocurrency selection | Anonymous cryptocurrency | Technical |
+| TE-127 | Pre-emptive data minimisation | Reduce attack surface | Behavioral |
+| TE-128 | Periodic OPSEC review and adaptation | Secure behavior | Behavioral |
+| TE-129 | BGP-level network infrastructure security | Anonymous hosting | Technical |
+
+#### Subtechniques (ST)
+
+| ID | Name | Parent | Category |
+|----|------|--------|----------|
+| ST-2762 | Software dead man's switch | TE-92 Selfdestruction | Technical |
+| ST-2763 | Client-side cloud encryption | TE-52 Encryption | Technical |
+| ST-2764 | Hash-based software integrity verification | TE-100 Tamper-evident software | Technical |
+| ST-2765 | Air-gapped cryptographic key management | TE-52 Encryption | Technical |
+| ST-2766 | I2P eepsite hosting | TE-9 Anonymous internet connection | Technical |
+| ST-2767 | Awareness of network payload inspection capabilities | TE-103 Threat modeling | Behavioral |
+| ST-2768 | Awareness of HTTP traffic logging capabilities | TE-103 Threat modeling | Behavioral |
+| ST-2772 | Reduce comparison corpus | TE-29 Avoid stylometry | Behavioral |
+| ST-2773 | Image steganography | TE-97 Steganography | Technical |
+| ST-2774 | Audio steganography | TE-97 Steganography | Technical |
+| ST-2775 | Video steganography | TE-97 Steganography | Technical |
+| ST-2776 | Network/Protocol steganography | TE-97 Steganography | Technical |
+| ST-2777 | Text steganography | TE-97 Steganography | Technical |
+| ST-2778 | Awareness of law enforcement interrogation deception tactics | TE-95 Silence | Behavioral |
+| ST-2779 | Know and invoke legal rights during detention | TE-95 Silence | Behavioral |
+| ST-2780 | Verify clipboard contents before sending | TE-124 Operational patience | Behavioral |
+| ST-2781 | Resist counterparty time pressure | TE-124 Operational patience | Behavioral |
+| ST-2782 | Avoid physically distinguishing vehicle or property markers | TE-125 Physical and social footprint minimisation | Behavioral |
+| ST-2783 | Vet social circle for law enforcement proximity | TE-125 Physical and social footprint minimisation | Behavioral |
+| ST-2784 | Avoid timezone-revealing greetings in anonymous communications | TE-125 Physical and social footprint minimisation | Behavioral |
+| ST-2785 | Avoid bragging or status display | TE-125 Physical and social footprint minimisation | Behavioral |
+| ST-2786 | Active disinformation feeding (red herring) | TE-46 Deception | Behavioral |
+| ST-2787 | Avoid SMR (Shingled Magnetic Recording) drives for hidden volumes | TE-56 Hidden volume | Technical |
+| ST-2788 | Awareness of spin-stand microscopy as physical forensic threat | TE-56 Hidden volume | Technical |
+| ST-2789 | Prefer mandatory-privacy cryptocurrencies | TE-126 Privacy-preserving cryptocurrency selection | Technical |
+| ST-2790 | Evaluate cryptographic privacy mechanism | TE-126 Privacy-preserving cryptocurrency selection | Technical |
+| ST-2791 | Avoid unnecessary service registrations | TE-127 Pre-emptive data minimisation | Behavioral |
+| ST-2792 | Use ephemeral communication services | TE-127 Pre-emptive data minimisation | Technical |
+| ST-2793 | Scheduled cryptographic key rotation | TE-128 Periodic OPSEC review and adaptation | Technical |
+| ST-2794 | Awareness of law enforcement cryptocurrency lure technique | TE-96 Situational awareness | Behavioral |
+| ST-2795 | Protocol hiding vs. network circumvention distinction | TE-19 Anti-censorship | Technical |
+| ST-2797 | Awareness of Raptor / BGP correlation attacks against Tor | TE-129 BGP-level network infrastructure security | Technical |
+| ST-2798 | Verify physical vs. virtual server location | TE-129 BGP-level network infrastructure security | Technical |
+| ST-2799 | RPKI validation for server infrastructure | TE-129 BGP-level network infrastructure security | Technical |
+| ST-2800 | Rotating server infrastructure to prevent traffic correlation | TE-129 BGP-level network infrastructure security | Technical |
+| ST-2801 | TLS fingerprint impersonation (uTLS / ClientHello spoofing) | TE-19 Anti-censorship | Technical |
+| ST-2803 | Maintained normalcy cover profile | TE-118 Compartmentalization | Behavioral |
+
+#### Procedures (PR)
+
+| ID | Name | Parent | Category |
+|----|------|--------|----------|
+| TTP-1458 | DeadManSwitch | ST-2762 Software dead man's switch | Technical |
+| TTP-1459 | gokill | ST-2762 Software dead man's switch | Technical |
+| TTP-1460 | Cryptomator | ST-2763 Client-side cloud encryption | Technical |
+| TTP-1461 | Duplicity | ST-307 Encrypted backups | Technical |
+| TTP-1462 | GtkHash | ST-2764 Hash-based software integrity verification | Technical |
+| TTP-1463 | PrivateKeyVault | ST-2765 Air-gapped cryptographic key management | Technical |
+| TTP-1464 | i2pd | ST-374 Invisible Internet Project (I2P) | Technical |
+| TTP-1465 | Remmina | TE-80 Remote Desktop Protocol (RDP) | Technical |
+| TTP-1466 | RealVNC viewer | TE-80 Remote Desktop Protocol (RDP) | Technical |
+| TTP-1470 | Cryptsetup | ST-312 Encrypted Logical Volume Manager (LVM) | Technical |
+| TTP-1472 | Steghide | ST-2773 Image steganography | Technical |
+| TTP-1473 | Stegosuite | ST-2773 Image steganography | Technical |
+| TTP-1474 | Xiao steganography | ST-2773 Image steganography | Technical |
+| TTP-1475 | OpenPuff | ST-2773 Image steganography | Technical |
+| TTP-1476 | SSuite Picsel | ST-2775 Video steganography | Technical |
+| TTP-1477 | Wayback Machine onion service as JS-free clearnet proxy | TE-36 Bypass human verification | Technical |
+| TTP-1478 | Xray Core | TE-19 Anti-censorship | Technical |
+| TTP-1479 | VLESS+XTLS | TE-19 Anti-censorship | Technical |
+| TTP-1480 | VLESS+REALITY | TE-19 Anti-censorship | Technical |
+| TTP-2796 | OBFS4 IAT-MODE timing obfuscation | ST-433 Obfuscated bridges | Technical |
+
+#### Website
+
+- Website dark mode toggle is available
+
+### Changed
+
+- Updated description of TE-80 Remote Desktop Protocol (RDP)
+- Website visual design adapted from MITRE ATT&CK website
+
+### Removed
+
+- **TTP-299 CannaHome** — darknet market listing removed from dataset.
+
 
 ## May 2026
 
