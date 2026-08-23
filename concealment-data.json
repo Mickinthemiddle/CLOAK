@@ -1153,6 +1153,18 @@
               "name": "Skiff Mail",
               "description": "End-to-end encrypted, privacy-focused email service. https://skiff.com/mail",
               "type": ""
+            },
+            {
+              "id": "TTP-2900",
+              "name": "Proton Mail",
+              "description": "Proton Mail is an end-to-end encrypted mail hosting service.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2901",
+              "name": "Gmail",
+              "description": "Gmail is the largest email service worldwide, owned by Google, with 1.8 billion users. It allows users to send and receive emails, store messages, and integrate with other Google services.",
+              "type": "Technical"
             }
           ],
           "subtechniques": [
@@ -1173,6 +1185,12 @@
                   "name": "TempMail",
                   "description": "Disposable temporary email address service for anonymous registrations. https://temp-mail.org/",
                   "type": ""
+                },
+                {
+                  "id": "TTP-2902",
+                  "name": "Qaz.im",
+                  "description": "Forget about spam, advertising mailings, hacking and attacking robots. Keep your real mailbox clean and secure. Temp Mail provides temporary, secure, anonymous, free, disposable email address.",
+                  "type": "Technical"
                 }
               ]
             },
@@ -1451,6 +1469,12 @@
               "name": "Cabal",
               "description": "Peer-to-peer, offline-first, decentralised chat protocol for anonymous group communication. https://cabal.chat/",
               "type": ""
+            },
+            {
+              "id": "TTP-2904",
+              "name": "Rocket.chat",
+              "description": "Rocket.Chat is an open-source team communication platform that provides messaging, file sharing, video conferencing, and collaboration tools.",
+              "type": "Technical"
             }
           ],
           "subtechniques": [
@@ -1479,6 +1503,12 @@
                   "name": "Adium",
                   "description": "Adium is a free instant messaging application for macOS that can connect to XMPP (jabber), IRC and more. https://adium.im/",
                   "type": ""
+                },
+                {
+                  "id": "TTP-2905",
+                  "name": "Exploit.im",
+                  "description": "A private XMPP server without tracking or censorship. OMEMO/OTR/PGP encryption, antispam filters, connection via Tor, no logging, no censorship.",
+                  "type": "Technical"
                 }
               ]
             },
@@ -1530,6 +1560,27 @@
               "description": "Cryptocurrency might be added to a darknet market account for placing orders. ",
               "type": "Technical",
               "procedures": []
+            },
+            {
+              "id": 2900,
+              "name": "Decentralized instant messaging",
+              "description": "Use of instant messaging services with no central server, reducing single points of seizure/takedown and third-party data custody compared to centralized messaging platforms.",
+              "type": "Technical",
+              "procedures": []
+            },
+            {
+              "id": 2905,
+              "name": "Peer-to-peer encrypted messenger",
+              "description": "Decentralized, peer-to-peer encrypted messengers with no central server or phone-number/email registration requirement, used as a communication channel independent of any single hosted server's uptime or seizure risk.",
+              "type": "Technical",
+              "procedures": [
+                {
+                  "id": "TTP-2965",
+                  "name": "Tox",
+                  "description": "Tox is a decentralized peer-to-peer encrypted messenger with no central server or phone-number/email registration requirement. Operators may conduct part of a negotiation over Tox as a side-channel alongside or instead of a negotiation portal (e.g. LockBit 3.0), providing communication resilience/anonymity independent of the negotiation portal's own uptime or seizure risk.",
+                  "type": "Technical"
+                }
+              ]
             }
           ]
         },
@@ -1686,6 +1737,13 @@
               "name": "Only travel with burner devices",
               "description": "Only burner devices are carried to prevent activities being tied to one's identity. ",
               "type": "Behavioral",
+              "procedures": []
+            },
+            {
+              "id": 2901,
+              "name": "Virtual phone numbers",
+              "description": "A virtual phone number is a telephone number that operates over the internet using Voice over Internet Protocol (VoIP) instead of traditional phone lines, allowing users to make and receive calls from any device with internet access. These numbers provide privacy and flexibility, as they are not tied to a physical SIM card or location.",
+              "type": "Technical",
               "procedures": []
             }
           ]
@@ -1917,6 +1975,33 @@
               "description": "Tor2web proxies might be used to serve onion sites on the clearweb, while still hiding the backend.",
               "type": "Technical",
               "procedures": []
+            },
+            {
+              "id": 2902,
+              "name": "Reverse tunneling",
+              "description": "Routing a local/internal server's traffic outbound through a reverse tunnel or proxy service so it is reachable without exposing a publicly routable IP address of the origin infrastructure.",
+              "type": "Technical",
+              "procedures": [
+                {
+                  "id": "TTP-2906",
+                  "name": "Cloudflare ZeroTrust tunnel",
+                  "description": "Cloudflare Tunnel provides a secure way to connect resources to Cloudflare without a publicly routable IP address. A lightweight daemon (cloudflared) creates outbound-only connections to Cloudflare's global network instead of sending traffic to an external IP.",
+                  "type": "Technical"
+                },
+                {
+                  "id": "TTP-2907",
+                  "name": "Fast Reverse Proxy (FRP)",
+                  "description": "frp is a fast reverse proxy that allows exposing a local server located behind a NAT or firewall to the Internet. It supports TCP and UDP, as well as HTTP and HTTPS protocols, enabling requests to be forwarded to internal services via domain name.",
+                  "type": "Technical"
+                }
+              ]
+            },
+            {
+              "id": 2903,
+              "name": "Proxy chaining",
+              "description": "Routing network traffic through multiple proxy servers in sequence, which helps to obscure the true origin of the traffic and enhance anonymity.",
+              "type": "Technical",
+              "procedures": []
             }
           ]
         },
@@ -1974,6 +2059,120 @@
               "name": "Croc",
               "description": "croc is a tool that allows any two computers to simply and securely transfer files and folders. AFAIK, croc is the only CLI file-transfer tool that does all of the following:\n•allows any two computers to transfer data (using a relay)\n•provides end-to-end encryption (using PAKE)\n•enables easy cross-platform transfers (Windows, Linux, Mac)\n•allows multiple file transfers\n•allows resuming transfers that are interrupted\n•local server or port-forwarding not needed\n•ipv6-first with ipv4 fallback\n•can use proxy, like tor\nhttps://github.com/schollz/croc",
               "type": ""
+            },
+            {
+              "id": "TTP-2908",
+              "name": "1ty.me",
+              "description": "1ty.me provides one-time self-destructing links for sharing sensitive information.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2909",
+              "name": "Anonfiles.app",
+              "description": "Anonfiles is a free and anonymous temporary file hosting service.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2910",
+              "name": "Bashupload",
+              "description": "PHP/JavaScript file upload web app to upload files from command line & browser, and download them elsewhere. Frequently used to upload/download files on servers. Hosted version available at bashupload.com.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2911",
+              "name": "Dropfiles",
+              "description": "Dropfiles.org is a platform designed for sharing large files, allowing users to upload files and email links for sharing, similar to Dropbox.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2912",
+              "name": "Dropmefiles.com",
+              "description": "DropMeFiles is a free anonymous one-click file sharing service.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2913",
+              "name": "File.io",
+              "description": "Simply upload a file, share the link, and after it is downloaded, the file is completely deleted. For added security, set an expiration on the file and it is deleted within a certain amount of time, even if it was never downloaded. All files are encrypted when stored on the servers.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2914",
+              "name": "FileTransfer.io",
+              "description": "Filetransfer.io is a free and anonymous file sharing service.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2915",
+              "name": "Gofile.io",
+              "description": "Secure, fast and free cloud storage solution. Upload and share files instantly with Gofile's simple cloud storage platform.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2916",
+              "name": "ImgBB",
+              "description": "ImgBB is a free and anonymous image hosting and sharing service.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2917",
+              "name": "Limewire.com",
+              "description": "An end-to-end encrypted, AI-powered file sharing platform to upload, manipulate & share files of any size, on any device.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2918",
+              "name": "Mega.nz",
+              "description": "Mega.nz is a zero-knowledge cloud storage provider.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2919",
+              "name": "Sendspace.com",
+              "description": "Sendspace is a free service for sending large files over the internet.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2920",
+              "name": "Tempsend.com",
+              "description": "TempSend is a way to share files: upload images, text, documents, movies, and more, anonymously, for free.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2921",
+              "name": "Transfer.sh",
+              "description": "Easy and fast file sharing from the command-line. Supports the s3 (Amazon S3), gdrive (Google Drive), storj (Storj) providers, and local file system (local).",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2922",
+              "name": "Ufile.io",
+              "description": "Ufile.io is a free and anonymous file sharing service.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2923",
+              "name": "Up1",
+              "description": "Up1 is a simple host that client-side encrypts images, text, and other data, and stores them, with the server knowing nothing about the contents.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2924",
+              "name": "Wetransfer",
+              "description": "A simple, quick and secure way to send files without an account. Share files, photos, and videos for free.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2925",
+              "name": "temp.sh",
+              "description": "Temp.sh is a temporary and anonymous file-sharing service where uploaded files are automatically deleted after 3 days.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2926",
+              "name": "Prnt.sc",
+              "description": "Prnt.sc is a screenshot-sharing website that allows users to upload and share images taken with the Lightshot screenshot utility.",
+              "type": "Technical"
             }
           ],
           "subtechniques": []
@@ -2084,7 +2283,20 @@
           "name": "Anonymously buy cryptocurrency",
           "description": "The adversary is trying to buy cryptocurrency anonymously, for example with cash, to prevent any trails that would lead back to him.",
           "type": "Behavioral",
-          "procedures": [],
+          "procedures": [
+            {
+              "id": "TTP-2949",
+              "name": "Disguise payment purpose from bank/exchange",
+              "description": "Operator instructs the victim to tell their bank/exchange that withdrawn funds are for \"investment purposes only\" when buying BTC to pay the ransom, evading AML/compliance flags that could block or trace the payment (e.g. Akira).",
+              "type": "Behavioral"
+            },
+            {
+              "id": "TTP-2950",
+              "name": "Recommend non-custodial wallets",
+              "description": "Operator advises the victim to use non-custodial crypto wallets (self-held private keys) rather than exchange-hosted/custodial wallets when acquiring or holding ransom BTC, reducing the amount of KYC/AML recordkeeping and third-party custodial data available to investigators tracing the payment. Distinct from \"Avoid exchanges\", which concerns how coins are purchased rather than how they are subsequently held/transferred.",
+              "type": "Technical"
+            }
+          ],
           "subtechniques": [
             {
               "id": 2725,
@@ -2100,7 +2312,14 @@
           "name": "Cleaning coins",
           "description": "The adversary is trying to anonymize his cryptocurrency by ‘cleaning’ them.",
           "type": "Technical",
-          "procedures": [],
+          "procedures": [
+            {
+              "id": "TTP-2945",
+              "name": "Chain-hopping",
+              "description": "Chain-hopping is a method used in cryptocurrency to move assets across multiple blockchains or different assets on the same blockchain, often to obscure the origin of funds and evade detection.",
+              "type": "Technical"
+            }
+          ],
           "subtechniques": []
         },
         {
@@ -2176,6 +2395,32 @@
               "description": "Different privacy cryptocurrencies use different cryptographic techniques: ring signatures+CT (Monero) for unlinkability and amount hiding; zk-SNARKs (Zcash, Aleo) requiring trusted setup; Mimblewimble (Grin, Beam) with good pruning but limited scripting. The adversary evaluates specific mechanisms for known weaknesses and law enforcement bypass capabilities.",
               "type": "Technical",
               "procedures": []
+            },
+            {
+              "id": 2904,
+              "name": "Address format considerations",
+              "description": "Selection and awareness of cryptocurrency wallet address formats and their privacy/compatibility trade-offs when receiving or transferring funds.",
+              "type": "Technical",
+              "procedures": [
+                {
+                  "id": "TTP-2946",
+                  "name": "Bech32 address",
+                  "description": "Bech32 (\"besh thirty-two\") is an address format used for representing segwit locking scripts like P2WPKH, P2WSH, and P2TR. It was introduced shortly after the Segregated Witness upgrade to provide a better address format for the new segwit locking scripts, improving on the legacy Base58 format.",
+                  "type": "Technical"
+                },
+                {
+                  "id": "TTP-2947",
+                  "name": "SegWit address",
+                  "description": "Legacy and SegWit addresses are two types of addresses in the Bitcoin network that differ in format and functionality. SegWit addresses offer advantages in terms of lower transaction fees and better scalability compared to Legacy addresses. Certain SegWit addresses (bech32) might not be compatible with all services, so users should be cautious when sending funds.",
+                  "type": "Technical"
+                },
+                {
+                  "id": "TTP-2948",
+                  "name": "Non-segwit wallet",
+                  "description": "A non-SegWit wallet refers to a Bitcoin wallet that does not support Segregated Witness (SegWit) transactions, which means it uses legacy addresses that start with the number 1. These wallets typically incur higher transaction fees and are less efficient compared to wallets that support SegWit.",
+                  "type": "Technical"
+                }
+              ]
             }
           ]
         }
@@ -2355,6 +2600,12 @@
               "name": "Qualys TLS checker",
               "description": "Online tool for verifying TLS/SSL configuration quality and identifying weaknesses in hosted services. https://www.ssllabs.com/ssltest/",
               "type": ""
+            },
+            {
+              "id": "TTP-2941",
+              "name": "File upload restriction",
+              "description": "Uploading certain file extensions is blocked to prevent uploading malware, exploit attempts, or files intended to deanonymize or fingerprint the infrastructure.",
+              "type": "Technical"
             }
           ],
           "subtechniques": [
@@ -2509,6 +2760,18 @@
                   "name": "VPS.bg",
                   "description": "VPS hosting provider. https://www.vps.bg/",
                   "type": ""
+                },
+                {
+                  "id": "TTP-2942",
+                  "name": "4vps.su",
+                  "description": "4vps.su is a VPS provider.",
+                  "type": "Technical"
+                },
+                {
+                  "id": "TTP-2943",
+                  "name": "JustHost",
+                  "description": "JustHost.su provides VPS with high-speed SSD and NVMe drives for maximum performance and fast data access.",
+                  "type": "Technical"
                 }
               ]
             }
@@ -2540,7 +2803,14 @@
               "name": "Selfhosted VPN",
               "description": "VPNs might be self hosted to gain more control over them and become less reliant on third parties.",
               "type": "Technical",
-              "procedures": []
+              "procedures": [
+                {
+                  "id": "TTP-2944",
+                  "name": "Amnezia VPN",
+                  "description": "Amnezia is an open-source VPN client, with a key feature that enables deploying a self-hosted VPN server on the user's own server.",
+                  "type": "Technical"
+                }
+              ]
             }
           ]
         },
@@ -2787,6 +3057,21 @@
               "procedures": []
             }
           ]
+        },
+        {
+          "id": 131,
+          "name": "Resilience",
+          "description": "Measures taken to keep an adversary's hosted infrastructure (e.g. negotiation/leak sites) reachable and operational in the face of takedown, seizure, or disruption.",
+          "type": "Technical",
+          "procedures": [
+            {
+              "id": "TTP-2940",
+              "name": "Mirror site for takedown resistance",
+              "description": "Operator maintains and shares a mirror/backup address (typically a second .onion or clearnet mirror) for its leak/negotiation site so communication and data-leak publication can continue if the primary hidden service is seized or taken down.",
+              "type": "Technical"
+            }
+          ],
+          "subtechniques": []
         }
       ]
     },
@@ -5054,6 +5339,72 @@
               "procedures": []
             }
           ]
+        },
+        {
+          "id": 132,
+          "name": "Payment verification",
+          "description": "Measures an adversary takes to verify a payment channel or counterparty before committing to a full transaction.",
+          "type": "Technical",
+          "procedures": [
+            {
+              "id": "TTP-2951",
+              "name": "Small test transaction before full payment",
+              "description": "Operator requires a small test payment (e.g. $10, or a small fraction of a larger sum) sent and confirmed before the victim transfers the full ransom, verifying the wallet/payment channel and reducing risk of scams or law-enforcement wallet tracing before committing the bulk of funds.",
+              "type": "Technical"
+            }
+          ],
+          "subtechniques": []
+        },
+        {
+          "id": 133,
+          "name": "Financial intermediaries",
+          "description": "Use of human or organizational intermediaries (mules, shell/fake businesses, offshore accounts, physical storage) to move or store funds and obscure the trail between an adversary and the proceeds of a transaction.",
+          "type": "Behavioral",
+          "procedures": [
+            {
+              "id": "TTP-2952",
+              "name": "Money mule",
+              "description": "A person who receives stolen funds into their bank account and then moves the money to other accounts.",
+              "type": "Physical"
+            },
+            {
+              "id": "TTP-2953",
+              "name": "Fake business",
+              "description": "Fake companies might be used, including fraudulent websites, to give the impression that they were actual businesses.",
+              "type": "Behavioral"
+            },
+            {
+              "id": "TTP-2954",
+              "name": "Fake business bank accounts",
+              "description": "Fake business bank accounts might be used as intermediaries to further transfer funds.",
+              "type": "Behavioral"
+            },
+            {
+              "id": "TTP-2955",
+              "name": "Offshore bank accounts",
+              "description": "An offshore bank account is a bank account held in a financial institution outside of one's country of residence, often used for benefits like strong privacy, low or no taxes, and protection against local instability. These might be used as intermediaries for further transferring funds.",
+              "type": "Behavioral"
+            },
+            {
+              "id": "TTP-2956",
+              "name": "Safety deposit boxes",
+              "description": "Safety deposit boxes might be used to securely store assets.",
+              "type": "Physical"
+            },
+            {
+              "id": "TTP-2957",
+              "name": "PayPal",
+              "description": "PayPal is an online payment system that allows users to send and receive money electronically, making it an alternative to traditional payment methods like checks and cash. It operates as a digital wallet, enabling transactions for online shopping and money transfers across various platforms.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2958",
+              "name": "Fraud",
+              "description": "The adversary might conduct fraud to pay for specific goods or services, such as a VPN or VPS, i.e. via stolen credit cards.",
+              "type": "Behavioral"
+            }
+          ],
+          "subtechniques": []
         }
       ]
     },
@@ -5178,7 +5529,14 @@
               "name": "Physical concealment",
               "description": "Physically concealing assets, such as USB-sticks. ",
               "type": "Physical",
-              "procedures": []
+              "procedures": [
+                {
+                  "id": "TTP-2959",
+                  "name": "Disguised copy",
+                  "description": "The adversary may disguise copies of sensitive information, such as cryptocurrency seed phrases.",
+                  "type": "Physical"
+                }
+              ]
             },
             {
               "id": 473,
@@ -6467,6 +6825,36 @@
               "procedures": []
             }
           ]
+        },
+        {
+          "id": 134,
+          "name": "Denial",
+          "description": "Outright denial by an adversary of having performed a specific act, aimed at reducing the victim's perceived leverage/urgency and limiting the adversary's own legal or reputational exposure.",
+          "type": "Behavioral",
+          "procedures": [
+            {
+              "id": "TTP-2960",
+              "name": "Deny data exfiltration to limit legal exposure",
+              "description": "Operator flatly denies having exfiltrated any data (\"We didn't take your data. We are the ones who can properly decrypt your data...\") despite running a double-extortion (encrypt+leak) model elsewhere, likely to reduce the victim's perceived leverage/urgency around a data breach notification obligation and limit the group's own legal/reputational exposure around confirmed data theft. Distinct from \"Blame-shifting to autonomous affiliate\", which displaces responsibility onto a third party rather than denying the underlying act outright.",
+              "type": "Behavioral"
+            }
+          ],
+          "subtechniques": []
+        },
+        {
+          "id": 135,
+          "name": "Organizational role separation",
+          "description": "Structural/organizational separation of roles within a threat-actor group (e.g. RaaS operator vs. affiliate) used to diffuse accountability and provide deniability for any single role.",
+          "type": "Behavioral",
+          "procedures": [
+            {
+              "id": "TTP-2961",
+              "name": "Blame-shifting to autonomous affiliate",
+              "description": "RaaS \"staff\"/negotiator role explicitly separates itself from the \"affiliate\" who conducted the intrusion/exfiltration, disclaiming knowledge of or control over the stolen data's location or handling (\"wasn't downloaded to our storage units but the affiliate's\"). Provides structural/organizational deniability for the negotiating party and diffuses accountability across the RaaS division of labor.",
+              "type": "Behavioral"
+            }
+          ],
+          "subtechniques": []
         }
       ]
     },
@@ -8072,6 +8460,12 @@
               "name": "CCleaner",
               "description": "CCleaner ís a leading optimization app for Windows that cleans junk, boosts performance, and protects privacy. https://www.ccleaner.com/\n\n21/11/2024, 12:35, merged with\nPiriform.com",
               "type": ""
+            },
+            {
+              "id": "TTP-2963",
+              "name": "Counter Anti-Virus (CAV)",
+              "description": "A CAV service allows malware developers to test if their malware will be detected by various antivirus programmes.",
+              "type": "Technical"
             }
           ],
           "subtechniques": []
@@ -8349,6 +8743,21 @@
               "procedures": []
             }
           ]
+        },
+        {
+          "id": 136,
+          "name": "Use victim infrastructure",
+          "description": "Leveraging infrastructure or tools that already belong to or are already installed on the victim's own environment, reducing the adversary's own infrastructure footprint and attribution surface.",
+          "type": "Technical",
+          "procedures": [
+            {
+              "id": "TTP-2962",
+              "name": "Remote access via victim's legitimate tools",
+              "description": "Operator requests remote-control access to the victim's own already-infected machine via a legitimate tool the victim already has installed (e.g. TeamViewer) rather than deploying or exposing its own remote-access/C2 infrastructure, reducing its own infrastructure footprint and attribution surface.",
+              "type": "Technical"
+            }
+          ],
+          "subtechniques": []
         }
       ]
     },
@@ -8580,6 +8989,21 @@
               "procedures": []
             }
           ]
+        },
+        {
+          "id": 137,
+          "name": "Counterparty vetting",
+          "description": "Verification steps an adversary takes to establish the legitimacy and authority of the party it is dealing with, screening for law-enforcement or decoy involvement.",
+          "type": "Behavioral",
+          "procedures": [
+            {
+              "id": "TTP-2964",
+              "name": "Verify negotiator authority",
+              "description": "Operator opens or probes negotiation by asking whether the counterparty has authorization to negotiate on behalf of the victim organization, and/or accuses the counterparty of being an insurer/external negotiator rather than the victim itself - a counter-surveillance/legitimacy check that also screens for law-enforcement or decoy involvement.",
+              "type": "Behavioral"
+            }
+          ],
+          "subtechniques": []
         }
       ]
     },
@@ -9469,7 +9893,26 @@
           "name": "Situational awareness",
           "description": "The adversary is constantly trying to understand its environment, its elements, and how it changes for effective decision-making.",
           "type": "Technical",
-          "procedures": [],
+          "procedures": [
+            {
+              "id": "TTP-2927",
+              "name": "Avoid CIS countires",
+              "description": "The adversary avoids the Commonwealth of Independent States (CIS), a regional intergovernmental organization of states in Eurasia (Russia, Belarus, Kazakhstan, and others).",
+              "type": "Behavioral"
+            },
+            {
+              "id": "TTP-2928",
+              "name": "Avoid email communication",
+              "description": "The adversary might avoid communicating via email for security reasons.",
+              "type": "Behavioral"
+            },
+            {
+              "id": "TTP-2929",
+              "name": "Avoid insecure channels",
+              "description": "The adversary avoids communicating over channels considered insecure.",
+              "type": "Behavioral"
+            }
+          ],
           "subtechniques": [
             {
               "id": 34,
@@ -10227,6 +10670,12 @@
               "name": "Brave browser",
               "description": "Brave Browser is a free and open source webbrowser based on Chromium.",
               "type": ""
+            },
+            {
+              "id": "TTP-2930",
+              "name": "Git repository",
+              "description": "Git is a free, open source tool that enables software developers, programmers, and engineers to collaborate on coding projects.",
+              "type": "Technical"
             }
           ],
           "subtechniques": [
@@ -10419,6 +10868,69 @@
               "procedures": []
             }
           ]
+        },
+        {
+          "id": 130,
+          "name": "Negotiation channel security",
+          "description": "Measures taken by an adversary to protect the confidentiality, integrity, and availability of the negotiation channel used with a victim, defeating third-party monitoring or interference and reducing the adversary's own exposure while negotiating.",
+          "type": "Technical",
+          "procedures": [
+            {
+              "id": "TTP-2931",
+              "name": "Erase shared evidence to defeat third-party monitoring",
+              "description": "Operator actively deletes identifying screenshots/company-name references from a shared negotiation chat and disables a specific leak-site directory link, then moves to a separately verified private channel, to defeat third-party (e.g. incident-response, media, VirusTotal scrapers) monitoring of the negotiation.",
+              "type": "Behavioral"
+            },
+            {
+              "id": "TTP-2932",
+              "name": "Password-protect negotiation chat",
+              "description": "Operator offers to (or does) place a password on the negotiation chat/portal itself to prevent unauthorized third parties (press, law enforcement, researchers) from reading the negotiation.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2933",
+              "name": "Refuse to click victim-provided links",
+              "description": "Standing chat-portal policy (e.g. LockBit 3.0 boilerplate: \"For security reasons we do not click on other links you send in chat.\"). Protects the operator's own workstation/session from being deanonymized, tracked, or compromised via malicious or law-enforcement-planted links supplied by the counterparty - the mirror image of typical phishing opsec, applied defensively by the threat actor.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2934",
+              "name": "Rotate to fresh chat link for sensitive phase",
+              "description": "Operator moves the negotiation to a newly generated/rotated chat link specifically for the payment phase, citing improved \"safety and anonymity\" for both parties, functionally similar to session rotation.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2935",
+              "name": "Backup communication platform",
+              "description": "The adversary might deploy a backup communication platform in case primary communication channels are unavailable.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2936",
+              "name": "Private communication server",
+              "description": "The adversary might deploy a private communication server for secure and private communications.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2937",
+              "name": "Preferred communication language",
+              "description": "The adversary is preferring a specific language for communication.",
+              "type": "Behavioral"
+            },
+            {
+              "id": "TTP-2938",
+              "name": "Password protected chat",
+              "description": "Password protected chats might be used to prevent prying eyes in conversations.",
+              "type": "Technical"
+            },
+            {
+              "id": "TTP-2939",
+              "name": "Password protected panel",
+              "description": "Password protected panels might be used to provide specific information or services to authorized individuals.",
+              "type": "Technical"
+            }
+          ],
+          "subtechniques": []
         }
       ]
     },

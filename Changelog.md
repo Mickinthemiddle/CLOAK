@@ -6,6 +6,120 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## August 2026
+
+### Added
+
+#### Website
+
+- Search now also indexes procedures (ID, name, description), with a dedicated "Procedures" result group in the search dropdown that jumps straight to the (sub)technique the procedure belongs to.
+- Search and category filters remain usable on every view, not just the Matrix — previously they were hidden on tactic and technique pages.
+- New **About** page featuring the CLOAK logo.
+- Total procedure count added next to the tactic/technique/subtechnique counts shown above the Matrix.
+- Updated CLOAK wordmark logo across the site.
+
+#### Techniques (TE)
+
+| ID | Name | Tactic | Category |
+|----|------|--------|----------|
+| TE-130 | Negotiation channel security | Secure behavior | Technical |
+| TE-131 | Resilience | Anonymous hosting | Technical |
+| TE-132 | Payment verification | Anonymous transactions | Technical |
+| TE-133 | Financial intermediaries | Anonymous transactions | Behavioral |
+| TE-134 | Denial | Plausible deniability | Behavioral |
+| TE-135 | Organizational role separation | Plausible deniability | Behavioral |
+| TE-136 | Use victim infrastructure | Reduce attack surface | Technical |
+| TE-137 | Counterparty vetting | Risk management | Behavioral |
+
+#### Subtechniques (ST)
+
+| ID | Name | Parent | Category |
+|----|------|--------|----------|
+| ST-2900 | Decentralized instant messaging | TE-8 Anonymous instant messaging | Technical |
+| ST-2901 | Virtual phone numbers | TE-11 Anonymous phone number | Technical |
+| ST-2902 | Reverse tunneling | TE-77 Proxy | Technical |
+| ST-2903 | Proxy chaining | TE-77 Proxy | Technical |
+| ST-2904 | Address format considerations | TE-126 Privacy-preserving cryptocurrency selection | Technical |
+| ST-2905 | Peer-to-peer encrypted messenger | TE-8 Anonymous instant messaging | Technical |
+
+#### Procedures (PR)
+
+| ID | Name | Parent | Category |
+|----|------|--------|----------|
+| TTP-2900 | Proton Mail | TE-7 Anonymous email | Technical |
+| TTP-2901 | Gmail | TE-7 Anonymous email | Technical |
+| TTP-2902 | Qaz.im | ST-152 Burner email | Technical |
+| TTP-2904 | Rocket.chat | TE-8 Anonymous instant messaging | Technical |
+| TTP-2905 | Exploit.im | ST-326 Extensible Messaging and Presence Protocol (XMPP) | Technical |
+| TTP-2906 | Cloudflare ZeroTrust tunnel | ST-2902 Reverse tunneling | Technical |
+| TTP-2907 | Fast Reverse Proxy (FRP) | ST-2902 Reverse tunneling | Technical |
+| TTP-2908 | 1ty.me | TE-114 Anonymous file sharing | Technical |
+| TTP-2909 | Anonfiles.app | TE-114 Anonymous file sharing | Technical |
+| TTP-2910 | Bashupload | TE-114 Anonymous file sharing | Technical |
+| TTP-2911 | Dropfiles | TE-114 Anonymous file sharing | Technical |
+| TTP-2912 | Dropmefiles.com | TE-114 Anonymous file sharing | Technical |
+| TTP-2913 | File.io | TE-114 Anonymous file sharing | Technical |
+| TTP-2914 | FileTransfer.io | TE-114 Anonymous file sharing | Technical |
+| TTP-2915 | Gofile.io | TE-114 Anonymous file sharing | Technical |
+| TTP-2916 | ImgBB | TE-114 Anonymous file sharing | Technical |
+| TTP-2917 | Limewire.com | TE-114 Anonymous file sharing | Technical |
+| TTP-2918 | Mega.nz | TE-114 Anonymous file sharing | Technical |
+| TTP-2919 | Sendspace.com | TE-114 Anonymous file sharing | Technical |
+| TTP-2920 | Tempsend.com | TE-114 Anonymous file sharing | Technical |
+| TTP-2921 | Transfer.sh | TE-114 Anonymous file sharing | Technical |
+| TTP-2922 | Ufile.io | TE-114 Anonymous file sharing | Technical |
+| TTP-2923 | Up1 | TE-114 Anonymous file sharing | Technical |
+| TTP-2924 | Wetransfer | TE-114 Anonymous file sharing | Technical |
+| TTP-2925 | temp.sh | TE-114 Anonymous file sharing | Technical |
+| TTP-2926 | Prnt.sc | TE-114 Anonymous file sharing | Technical |
+| TTP-2927 | Avoid CIS countires | TE-96 Situational awareness | Behavioral |
+| TTP-2928 | Avoid email communication | TE-96 Situational awareness | Behavioral |
+| TTP-2929 | Avoid insecure channels | TE-96 Situational awareness | Behavioral |
+| TTP-2930 | Git repository | TE-113 Open Source Software (OSS) | Technical |
+| TTP-2931 | Erase shared evidence to defeat third-party monitoring | TE-130 Negotiation channel security | Behavioral |
+| TTP-2932 | Password-protect negotiation chat | TE-130 Negotiation channel security | Technical |
+| TTP-2933 | Refuse to click victim-provided links | TE-130 Negotiation channel security | Technical |
+| TTP-2934 | Rotate to fresh chat link for sensitive phase | TE-130 Negotiation channel security | Technical |
+| TTP-2935 | Backup communication platform | TE-130 Negotiation channel security | Technical |
+| TTP-2936 | Private communication server | TE-130 Negotiation channel security | Technical |
+| TTP-2937 | Preferred communication language | TE-130 Negotiation channel security | Behavioral |
+| TTP-2938 | Password protected chat | TE-130 Negotiation channel security | Technical |
+| TTP-2939 | Password protected panel | TE-130 Negotiation channel security | Technical |
+| TTP-2940 | Mirror site for takedown resistance | TE-131 Resilience | Technical |
+| TTP-2941 | File upload restriction | TE-87 Secure hosting | Technical |
+| TTP-2942 | 4vps.su | ST-633 Virtual Private Server (VPS) | Technical |
+| TTP-2943 | JustHost | ST-633 Virtual Private Server (VPS) | Technical |
+| TTP-2944 | Amnezia VPN | ST-545 Selfhosted VPN | Technical |
+| TTP-2945 | Chain-hopping | TE-38 Cleaning coins | Technical |
+| TTP-2946 | Bech32 address | ST-2904 Address format considerations | Technical |
+| TTP-2947 | SegWit address | ST-2904 Address format considerations | Technical |
+| TTP-2948 | Non-segwit wallet | ST-2904 Address format considerations | Technical |
+| TTP-2949 | Disguise payment purpose from bank/exchange | TE-16 Anonymously buy cryptocurrency | Behavioral |
+| TTP-2950 | Recommend non-custodial wallets | TE-16 Anonymously buy cryptocurrency | Technical |
+| TTP-2951 | Small test transaction before full payment | TE-132 Payment verification | Technical |
+| TTP-2952 | Money mule | TE-133 Financial intermediaries | Physical |
+| TTP-2953 | Fake business | TE-133 Financial intermediaries | Behavioral |
+| TTP-2954 | Fake business bank accounts | TE-133 Financial intermediaries | Behavioral |
+| TTP-2955 | Offshore bank accounts | TE-133 Financial intermediaries | Behavioral |
+| TTP-2956 | Safety deposit boxes | TE-133 Financial intermediaries | Physical |
+| TTP-2957 | PayPal | TE-133 Financial intermediaries | Technical |
+| TTP-2958 | Fraud | TE-133 Financial intermediaries | Behavioral |
+| TTP-2959 | Disguised copy | ST-472 Physical concealment | Physical |
+| TTP-2960 | Deny data exfiltration to limit legal exposure | TE-134 Denial | Behavioral |
+| TTP-2961 | Blame-shifting to autonomous affiliate | TE-135 Organizational role separation | Behavioral |
+| TTP-2962 | Remote access via victim's legitimate tools | TE-136 Use victim infrastructure | Technical |
+| TTP-2963 | Counter Anti-Virus (CAV) | TL-13 Tactic-level TTPs & Procedures | Technical |
+| TTP-2964 | Verify negotiator authority | TE-137 Counterparty vetting | Behavioral |
+| TTP-2965 | Tox | ST-2905 Peer-to-peer encrypted messenger | Technical |
+
+
+### Changed
+
+- Subtechniques on a technique's detail page are now shown as expandable cards with their own procedures nested directly underneath them, instead of all procedures being pooled into a single flat list at the bottom of the page.
+- Top navigation now shows only the CLOAK wordmark logo.
+
+---
+
 ## June 2026
 
 ### Added

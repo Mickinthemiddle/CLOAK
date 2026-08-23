@@ -170,8 +170,10 @@
       text-decoration: none; margin-right: 14px;
     }
     .nav-brand:hover { text-decoration: none; opacity: .85; }
-    .nav-brand img { height: 22px; width: auto; }
-    .nav-brand-name { font-size: 0.88rem; font-weight: 700; letter-spacing: .10em; }
+    /* The wordmark logo is black/red on a transparent background, so it needs a
+       light chip behind it to stay legible on the dark nav bar (and in dark theme). */
+    .nav-brand-chip { display: flex; align-items: center; background: #fff; border-radius: 4px; padding: 3px 8px; }
+    .nav-brand img { height: 20px; width: auto; display: block; }
     .nav-pill {
       font-size: 0.71rem; font-weight: 600; color: rgba(255,255,255,.60);
       padding: 3px 9px; border-radius: 3px;
@@ -412,6 +414,14 @@
     .no-results { display: none; text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 0.86rem; }
     .no-results.visible { display: block; }
 
+    /* ── ABOUT PAGE ── */
+    .about-hero { display: flex; justify-content: center; padding: 36px 20px 4px; }
+    /* Same rationale as .nav-brand-chip: a light chip keeps the black/red wordmark
+       legible regardless of light/dark theme. */
+    .about-logo-chip { display: inline-flex; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 18px 26px; box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,.06)); }
+    .about-logo { width: 280px; max-width: 65vw; height: auto; display: block; }
+    .about-content { max-width: 760px; margin: 0 auto; padding: 12px 20px 60px; font-size: 0.83rem; line-height: 1.7; color: var(--text); }
+
     /* ── PAGE HEADERS ── */
     .page-wrap { max-width: 1200px; margin: 0 auto; padding: 24px 20px 60px; }
     .page-hdr { display: flex; align-items: flex-start; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
@@ -439,6 +449,7 @@
     .te-table thead th:last-child  { border-radius: 0 3px 3px 0; }
     .te-table tbody tr { border-bottom: 1px solid var(--border); transition: background .08s; }
     .te-table tbody tr:hover { background: var(--table-hover); cursor: pointer; }
+    .te-table tbody tr.hidden-item { display: none; }
     .te-table td { padding: 8px 11px; vertical-align: top; }
     .te-table .td-id { font-family: "IBM Plex Mono", monospace; font-size: 0.66rem; color: var(--text-muted); white-space: nowrap; }
     .te-table .td-name { font-weight: 700; }
@@ -490,6 +501,34 @@
     @media (max-width: 820px) { .technique-page { grid-template-columns: 1fr; } .te-sidebar { order: -1; } }
     .te-description { font-size: 0.83rem; line-height: 1.65; color: var(--text-muted); margin-bottom: 24px; }
 
+    /* Subtechnique cards (technique page) — each card owns its procedures, nested directly beneath it */
+    .st-card-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px; }
+    .st-card {
+      border: 1px solid var(--border); border-left: 3px solid var(--border-strong);
+      border-radius: 3px; background: var(--panel-bg); overflow: hidden;
+    }
+    .st-card.type-Technical  { border-left-color: var(--tech-accent); }
+    .st-card.type-Behavioral { border-left-color: var(--beh-accent); }
+    .st-card.type-Physical   { border-left-color: var(--phys-accent); }
+    .st-card.hidden-item { display: none; }
+    .st-card.match-hl { outline: 2px solid #d07800; outline-offset: -2px; }
+    .st-card-hdr {
+      width: 100%; background: none; border: none; text-align: left; cursor: pointer;
+      padding: 8px 10px; display: flex; align-items: flex-start; gap: 8px;
+    }
+    .st-card-hdr:hover { background: var(--table-hover); }
+    .st-card-id { font-family: "IBM Plex Mono", monospace; font-size: 0.62rem; color: var(--text-muted); flex-shrink: 0; padding-top: 1px; }
+    .st-card-main { flex: 1; min-width: 0; }
+    .st-card-name { font-size: 0.79rem; font-weight: 700; }
+    .st-card-name a { color: var(--text); }
+    .st-card-name a:hover { color: var(--link); }
+    .st-card-desc { font-size: 0.72rem; color: var(--text-muted); line-height: 1.5; margin-top: 2px; }
+    .st-card-count { font-size: 0.58rem; font-weight: 700; color: var(--text-muted); background: var(--crumb-bg); padding: 1px 5px; border-radius: 2px; flex-shrink: 0; white-space: nowrap; }
+    .st-card-body { display: none; padding: 0 10px 10px 10px; }
+    .st-card.expanded .st-card-body { display: block; }
+    .st-card-body .proc-list { margin-top: 2px; }
+    .st-card-open-link { font-size: 0.65rem; margin-left: 6px; }
+
     .st-table { width: 100%; border-collapse: collapse; font-size: 0.77rem; margin-bottom: 24px; }
     .st-table thead th { text-align: left; padding: 6px 10px; background: var(--crumb-bg); color: var(--text); font-size: 0.62rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border-bottom: 2px solid var(--border); }
     .st-table tbody tr { border-bottom: 1px solid var(--border); transition: background .08s; }
@@ -505,6 +544,8 @@
     .proc-item.type-Technical  { background: var(--tech-proc-bg); border-left-color: var(--tech-hdr); }
     .proc-item.type-Behavioral { background: var(--beh-proc-bg);  border-left-color: var(--beh-hdr); }
     .proc-item.type-Physical   { background: var(--phys-proc-bg); border-left-color: var(--phys-hdr); }
+    .proc-item.hidden-item { display: none; }
+    .proc-item.match-hl { outline: 2px solid #d07800; outline-offset: -1px; }
     .proc-header { display: flex; align-items: baseline; gap: 7px; margin-bottom: 2px; }
     .proc-id { font-family: "IBM Plex Mono", monospace; font-size: 0.59rem; color: var(--text-light); flex-shrink: 0; }
     .proc-name { font-size: 0.77rem; font-weight: 700; }
@@ -556,13 +597,15 @@
   <nav class="top-nav" aria-label="Main navigation">
     <div class="nav-inner">
       <a class="nav-brand" href="#" data-goto="matrix" aria-label="CLOAK home">
-        <img src="https://raw.githubusercontent.com/Mickinthemiddle/CLOAK/main/CLOAK.png"
-             alt="" loading="eager" decoding="async"
-             referrerpolicy="no-referrer" crossorigin="anonymous"
-             onerror="this.style.display='none'">
-        <span class="nav-brand-name">CLOAK</span>
+        <span class="nav-brand-chip">
+          <img src="https://raw.githubusercontent.com/Mickinthemiddle/CLOAK/main/CLOAK.png"
+               alt="CLOAK" loading="eager" decoding="async"
+               referrerpolicy="no-referrer" crossorigin="anonymous"
+               onerror="this.parentElement.style.display='none'">
+        </span>
       </a>
       <span class="nav-pill active" data-goto="matrix">Matrix</span>
+      <span class="nav-pill" data-goto="about">About</span>
       <div class="nav-spacer"></div>
       <div class="nav-links">
         <a class="nav-link" href="https://github.com/Mickinthemiddle/CLOAK" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">GitHub</a>
@@ -596,7 +639,7 @@
   <div class="controls-strip" id="controls-strip">
     <div class="controls-inner">
       <span class="ctrl-label">Category</span>
-      <div class="filter-group" role="group" aria-label="Filter by category">
+      <div class="filter-group" id="filter-group" role="group" aria-label="Filter by category">
         <button type="button" class="filter-btn active-all" data-filter="all">All</button>
         <button type="button" class="filter-btn" data-filter="Technical"><span class="dot dot-tech" aria-hidden="true"></span>Technical</button>
         <button type="button" class="filter-btn" data-filter="Behavioral"><span class="dot dot-beh" aria-hidden="true"></span>Behavioral</button>
@@ -604,8 +647,8 @@
       </div>
       <div class="search-wrap" id="search-wrap">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <label class="sr-only" for="search-input">Search techniques</label>
-        <input id="search-input" class="search-input" type="text" placeholder="Search techniques &amp; subtechniques…" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="search-dropdown">
+        <label class="sr-only" for="search-input">Search techniques, subtechniques &amp; procedures</label>
+        <input id="search-input" class="search-input" type="text" placeholder="Search techniques, subtechniques &amp; procedures…" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="search-dropdown">
         <button class="search-clear" id="search-clear" aria-label="Clear search" tabindex="-1">✕</button>
         <div class="search-dropdown" id="search-dropdown" role="listbox"></div>
       </div>
@@ -634,6 +677,11 @@
     <div id="technique-page"></div>
   </div>
 
+  <!-- VIEW: ABOUT -->
+  <div id="view-about" class="view">
+    <div class="page-wrap" id="about-page"></div>
+  </div>
+
   <footer>
     <strong>CLOAK Matrix</strong> — Concealment Layers for Online Anonymity and Knowledge ·
     Developed by <a href="https://www.linkedin.com/in/mick-deben/" target="_blank" rel="noopener noreferrer">Mick Deben</a><br>
@@ -659,10 +707,11 @@
       noResults: $('no-results'), resultsBar: $('results-bar'),
       searchInput: $('search-input'), searchClear: $('search-clear'), searchDD: $('search-dropdown'),
       filterBtns: document.querySelectorAll('.filter-btn'), ctrlStrip: $('controls-strip'),
+      filterGroup: $('filter-group'),
       breadcrumb: $('breadcrumb'), bcTacticWrap: $('bc-tactic-wrap'),
       bcTactic: $('bc-tactic'), bcSep2: $('bc-sep2'), bcCurrent: $('bc-current'),
-      viewMatrix: $('view-matrix'), viewTactic: $('view-tactic'), viewTechnique: $('view-technique'),
-      tacticPage: $('tactic-page'), techniquePage: $('technique-page'),
+      viewMatrix: $('view-matrix'), viewTactic: $('view-tactic'), viewTechnique: $('view-technique'), viewAbout: $('view-about'),
+      tacticPage: $('tactic-page'), techniquePage: $('technique-page'), aboutPage: $('about-page'),
     };
 
     /* ── Dark mode ── */
@@ -724,16 +773,28 @@
         const tlEntry  = allTe.find(te => isTL(te.id));
         const ulEntry  = allTe.find(te => isULST(te.id));
 
-        const mapTe = te => ({
-          id: te.id, name: txt(te.name), desc: txt(te.description), type: normType(te.type),
-          search: [te.id,te.name,te.description].join(' ').toLowerCase(),
-          subtechniques: (te.subtechniques||[]).filter(st=>!unk(st.name)).map(st=>({
-            id: st.id, name: txt(st.name), desc: txt(st.description), type: normType(st.type),
-            search: [st.id,st.name,st.description].join(' ').toLowerCase(),
-            procedures: (st.procedures||[]).filter(p=>!unk(p.name)).map(p=>({id:p.id,name:txt(p.name),desc:txt(p.description)})),
-          })),
-          procedures: (te.procedures||[]).filter(p=>!unk(p.name)).map(p=>({id:p.id,name:txt(p.name),desc:txt(p.description)})),
-        });
+        const mapTe = te => {
+          const procedures = (te.procedures||[]).filter(p=>!unk(p.name)).map(p=>({id:p.id,name:txt(p.name),desc:txt(p.description)}));
+          const subtechniques = (te.subtechniques||[]).filter(st=>!unk(st.name)).map(st => {
+            const stProcedures = (st.procedures||[]).filter(p=>!unk(p.name)).map(p=>({id:p.id,name:txt(p.name),desc:txt(p.description)}));
+            return {
+              id: st.id, name: txt(st.name), desc: txt(st.description), type: normType(st.type),
+              procedures: stProcedures,
+              // Subtechnique search text now also covers its own procedures, so a procedure
+              // match surfaces the subtechnique it belongs to (requirement: procedures searchable).
+              search: [st.id, st.name, st.description, ...stProcedures.flatMap(p=>[p.id,p.name,p.desc])].join(' ').toLowerCase(),
+            };
+          });
+          return {
+            id: te.id, name: txt(te.name), desc: txt(te.description), type: normType(te.type),
+            procedures,
+            subtechniques,
+            // Technique search text now also covers its own procedures and its subtechniques' names.
+            search: [te.id, te.name, te.description,
+                     ...procedures.flatMap(p=>[p.id,p.name,p.desc]),
+                     ...subtechniques.flatMap(st=>[st.id,st.name,st.desc])].join(' ').toLowerCase(),
+          };
+        };
 
         return {
           id: t.id, name: txt(t.name), desc: txt(t.description), type: normType(t.type),
@@ -774,6 +835,7 @@
     function route(hash) {
       closeDropdown();
       if (!hash||hash==='matrix') showMatrix();
+      else if (hash==='about')                showAboutPage();
       else if (hash.startsWith('tactic/'))    showTacticPage(hash.slice('tactic/'.length));
       else if (hash.startsWith('technique/')) showTechniquePage(hash.slice('technique/'.length));
       else showMatrix();
@@ -784,15 +846,63 @@
       if (btn) { e.preventDefault(); navigate(btn.dataset.goto); }
     });
 
+    /* ── Controls visibility ──
+       The search box must stay usable on every view that lists techniques/subtechniques
+       (matrix, tactic, technique). The category filter buttons only have a visible effect
+       on the matrix grid, so they are hidden elsewhere. The static About page has nothing
+       to search or filter, so the whole strip is hidden there. */
+    function setControlsForView(view) {
+      el.ctrlStrip.style.display = view === 'about' ? 'none' : '';
+      el.filterGroup.style.display = view === 'matrix' ? '' : 'none';
+      el.resultsBar.style.display  = view === 'matrix' ? '' : 'none';
+    }
+
+    function setActivePill(goto) {
+      document.querySelectorAll('.nav-pill').forEach(p=>{
+        p.classList.toggle('active', p.dataset.goto === goto);
+      });
+    }
+
+    function deactivateAllViews() {
+      el.viewMatrix.classList.remove('active');
+      el.viewTactic.classList.remove('active');
+      el.viewTechnique.classList.remove('active');
+      el.viewAbout.classList.remove('active');
+    }
+
     /* ── Show matrix ── */
     function showMatrix() {
       state.view='matrix';
+      deactivateAllViews();
       el.viewMatrix.classList.add('active');
-      el.viewTactic.classList.remove('active');
-      el.viewTechnique.classList.remove('active');
-      el.ctrlStrip.style.display='';
+      setControlsForView('matrix');
       el.breadcrumb.classList.remove('visible');
-      document.querySelector('.nav-pill')?.classList.add('active');
+      setActivePill('matrix');
+      window.scrollTo(0,0);
+    }
+
+    /* ── About page ── */
+    function renderAboutPage() {
+      el.aboutPage.innerHTML = `
+        <div class="about-hero">
+          <span class="about-logo-chip">
+            <img class="about-logo" src="https://raw.githubusercontent.com/Mickinthemiddle/CLOAK/main/CLOAK.png"
+                 alt="CLOAK" loading="eager" decoding="async"
+                 referrerpolicy="no-referrer" crossorigin="anonymous">
+          </span>
+        </div>
+        <div class="about-content" id="about-content">
+          <p>Concealment Layers for Online Anonymity and Knowledge (CLOAK) is the first publicly available knowledge base on defensive cybercriminal concealment measures. CLOAK focuses on how adversaries hide instead of how they attack. CLOAK is the result of qualitative scientific research and has been inspired by the famous <a href="https://attack.mitre.org" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">MITRE ATT&amp;CK&trade;</a> framework. CLOAK has been developed by analyzing many Operational Security (OpSec) guides from both the clear- and darkweb. CLOAK's main objective is to contribute to combating cybercrime better and has been made publicly available to allow improvements to be made together with the cybersecurity community.</p>
+        </div>`;
+    }
+
+    function showAboutPage() {
+      state.view='about';
+      deactivateAllViews();
+      el.viewAbout.classList.add('active');
+      setControlsForView('about');
+      el.breadcrumb.classList.remove('visible');
+      setActivePill('about');
       window.scrollTo(0,0);
     }
 
@@ -822,7 +932,7 @@
           const wrap = document.createElement('div'); wrap.className='te-wrap'; wrap.dataset.teId=te.id;
           const cell = document.createElement('div');
           cell.className=`te-cell type-${te.type}`;
-          cell.dataset.type=te.type; cell.dataset.search=te.search;
+          cell.dataset.type=te.type; cell.dataset.search=te.search; cell.dataset.procCount=te.procedures.length;
           cell.setAttribute('role','gridcell'); cell.setAttribute('tabindex','0'); cell.title=te.name;
           const nm = document.createElement('span'); nm.className='te-name'; nm.textContent=te.name;
           cell.appendChild(nm);
@@ -840,7 +950,7 @@
             te.subtechniques.forEach(st=>{
               const sc = document.createElement('div');
               sc.className=`st-cell type-${st.type}`;
-              sc.dataset.type=st.type; sc.dataset.search=st.search;
+              sc.dataset.type=st.type; sc.dataset.search=st.search; sc.dataset.procCount=st.procedures.length;
               sc.setAttribute('tabindex','0'); sc.title=st.name;
               const sn = document.createElement('span'); sn.className='st-name'; sn.textContent=st.name;
               sc.appendChild(sn);
@@ -866,7 +976,7 @@
     function applyFilters() {
       const f = state.filter;
       const cols = el.matrix.querySelectorAll('.ta-col');
-      let visTE=0, visST=0;
+      let visTE=0, visST=0, visPR=0;
       cols.forEach(col => {
         let colVis=false;
         col.querySelectorAll('[data-te-id]').forEach(wrap => {
@@ -877,12 +987,13 @@
           sts.forEach(st => {
             const ok = f==='all' || normType(st.dataset.type)===f;
             st.classList.toggle('hidden-item',!ok);
-            if(ok){anyStOk=true;visST++;}
+            if(ok){anyStOk=true;visST++;visPR+=Number(st.dataset.procCount||0);}
           });
           const show = teOk||anyStOk;
           wrap.style.display=show?'':'none';
           if(tc) tc.classList.toggle('hidden-item',!show);
           if(show){colVis=true;visTE++;}
+          if(teOk) visPR+=Number(tc?.dataset.procCount||0);
           const sl=wrap.querySelector('.st-list'), xb=wrap.querySelector('.te-expand-btn');
           if(sl&&sl.dataset.manualExpand!=='1'){sl.classList.remove('expanded');if(xb)xb.textContent='+';}
         });
@@ -890,7 +1001,7 @@
       });
       const visTa=[...cols].filter(c=>!c.classList.contains('hidden')).length;
       el.noResults.classList.toggle('visible',visTE+visST===0);
-      el.resultsBar.textContent=`${visTa} tactic${visTa!==1?'s':''} · ${visTE} technique${visTE!==1?'s':''} · ${visST} subtechnique${visST!==1?'s':''} visible`;
+      el.resultsBar.textContent=`${visTa} tactic${visTa!==1?'s':''} · ${visTE} technique${visTE!==1?'s':''} · ${visST} subtechnique${visST!==1?'s':''} · ${visPR} procedure${visPR!==1?'s':''} visible`;
     }
 
     function setFilter(f) {
@@ -908,47 +1019,72 @@
       sl.dataset.manualExpand = sl.classList.contains('expanded') ? '1' : '0';
     });
 
-    /* ── Search dropdown ── */
+    /* ── Search dropdown ──
+       Available on every view (search-wrap is never hidden), and now also indexes
+       procedures directly, so a procedure name/description/ID is a match too. */
     let ddFocusIdx=-1, ddItems=[];
 
     function buildDropdown(q) {
       el.searchDD.innerHTML=''; ddFocusIdx=-1; ddItems=[];
       if (!q||q.length<1) { closeDropdown(); return; }
       const ql=q.toLowerCase();
-      const results = { technique:[], subtechnique:[] };
+      const results = { technique:[], subtechnique:[], procedure:[] };
+      const procMatches = p => [p.id,p.name,p.desc].filter(Boolean).join(' ').toLowerCase().includes(ql);
+
       state.data.forEach(tactic => {
         tactic.techniques.forEach(te => {
           if (te.search.includes(ql)) results.technique.push({te, tactic, kind:'technique'});
+          (te.procedures||[]).forEach(p => {
+            if (procMatches(p)) results.procedure.push({p, te, tactic, kind:'procedure'});
+          });
           te.subtechniques.forEach(st => {
             if (st.search.includes(ql)) results.subtechnique.push({te:st, tactic, parentTe:te, kind:'subtechnique'});
+            (st.procedures||[]).forEach(p => {
+              if (procMatches(p)) results.procedure.push({p, te:st, parentTe:te, tactic, kind:'procedure'});
+            });
           });
         });
       });
-      const total = results.technique.length + results.subtechnique.length;
+      const total = results.technique.length + results.subtechnique.length + results.procedure.length;
       if (total===0) {
         el.searchDD.innerHTML=`<div class="dd-empty">No results for "<strong>${esc(q)}</strong>"</div>`;
         openDropdown(); return;
       }
       const MAX=20;
-      [['technique','Techniques'], ['subtechnique','Subtechniques']].forEach(([kind,label]) => {
+      [['technique','Techniques'], ['subtechnique','Subtechniques'], ['procedure','Procedures']].forEach(([kind,label]) => {
         const grp = results[kind].slice(0,MAX);
         if (!grp.length) return;
         const ghdr = document.createElement('div'); ghdr.className='dd-group-hdr';
         ghdr.textContent=`${label} (${results[kind].length}${results[kind].length>MAX?`, showing ${MAX}`:''})`;
         el.searchDD.appendChild(ghdr);
-        grp.forEach(({te,tactic,parentTe,kind:k}) => {
-          const row = document.createElement('div'); row.className='dd-item';
-          row.setAttribute('role','option'); row.setAttribute('tabindex','-1');
-          row.dataset.navigateTo = k==='subtechnique' ? `technique/${makeStPath(tactic,parentTe,te)}` : `technique/${makeTePath(tactic,te)}`;
+        grp.forEach(row => {
+          if (row.kind === 'procedure') {
+            const { p, te, parentTe, tactic } = row;
+            const item = document.createElement('div'); item.className='dd-item';
+            item.setAttribute('role','option'); item.setAttribute('tabindex','-1');
+            item.dataset.navigateTo = parentTe ? `technique/${makeStPath(tactic,parentTe,te)}` : `technique/${makeTePath(tactic,te)}`;
+            const chip = document.createElement('span'); chip.className=`dd-chip dd-chip-${te.type}`;
+            const idEl = document.createElement('span'); idEl.className='dd-item-id'; idEl.textContent=`PR:${esc(p.id)}`;
+            const nameEl = document.createElement('span'); nameEl.className='dd-item-name'; nameEl.innerHTML=highlight(p.name,q);
+            const tacticEl = document.createElement('span'); tacticEl.className='dd-item-tactic'; tacticEl.textContent=te.name;
+            item.append(chip, idEl, nameEl, tacticEl);
+            item.addEventListener('mousedown', e => { e.preventDefault(); navigate(item.dataset.navigateTo); clearSearch(); });
+            el.searchDD.appendChild(item); ddItems.push(item);
+            return;
+          }
+          const {te,tactic,parentTe,kind:k} = row;
+          const rowEl = document.createElement('div'); rowEl.className='dd-item';
+          rowEl.setAttribute('role','option'); rowEl.setAttribute('tabindex','-1');
+          rowEl.dataset.navigateTo = k==='subtechnique' ? `technique/${makeStPath(tactic,parentTe,te)}` : `technique/${makeTePath(tactic,te)}`;
           const chip = document.createElement('span'); chip.className=`dd-chip dd-chip-${te.type}`;
           const idEl = document.createElement('span'); idEl.className='dd-item-id';
           idEl.textContent = k==='subtechnique' ? `ST:${String(te.id).padStart(3,'0')}` : `TE:${String(te.id).padStart(3,'0')}`;
           const nameEl = document.createElement('span'); nameEl.className='dd-item-name'; nameEl.innerHTML=highlight(te.name,q);
           const tacticEl = document.createElement('span'); tacticEl.className='dd-item-tactic';
           tacticEl.textContent = k==='subtechnique' ? parentTe.name : tactic.name;
-          row.append(chip, idEl, nameEl, tacticEl);
-          row.addEventListener('mousedown', e => { e.preventDefault(); navigate(row.dataset.navigateTo); clearSearch(); });
-          el.searchDD.appendChild(row); ddItems.push(row);
+          rowEl.append(chip, idEl, nameEl, tacticEl);
+          rowEl.addEventListener('mousedown', e => { e.preventDefault(); navigate(rowEl.dataset.navigateTo); clearSearch(); });
+          el.searchDD.appendChild(rowEl); ddItems.push(rowEl);
         });
       });
       openDropdown();
@@ -1020,9 +1156,10 @@
     function showTacticPage(id) {
       const tactic=findTactic(id); if(!tactic){navigate('matrix');return;}
       state.view='tactic';
-      el.viewMatrix.classList.remove('active'); el.viewTactic.classList.add('active'); el.viewTechnique.classList.remove('active');
-      el.ctrlStrip.style.display='none';
-      document.querySelector('.nav-pill')?.classList.remove('active');
+      deactivateAllViews();
+      el.viewTactic.classList.add('active');
+      setControlsForView('tactic');
+      setActivePill(null);
       el.bcTacticWrap.style.display='none'; el.bcSep2.style.display='none';
       el.bcCurrent.textContent=tactic.name; el.breadcrumb.classList.add('visible');
 
@@ -1052,7 +1189,7 @@
             <thead><tr><th>ID</th><th>Name</th><th>Description</th><th>Type</th><th>Subtechniques</th></tr></thead>
             <tbody>
               ${tactic.techniques.map(te=>`
-                <tr data-navigate="technique/${makeTePath(tactic,te)}">
+                <tr data-navigate="technique/${makeTePath(tactic,te)}" data-type="${te.type}">
                   <td class="td-id">TE:${String(te.id).padStart(2,'0')}</td>
                   <td class="td-name"><a href="#technique/${makeTePath(tactic,te)}">${esc(te.name)}</a></td>
                   <td class="td-desc">${te.desc?esc(te.desc.slice(0,120))+(te.desc.length>120?'…':''):'<em style="opacity:.4">—</em>'}</td>
@@ -1076,9 +1213,10 @@
       const found=findTechnique(path); if(!found){navigate('matrix');return;}
       const {te,tactic,parentTe}=found; const isSub=!!parentTe;
       state.view='technique';
-      el.viewMatrix.classList.remove('active'); el.viewTactic.classList.remove('active'); el.viewTechnique.classList.add('active');
-      el.ctrlStrip.style.display='none';
-      document.querySelector('.nav-pill')?.classList.remove('active');
+      deactivateAllViews();
+      el.viewTechnique.classList.add('active');
+      setControlsForView('technique');
+      setActivePill(null);
 
       const parentPath = isSub ? makeTePath(tactic,parentTe) : null;
       el.bcTacticWrap.style.display='inline-flex';
@@ -1122,6 +1260,35 @@
           </div>`:''}
         </div>`;
 
+      // Subtechniques are rendered as expandable cards so each subtechnique's own
+      // procedures sit directly beneath it, instead of being pooled into one flat
+      // list at the bottom of the page.
+      const subtechniquesHtml = te.subtechniques?.length ? `
+          <div class="section-hdr">Subtechniques (${te.subtechniques.length})</div>
+          <div class="st-card-list" id="st-card-list">
+            ${te.subtechniques.map(st=>`
+              <div class="st-card type-${st.type}" data-type="${st.type}" data-search="${esc(st.search)}" data-st-path="${makeStPath(tactic,te,st)}">
+                <button type="button" class="st-card-hdr" aria-expanded="false">
+                  <span class="st-card-id">ST:${esc(st.id)}</span>
+                  <span class="st-card-main">
+                    <span class="st-card-name"><a href="#technique/${makeStPath(tactic,te,st)}" onclick="event.stopPropagation()">${esc(st.name)}</a></span>
+                    ${st.desc?`<div class="st-card-desc">${esc(st.desc)}</div>`:''}
+                  </span>
+                  ${st.procedures.length?`<span class="st-card-count">${st.procedures.length} procedure${st.procedures.length!==1?'s':''}</span>`:''}
+                </button>
+                ${st.procedures.length?`
+                <div class="st-card-body">
+                  <div class="proc-list">
+                    ${st.procedures.map(p=>`
+                      <div class="proc-item type-${st.type}" data-search="${esc([p.id,p.name,p.desc].join(' ').toLowerCase())}">
+                        <div class="proc-header"><span class="proc-id">#${esc(p.id)}</span><span class="proc-name">${esc(p.name)}</span></div>
+                        ${p.desc?`<div class="proc-desc">${esc(p.desc)}</div>`:''}
+                      </div>`).join('')}
+                  </div>
+                </div>`:''}
+              </div>`).join('')}
+          </div>` : '';
+
       const main=`
         <div class="te-main-col">
           <div class="page-hdr" style="margin-bottom:18px">
@@ -1132,25 +1299,13 @@
             </div>
           </div>
           ${te.desc?`<div class="section-hdr">Description</div><p class="te-description">${esc(te.desc)}</p>`:''}
-          ${te.subtechniques?.length?`
-          <div class="section-hdr">Subtechniques (${te.subtechniques.length})</div>
-          <table class="st-table">
-            <thead><tr><th>ID</th><th>Name</th><th>Description</th></tr></thead>
-            <tbody>
-              ${te.subtechniques.map(st=>`
-                <tr data-navigate="technique/${makeStPath(tactic,te,st)}">
-                  <td class="td-id">ST:${st.id}</td>
-                  <td class="td-name"><a href="#technique/${makeStPath(tactic,te,st)}">${esc(st.name)}</a></td>
-                  <td class="td-desc">${st.desc?esc(st.desc.slice(0,100))+(st.desc.length>100?'…':''):'<em style="opacity:.4">—</em>'}</td>
-                </tr>`).join('')}
-            </tbody>
-          </table>`:''}
+          ${subtechniquesHtml}
           ${te.procedures?.length?`
-          <div class="section-hdr">Procedures / Tools (${te.procedures.length})</div>
+          <div class="section-hdr">Procedures directly linked to ${isSub?'this subtechnique':'this technique'} (${te.procedures.length})</div>
           <div class="proc-list">
             ${te.procedures.map(p=>`
-              <div class="proc-item type-${te.type}">
-                <div class="proc-header"><span class="proc-id">#${p.id}</span><span class="proc-name">${esc(p.name)}</span></div>
+              <div class="proc-item type-${te.type}" data-search="${esc([p.id,p.name,p.desc].join(' ').toLowerCase())}">
+                <div class="proc-header"><span class="proc-id">#${esc(p.id)}</span><span class="proc-name">${esc(p.name)}</span></div>
                 ${p.desc?`<div class="proc-desc">${esc(p.desc)}</div>`:''}
               </div>`).join('')}
           </div>`:''}
@@ -1160,6 +1315,13 @@
       el.techniquePage.innerHTML=main+sidebar;
       el.techniquePage.querySelectorAll('tr[data-navigate]').forEach(row=>{
         row.addEventListener('click',e=>{if(e.target.tagName==='A')return;navigate(row.dataset.navigate);});
+      });
+      el.techniquePage.querySelectorAll('.st-card-hdr').forEach(hdr=>{
+        hdr.addEventListener('click', () => {
+          const card = hdr.closest('.st-card');
+          const open = card.classList.toggle('expanded');
+          hdr.setAttribute('aria-expanded', String(open));
+        });
       });
       window.scrollTo(0,0);
     }
@@ -1187,15 +1349,19 @@
         el.skeleton.style.display='none';
         renderMatrix(state.data);
         applyFilters();
-        route(location.hash.slice(1));
       } catch(err) {
         console.error(err);
         el.skeleton.style.display='none';
         el.errorBox.textContent=`Failed to load data. ${err?.message??'Unknown error.'}`;
         el.errorBox.classList.add('visible');
         el.resultsBar.textContent='No data available.';
+      } finally {
+        // Route regardless of fetch success, so static views (e.g. About) still work
+        // even if the dataset failed to load.
+        route(location.hash.slice(1));
       }
     }
+    renderAboutPage();
     loadData();
 
     /* ── Back to top ── */
