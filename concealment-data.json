@@ -5596,6 +5596,29 @@
               "description": "Pin pointers might be used in hotels, Airbnb’s and so on to detect equipment.",
               "type": "Physical",
               "procedures": []
+            },
+            {
+              "id": 2906,
+              "name": "Environmental listening device detection",
+              "description": "Performing physical inspections and technical evaluations of an environment to identify unauthorized devices capable of capturing, storing or transmitting conversations, reducing the exposure of sensitive information.",
+              "type": "Physical",
+              "procedures": []
+            }
+          ]
+        },
+        {
+          "id": 138,
+          "name": "Sensitive conversation protection",
+          "description": "Measures taken to reduce the risk of sensitive conversations being captured by third parties. Complements existing entries such as removing mobile devices from the room (ST-512), hardware switches (ST-354) and disabling the microphone (TTP-462).",
+          "type": "Physical",
+          "procedures": [],
+          "subtechniques": [
+            {
+              "id": 2907,
+              "name": "Control of recording-capable devices",
+              "description": "Restricting devices capable of recording audio in environments intended for sensitive meetings, reducing the risk of third-party capture of conversations. Related to removing mobile devices from the room (ST-512).",
+              "type": "Behavioral",
+              "procedures": []
             }
           ]
         }
