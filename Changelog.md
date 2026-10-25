@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## September 2026
+
+### Added
+
+#### Techniques (TE)
+
+| ID | Name | Tactic | Category |
+|----|------|--------|----------|
+| TE-138 | Sensitive conversation protection | Physical security | Physical |
+
+#### Subtechniques (ST)
+
+| ID | Name | Parent | Category |
+|----|------|--------|----------|
+| ST-2906 | Environmental listening device detection | TE-98 Surveillance detection | Physical |
+| ST-2907 | Control of recording-capable devices | TE-138 Sensitive conversation protection | Behavioral |
+
 ## August 2026
 
 ### Added
